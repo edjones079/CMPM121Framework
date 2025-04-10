@@ -6,6 +6,48 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Collections;
 using System.Linq;
+using System.Reflection;
+
+public class RPNEvaluator : MonoBehaviour
+{
+    public RPNEvaluator(string operators, Dictionary values)
+    {
+        stack = new Stack<int>();
+    }
+}
+
+public class Level : MonoBehaviour
+{
+    void Start()
+    {
+
+    }
+
+    void Update()
+    {
+
+    }
+}
+
+public class Enemy : MonoBehaviour
+{
+
+    public string name;
+    public int sprite;
+    public int hp;
+    public int speed;
+    public int damage;
+
+    void Start()
+    {
+
+    }
+
+    void Update()
+    {
+
+    }
+}
 
 public class EnemySpawner : MonoBehaviour
 {
