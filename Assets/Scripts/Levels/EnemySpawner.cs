@@ -7,14 +7,21 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Linq;
 using System.Reflection;
+using System.Security;
 
 public class RPNEvaluator : MonoBehaviour
 {
-    public RPNEvaluator(string operators, Dictionary values)
+    public RPNEvaluator(string operators, Dictionary<string, int> values)
     {
-        stack = new Stack<int>();
+        Stack<int> stack = new Stack<int>();
+        foreach()
+        {
+
+        }
     }
 }
+
+// Determines the type and values of constructed objects. 
 
 public class Level : MonoBehaviour
 {
@@ -109,7 +116,7 @@ public class EnemySpawner : MonoBehaviour
         Vector2 offset = Random.insideUnitCircle * 1.8f;
                 
         Vector3 initial_position = spawn_point.transform.position + new Vector3(offset.x, offset.y, 0);
-        GameObject new_enemy = Instantiate(enemy, initial_position, Quaternion.identity);
+        GameObject new_enemy = Instantiate(enemy, initial_position, Quaternion.identity); // Creates a new enemy
 
         new_enemy.GetComponent<SpriteRenderer>().sprite = GameManager.Instance.enemySpriteManager.Get(0);
         EnemyController en = new_enemy.GetComponent<EnemyController>();
