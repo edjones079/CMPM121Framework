@@ -8,16 +8,15 @@ using System.Collections;
 using System.Linq;
 using System.Reflection;
 using System.Security;
+using System.Runtime.Versioning;
+using System.Collections.Specialized;
 
 public class RPNEvaluator : MonoBehaviour
 {
-    public RPNEvaluator(string operators, Dictionary<string, int> values)
+    public RPNEvaluator(string expression)
     {
         Stack<int> stack = new Stack<int>();
-        foreach()
-        {
-
-        }
+        
     }
 }
 
@@ -25,6 +24,16 @@ public class RPNEvaluator : MonoBehaviour
 
 public class Level : MonoBehaviour
 {
+
+    public string enemy;
+    public int count;
+    public int seqeuence;
+    public int delay;
+    public string location;
+    public int hp;
+    public int speed;
+    public int damage;
+
     void Start()
     {
 
@@ -47,7 +56,15 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+        Dictionary<string, Enemy> enemy_types = new Dictionary<string, Enemy>();
+        var enemytext = Resources.Load<TextAsset>("enemies");
 
+        JToken jo = JToken.Parse(enemytext.text);
+        foreach(var enemy in jo)
+        {
+            Enemy en = enemy.ToObject<Enemy>();
+            enemy_types[en.name] = en;
+        }
     }
 
     void Update()
@@ -109,6 +126,8 @@ public class EnemySpawner : MonoBehaviour
         yield return new WaitWhile(() => GameManager.Instance.enemy_count > 0);
         GameManager.Instance.state = GameManager.GameState.WAVEEND;
     }
+
+    
 
     IEnumerator SpawnZombie()
     {
