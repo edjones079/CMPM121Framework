@@ -11,22 +11,81 @@ using System.Security;
 using System.Runtime.Versioning;
 using System.Collections.Specialized;
 using System.Security.Principal;
+using System.Diagnostics;
 
 public class RPNEvaluator : MonoBehaviour
 {
+
+    Stack<int> stack = new Stack<int>();
+
     public RPNEvaluator(string expression)
     {
-        Stack<int> stack = new Stack<int>();
+        
+    }
 
+    public int eval(string expression)
+    {
         string[] tokens = expression.Split(' ');
+        int final_result;
 
-        foreach(string token in tokens)
+        foreach (string token in tokens)
         {
             int myInt;
+            int value1;
+            int value2;
+            int result;
 
-            if (int.TryParse(token, out myInt)
+            if (int.TryParse(token, out myInt))
                 stack.Push(myInt);
+
+            switch (token)
+            {
+                case "%":
+                    value1 = stack.Pop();
+                    value2 = stack.Pop();
+                    result = value1 % value2;
+                    stack.Push(result);
+                    UnityEngine.Debug.Log(result);
+                    break;
+
+                case "*":
+                    value1 = stack.Pop();
+                    value2 = stack.Pop();
+                    result = value1 * value2;
+                    stack.Push(result);
+                    UnityEngine.Debug.Log(result);
+                    break;
+
+                case "/":
+                    value1 = stack.Pop();
+                    value2 = stack.Pop();
+                    result = value1 / value2;
+                    stack.Push(result);
+                    UnityEngine.Debug.Log(result);
+                    break;
+
+                case "+":
+                    value1 = stack.Pop();
+                    value2 = stack.Pop();
+                    result = value1 + value2;
+                    stack.Push(result);
+                    UnityEngine.Debug.Log(result);
+                    break;
+
+                case "-":
+                    value1 = stack.Pop();
+                    value2 = stack.Pop();
+                    result = value1 - value2;
+                    stack.Push(result);
+                    UnityEngine.Debug.Log(result);
+                    break;
+
+            }
         }
+
+        final_result = stack.Pop();
+        return final_result;
+
     }
 }
 
@@ -76,6 +135,8 @@ public class Enemy : MonoBehaviour
             Enemy en = enemy.ToObject<Enemy>();
             enemy_types[en.name] = en;
         }
+
+        RPNEvaluator RPN = new RPNEvaluator();
     }
 
     void Update()
