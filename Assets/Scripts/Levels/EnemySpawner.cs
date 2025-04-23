@@ -100,6 +100,16 @@ public class Level : MonoBehaviour
 
     void Start()
     {
+        Dictionary<string, Level> level_types = new Dictionary<string, Level>();
+        var leveltext = Resources.Load<TextAsset>("levels");
+
+        JToken jo = JToken.Parse(leveltext.text);
+        foreach (var level in jo)
+        {
+            Level lev = level.ToObject<Level>();
+            level_types[lev.name] = lev;
+            UnityEngine.Debug.Log(level_types[lev.name]);
+        }
 
     }
 
@@ -131,8 +141,19 @@ public class Enemy : MonoBehaviour
             enemy_types[en.name] = en;
         }
 
-        
+    }
 
+    public class Spawn : MonoBehaviour
+    {
+        void Start()
+        {
+
+        }
+
+        void Update()
+        {
+
+        }
     }
 
     void Update()
@@ -213,4 +234,5 @@ public class EnemySpawner : MonoBehaviour
         GameManager.Instance.AddEnemy(new_enemy);
         yield return new WaitForSeconds(0.5f);
     }
+
 }
