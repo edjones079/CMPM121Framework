@@ -18,7 +18,7 @@ public class RPNEvaluator : MonoBehaviour
 
     Stack<int> stack = new Stack<int>();
 
-    public RPNEvaluator(string expression)
+    public RPNEvaluator()
     {
         
     }
