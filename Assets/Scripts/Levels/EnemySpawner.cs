@@ -45,7 +45,6 @@ public class RPNEvaluator : MonoBehaviour
                     value2 = stack.Pop();
                     result = value1 % value2;
                     stack.Push(result);
-                    UnityEngine.Debug.Log(result);
                     break;
 
                 case "*":
@@ -53,7 +52,6 @@ public class RPNEvaluator : MonoBehaviour
                     value2 = stack.Pop();
                     result = value1 * value2;
                     stack.Push(result);
-                    UnityEngine.Debug.Log(result);
                     break;
 
                 case "/":
@@ -61,7 +59,6 @@ public class RPNEvaluator : MonoBehaviour
                     value2 = stack.Pop();
                     result = value1 / value2;
                     stack.Push(result);
-                    UnityEngine.Debug.Log(result);
                     break;
 
                 case "+":
@@ -69,7 +66,6 @@ public class RPNEvaluator : MonoBehaviour
                     value2 = stack.Pop();
                     result = value1 + value2;
                     stack.Push(result);
-                    UnityEngine.Debug.Log(result);
                     break;
 
                 case "-":
@@ -77,7 +73,6 @@ public class RPNEvaluator : MonoBehaviour
                     value2 = stack.Pop();
                     result = value1 - value2;
                     stack.Push(result);
-                    UnityEngine.Debug.Log(result);
                     break;
 
             }
@@ -136,7 +131,8 @@ public class Enemy : MonoBehaviour
             enemy_types[en.name] = en;
         }
 
-        RPNEvaluator RPN = new RPNEvaluator();
+        
+
     }
 
     void Update()
@@ -164,7 +160,8 @@ public class EnemySpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+       
+
     }
 
     public void StartLevel(string levelname)
