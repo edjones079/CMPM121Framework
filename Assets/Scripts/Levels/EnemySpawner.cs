@@ -10,13 +10,23 @@ using System.Reflection;
 using System.Security;
 using System.Runtime.Versioning;
 using System.Collections.Specialized;
+using System.Security.Principal;
 
 public class RPNEvaluator : MonoBehaviour
 {
     public RPNEvaluator(string expression)
     {
         Stack<int> stack = new Stack<int>();
-        
+
+        string[] tokens = expression.Split(' ');
+
+        foreach(string token in tokens)
+        {
+            int myInt;
+
+            if (int.TryParse(token, out myInt)
+                stack.Push(myInt);
+        }
     }
 }
 
@@ -56,6 +66,7 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+        // 
         Dictionary<string, Enemy> enemy_types = new Dictionary<string, Enemy>();
         var enemytext = Resources.Load<TextAsset>("enemies");
 
