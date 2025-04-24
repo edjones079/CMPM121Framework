@@ -12,6 +12,7 @@ using System.Runtime.Versioning;
 using System.Collections.Specialized;
 using System.Security.Principal;
 using System.Diagnostics;
+using System.Security.Cryptography.X509Certificates;
 
 public class RPNEvaluator : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class RPNEvaluator : MonoBehaviour
         
     }
 
-    public int eval(string expression)
+    public int Eval(string expression)
     {
         string[] tokens = expression.Split(' ');
         int final_result;
@@ -86,30 +87,15 @@ public class RPNEvaluator : MonoBehaviour
 
 // Determines the type and values of constructed objects. 
 
-public class Level : MonoBehaviour
+public class Level
 {
 
-    public string enemy;
-    public int count;
-    public int seqeuence;
-    public int delay;
-    public string location;
-    public int hp;
-    public int speed;
-    public int damage;
+    public string name;
+    public int waves;
+    public List<Spawn> spawns;
 
     void Start()
     {
-        Dictionary<string, Level> level_types = new Dictionary<string, Level>();
-        var leveltext = Resources.Load<TextAsset>("levels");
-
-        JToken jo = JToken.Parse(leveltext.text);
-        foreach (var level in jo)
-        {
-            Level lev = level.ToObject<Level>();
-            level_types[lev.name] = lev;
-            UnityEngine.Debug.Log(level_types[lev.name]);
-        }
 
     }
 
@@ -119,7 +105,29 @@ public class Level : MonoBehaviour
     }
 }
 
-public class Enemy : MonoBehaviour
+public class Spawn
+{
+    public string enemy;
+    public string count;
+    public List<int> sequence;
+    public int delay;
+    public string location;
+    public string hp = "base";
+    public string speed = "base";
+    public string damage = "base";
+
+    void Start()
+    {
+
+    }
+
+    void Update()
+    {
+
+    }
+}
+
+public class Enemy
 {
 
     public string name;
@@ -130,30 +138,7 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        // 
-        Dictionary<string, Enemy> enemy_types = new Dictionary<string, Enemy>();
-        var enemytext = Resources.Load<TextAsset>("enemies");
 
-        JToken jo = JToken.Parse(enemytext.text);
-        foreach(var enemy in jo)
-        {
-            Enemy en = enemy.ToObject<Enemy>();
-            enemy_types[en.name] = en;
-        }
-
-    }
-
-    public class Spawn : MonoBehaviour
-    {
-        void Start()
-        {
-
-        }
-
-        void Update()
-        {
-
-        }
     }
 
     void Update()
@@ -172,6 +157,27 @@ public class EnemySpawner : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        Dictionary<string, Enemy> enemy_types = new Dictionary<string, Enemy>();
+        var enemytext = Resources.Load<TextAsset>("enemies");
+
+        JToken jo = JToken.Parse(enemytext.text);
+        foreach (var enemy in jo)
+        {
+            Enemy en = enemy.ToObject<Enemy>();
+            enemy_types[en.name] = en;
+        }
+
+        Dictionary<string, Level> level_types = new Dictionary<string, Level>();
+        var leveltext = Resources.Load<TextAsset>("levels");
+
+        JToken jo2 = JToken.Parse(leveltext.text);
+        foreach (var level in jo2)
+        {
+            Level lev = level.ToObject<Level>();
+            level_types[lev.name] = lev;
+            UnityEngine.Debug.Log(level_types[lev.name]);
+        }
+
         GameObject selector = Instantiate(button, level_selector.transform);
         selector.transform.localPosition = new Vector3(0, 130);
         selector.GetComponent<MenuSelectorController>().spawner = this;
