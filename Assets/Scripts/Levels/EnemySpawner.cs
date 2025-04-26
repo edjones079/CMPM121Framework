@@ -157,6 +157,8 @@ public class EnemySpawner : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        int buttonPos = 130;
+        
         Dictionary<string, Enemy> enemy_types = new Dictionary<string, Enemy>();
         var enemytext = Resources.Load<TextAsset>("enemies");
 
@@ -165,6 +167,7 @@ public class EnemySpawner : MonoBehaviour
         {
             Enemy en = enemy.ToObject<Enemy>();
             enemy_types[en.name] = en;
+            UnityEngine.Debug.Log("name: " + en.name + "; sprite: " + en.sprite + "; hp : " + en.hp + "; speed: " + en.speed + "; damage: " + en.damage);
         }
 
         Dictionary<string, Level> level_types = new Dictionary<string, Level>();
@@ -175,13 +178,18 @@ public class EnemySpawner : MonoBehaviour
         {
             Level lev = level.ToObject<Level>();
             level_types[lev.name] = lev;
-            UnityEngine.Debug.Log(level_types[lev.name]);
+            UnityEngine.Debug.Log("level name: " + lev.name + "; waves: " + lev.waves + "; enemySpawned: " + lev.spawns[0].enemy + "; count: " + lev.spawns[1].count + "; delay: " + lev.spawns[2].delay);
+
+            GameObject selector = Instantiate(button, level_selector.transform);
+            selector.transform.localPosition = new Vector3(0, buttonPos);
+            selector.GetComponent<MenuSelectorController>().spawner = this;
+            selector.GetComponent<MenuSelectorController>().SetLevel(lev.name);
+            buttonPos -= 50;
         }
 
-        GameObject selector = Instantiate(button, level_selector.transform);
-        selector.transform.localPosition = new Vector3(0, 130);
-        selector.GetComponent<MenuSelectorController>().spawner = this;
-        selector.GetComponent<MenuSelectorController>().SetLevel("Start");
+        
+        
+        
     }
 
     // Update is called once per frame
@@ -238,6 +246,13 @@ public class EnemySpawner : MonoBehaviour
         en.hp = new Hittable(50, Hittable.Team.MONSTERS, new_enemy);
         en.speed = 10;
         GameManager.Instance.AddEnemy(new_enemy);
+        yield return new WaitForSeconds(0.5f);
+    }
+
+    IEnumerator SpawnEnemies(Enemy enemy, Spawn attributes)
+    {
+        SpawnPoint spawn_point = SpawnPoints[Random.Range(0, SpawnPoints.Length)];
+
         yield return new WaitForSeconds(0.5f);
     }
 
