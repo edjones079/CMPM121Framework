@@ -15,7 +15,7 @@ using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 using System;
 
-public class RPNEvaluator : MonoBehaviour
+public class RPNEvaluator
 {
 
     Stack<int> stack = new Stack<int>();
@@ -40,11 +40,15 @@ public class RPNEvaluator : MonoBehaviour
             if (int.TryParse(token, out myInt))
                 stack.Push(myInt);
 
+            if (variables.ContainsKey(token))
+                stack.Push(variables[token]);
+
             switch (token)
             {
                 case "%":
                     value1 = stack.Pop();
                     value2 = stack.Pop();
+                    
                     result = value1 % value2;
                     stack.Push(result);
                     break;
@@ -119,7 +123,7 @@ public class Spawn
 
     void Start()
     {
-        UnityEngine.Debug.Log(sequence);
+
     }
 
     void Update()
@@ -153,14 +157,15 @@ public class EnemySpawner : MonoBehaviour
     public Image level_selector;
     public GameObject button;
     public GameObject enemy;
-    public SpawnPoint[] SpawnPoints;    
+    public SpawnPoint[] SpawnPoints;
+    Dictionary<string, Enemy> enemy_types = new Dictionary<string, Enemy>();
+    Dictionary<string, Level> level_types = new Dictionary<string, Level>();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         int buttonPos = 130;
         
-        Dictionary<string, Enemy> enemy_types = new Dictionary<string, Enemy>();
         var enemytext = Resources.Load<TextAsset>("enemies");
 
         JToken jo = JToken.Parse(enemytext.text);
@@ -168,10 +173,9 @@ public class EnemySpawner : MonoBehaviour
         {
             Enemy en = enemy.ToObject<Enemy>();
             enemy_types[en.name] = en;
-            UnityEngine.Debug.Log("name: " + en.name + "; sprite: " + en.sprite + "; hp : " + en.hp + "; speed: " + en.speed + "; damage: " + en.damage);
+            //UnityEngine.Debug.Log("name: " + en.name + "; sprite: " + en.sprite + "; hp : " + en.hp + "; speed: " + en.speed + "; damage: " + en.damage);
         }
 
-        Dictionary<string, Level> level_types = new Dictionary<string, Level>();
         var leveltext = Resources.Load<TextAsset>("levels");
 
         JToken jo2 = JToken.Parse(leveltext.text);
@@ -179,7 +183,7 @@ public class EnemySpawner : MonoBehaviour
         {
             Level lev = level.ToObject<Level>();
             level_types[lev.name] = lev;
-            UnityEngine.Debug.Log("level name: " + lev.name + "; waves: " + lev.waves + "; enemySpawned: " + lev.spawns[0].enemy + "; count: " + lev.spawns[1].count + "; delay: " + lev.spawns[2].delay);
+            //UnityEngine.Debug.Log("level name: " + lev.name + "; waves: " + lev.waves + "; enemySpawned: " + lev.spawns[0].enemy + "; count: " + lev.spawns[1].count + "; delay: " + lev.spawns[2].delay);
 
             GameObject selector = Instantiate(button, level_selector.transform);
             selector.transform.localPosition = new Vector3(0, buttonPos);
@@ -199,21 +203,21 @@ public class EnemySpawner : MonoBehaviour
 
     public void StartLevel(string levelname)
     {
-
+        Level level = level_types[levelname];
         //UnityEngine.Debug.Log(levelname);
         level_selector.gameObject.SetActive(false);
         // this is not nice: we should not have to be required to tell the player directly that the level is starting
         GameManager.Instance.player.GetComponent<PlayerController>().StartLevel();
-        //StartCoroutine(SpawnWave());
+        StartCoroutine(SpawnWave(1, level.waves, level.spawns));
     }
 
-    public void NextWave()
+    public void NextWave(int wave, int waves, List<Spawn> spawns)
     {
-        //StartCoroutine(SpawnWave());
+        StartCoroutine(SpawnWave(wave, waves, spawns));
     }
 
 
-    IEnumerator SpawnWave(int wave, List<Spawn> spawns)
+    IEnumerator SpawnWave(int wave, int waves, List<Spawn> spawns)
     {
         GameManager.Instance.state = GameManager.GameState.COUNTDOWN;
         GameManager.Instance.countdown = 3;
@@ -226,7 +230,7 @@ public class EnemySpawner : MonoBehaviour
         
         foreach (Spawn spawn in spawns) // For each enemy type . . .
         {
-            yield return SpawnEnemies(enemy, spawn.count, spawn.delay, spawn.location, spawn.hp, spawn.speed, spawn.damage, spawn.sequence, wave);
+            yield return SpawnEnemies(spawn.enemy, spawn.count, spawn.delay, spawn.location, spawn.hp, spawn.speed, spawn.damage, spawn.sequence, wave);
         }
 
         for (int i = 0; i < 10; ++i)
@@ -236,10 +240,16 @@ public class EnemySpawner : MonoBehaviour
 
         yield return new WaitWhile(() => GameManager.Instance.enemy_count > 0);
         GameManager.Instance.state = GameManager.GameState.WAVEEND;
+
+        if (wave < waves)
+        {
+            NextWave(wave++, waves, spawns);
+        }
     }
 
-    IEnumerator SpawnEnemies(string enemy, string count, int delay, string location, string hp, string speed, string damage, List<int> sequence, int wave)
+    IEnumerator SpawnEnemies(string e, string count, int delay, string location, string hp, string speed, string damage, List<int> sequence, int wave)
     {
+        UnityEngine.Debug.Log("Runs ONCE per wave");
         int n = 0;
         int seq = 0;
 
@@ -255,7 +265,8 @@ public class EnemySpawner : MonoBehaviour
 
             for (int i = 1; i < required; i++)
             {
-                SpawnEnemy(enemy, delay, location, hp, speed, damage, wave);
+                UnityEngine.Debug.Log("Hello");
+                SpawnEnemy(e, delay, location, hp, speed, damage, wave);
                 n++;
 
                 if (n == new_count)
@@ -271,11 +282,13 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    IEnumerator SpawnEnemy(string enemy, int delay, string location, string hp, string speed, string damage, int wave)
+    IEnumerator SpawnEnemy(string e, int delay, string location, string hp, string speed, string damage, int wave)
     {
+        UnityEngine.Debug.Log("enemy: " + e + " delay: " + delay + " location: " + location + " hp: " + hp + " speed: " + speed + " damage: " + damage + " wave: " + wave);
+        Enemy enemyObject = enemy_types[e];
 
         Dictionary<string, int> variables = new Dictionary<string, int>();
-        variables["base"] = enemy.hp;
+        variables["base"] = enemyObject.hp;
         variables["wave"] = wave;
 
         RPNEvaluator rpn = new RPNEvaluator();
@@ -292,7 +305,7 @@ public class EnemySpawner : MonoBehaviour
 
         en.hp = new Hittable(rpn.Eval(hp, variables), Hittable.Team.MONSTERS, new_enemy);
 
-        variables["base"] = enemy.speed;
+        variables["base"] = enemyObject.speed;
         en.speed = rpn.Eval(hp, variables);
 
         //variables["base"] = enemy.damage;
