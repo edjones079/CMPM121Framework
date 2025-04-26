@@ -25,7 +25,7 @@ public class RPNEvaluator : MonoBehaviour
         
     }
 
-    public int Eval(string expression)
+    public int Eval(string expression, Dictionary<string, int> variables)
     {
         string[] tokens = expression.Split(' ');
         int final_result;
@@ -108,18 +108,18 @@ public class Level
 
 public class Spawn
 {
-    public string enemy;
-    public string count;
-    public List<int> sequence;
-    public int delay;
-    public string location;
-    public string hp = "base";
+    public string enemy; // Which type of enemey to spawn (=name in enemies.json)
+    public string count; // How many enemies of one type to spawn, overall
+    public List<int> sequence = new List<int> { 1 }; // How many should be spawned at once
+    public int delay = 2; // The number of seconds between consecutive spawns
+    public string location = "random"; // Where to spawn the enemy
+    public string hp = "base"; // Modify the properties of the spawned enemy
     public string speed = "base";
     public string damage = "base";
 
     void Start()
     {
-
+        UnityEngine.Debug.Log(sequence);
     }
 
     void Update()
@@ -199,20 +199,21 @@ public class EnemySpawner : MonoBehaviour
 
     public void StartLevel(string levelname)
     {
+
         //UnityEngine.Debug.Log(levelname);
         level_selector.gameObject.SetActive(false);
         // this is not nice: we should not have to be required to tell the player directly that the level is starting
         GameManager.Instance.player.GetComponent<PlayerController>().StartLevel();
-        StartCoroutine(SpawnWave());
+        //StartCoroutine(SpawnWave());
     }
 
     public void NextWave()
     {
-        StartCoroutine(SpawnWave());
+        //StartCoroutine(SpawnWave());
     }
 
 
-    IEnumerator SpawnWave()
+    IEnumerator SpawnWave(int wave, List<Spawn> spawns)
     {
         GameManager.Instance.state = GameManager.GameState.COUNTDOWN;
         GameManager.Instance.countdown = 3;
@@ -222,61 +223,98 @@ public class EnemySpawner : MonoBehaviour
             GameManager.Instance.countdown--;
         }
         GameManager.Instance.state = GameManager.GameState.INWAVE;
+        
+        foreach (Spawn spawn in spawns) // For each enemy type . . .
+        {
+            yield return SpawnEnemies(enemy, spawn.count, spawn.delay, spawn.location, spawn.hp, spawn.speed, spawn.damage, spawn.sequence, wave);
+        }
+
         for (int i = 0; i < 10; ++i)
         {
             yield return SpawnZombie();
         }
+
         yield return new WaitWhile(() => GameManager.Instance.enemy_count > 0);
         GameManager.Instance.state = GameManager.GameState.WAVEEND;
     }
 
-    
-
-    IEnumerator SpawnZombie()
+    IEnumerator SpawnEnemies(string enemy, string count, int delay, string location, string hp, string speed, string damage, List<int> sequence, int wave)
     {
-        SpawnPoint spawn_point = SpawnPoints[Random.Range(0, SpawnPoints.Length)];
-        Vector2 offset = Random.insideUnitCircle * 1.8f;
-                
-        Vector3 initial_position = spawn_point.transform.position + new Vector3(offset.x, offset.y, 0);
-        GameObject new_enemy = Instantiate(enemy, initial_position, Quaternion.identity); // Creates a new enemy
+        int n = 0;
+        int seq = 0;
 
-        new_enemy.GetComponent<SpriteRenderer>().sprite = GameManager.Instance.enemySpriteManager.Get(0);
-        EnemyController en = new_enemy.GetComponent<EnemyController>();
-        en.hp = new Hittable(50, Hittable.Team.MONSTERS, new_enemy);
-        en.speed = 10;
-        GameManager.Instance.AddEnemy(new_enemy);
-        yield return new WaitForSeconds(0.5f);
-    }
+        Dictionary<string, int> variables = new Dictionary<string, int>();
+        variables["wave"] = wave;
 
-    IEnumerator SpawnEnemies(Enemy enemy, Spawn attributes)
-    {
-        while (n < count)
+        RPNEvaluator rpn = new RPNEvaluator();
+        int new_count = rpn.Eval(count, variables);
+
+        while (n < new_count)
         {
-            required = 
-            for (i = 1; i < required; i++)
+            int required = sequence[seq];
+
+            for (int i = 1; i < required; i++)
             {
-                SpawnEnemy(enemy.name, Spawn attributes);
+                SpawnEnemy(enemy, delay, location, hp, speed, damage, wave);
                 n++;
 
-                if (n == count)
+                if (n == new_count)
                     break;
             }
+
+            if (seq == sequence.Count - 1)
+                seq = 0;
+            else
+                seq++;
 
             yield return new WaitForSeconds(delay);
         }
     }
 
-    IEnumerator SpawnEnemy(Enemy enemy, Spawn attributes)
+    IEnumerator SpawnEnemy(string enemy, int delay, string location, string hp, string speed, string damage, int wave)
     {
-        SpawnPoint spawn_point = SpawnPoints[Random.Range(0, SpawnPoints.Length)];
-        Vector2 offset = Random.insideUnitCircle * 1.8f;
+
+        Dictionary<string, int> variables = new Dictionary<string, int>();
+        variables["base"] = enemy.hp;
+        variables["wave"] = wave;
+
+        RPNEvaluator rpn = new RPNEvaluator();
+
+        SpawnPoint spawn_point = SpawnPoints[UnityEngine.Random.Range(0, SpawnPoints.Length)];
+        Vector2 offset = UnityEngine.Random.insideUnitCircle * 1.8f;
         Vector3 initial_position = spawn_point.transform.position + new Vector3(offset.x, offset.y, 0);
 
         GameObject new_enemy = Instantiate(enemy, initial_position, Quaternion.identity); // Creates a new enemy
+
+        // Enemy Parameters
+        new_enemy.GetComponent<SpriteRenderer>().sprite = GameManager.Instance.enemySpriteManager.Get(0);
+        EnemyController en = new_enemy.GetComponent<EnemyController>();
+
+        en.hp = new Hittable(rpn.Eval(hp, variables), Hittable.Team.MONSTERS, new_enemy);
+
+        variables["base"] = enemy.speed;
+        en.speed = rpn.Eval(hp, variables);
+
+        //variables["base"] = enemy.damage;
+        //en.damage = rpn.Eval(hp, variables);
+
+        GameManager.Instance.AddEnemy(new_enemy);
+        yield return new WaitForSeconds(delay);
+    }
+
+    IEnumerator SpawnZombie()
+    {
+        SpawnPoint spawn_point = SpawnPoints[UnityEngine.Random.Range(0, SpawnPoints.Length)];
+        Vector2 offset = UnityEngine.Random.insideUnitCircle * 1.8f;
+
+        Vector3 initial_position = spawn_point.transform.position + new Vector3(offset.x, offset.y, 0);
+        GameObject new_enemy = Instantiate(enemy, initial_position, Quaternion.identity); // Creates a new enemy
+
         new_enemy.GetComponent<SpriteRenderer>().sprite = GameManager.Instance.enemySpriteManager.Get(0);
         EnemyController en = new_enemy.GetComponent<EnemyController>();
         en.hp = new Hittable(50, Hittable.Team.MONSTERS, new_enemy);
         en.speed = 10;
+
         GameManager.Instance.AddEnemy(new_enemy);
         yield return new WaitForSeconds(0.5f);
     }

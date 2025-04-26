@@ -19,6 +19,13 @@
        "hp": 30,
        "speed": 7,
        "damage": 10
+   },
+   {
+       "name": "wendigo",
+       "sprite": 15,
+       "hp:": 50,
+       "speed": 4,
+       "damage": 15
    }
  
 ]
