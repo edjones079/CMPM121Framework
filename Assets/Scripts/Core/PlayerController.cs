@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
 
     public Unit unit;
 
-    public TextMeshProUGUI tmp;
+    public TextMeshProUGUI gameOverText;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
     void Die()
     {
         Debug.Log("You Lost");
-        tmp.text = "You Lost...";
+        gameOverText.text = "You Lost...";
         GameManager.Instance.state = GameManager.GameState.GAMEOVER;
     }
 

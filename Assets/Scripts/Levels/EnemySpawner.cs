@@ -163,9 +163,12 @@ public class EnemySpawner : MonoBehaviour
     public SpawnPoint[] SpawnPoints;
     Level level;
     int wave = 0;
+    int damageTaken = 0;
     Dictionary<string, Enemy> enemy_types = new Dictionary<string, Enemy>();
     Dictionary<string, Level> level_types = new Dictionary<string, Level>();
-    public TextMeshProUGUI tmp;
+    public TextMeshProUGUI gameOverText;
+    public TextMeshProUGUI betweenWaveText;
+    public PlayerController player;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -179,7 +182,6 @@ public class EnemySpawner : MonoBehaviour
         {
             Enemy en = enemy.ToObject<Enemy>();
             enemy_types[en.name] = en;
-            //UnityEngine.Debug.Log("name: " + en.name + "; sprite: " + en.sprite + "; hp : " + en.hp + "; speed: " + en.speed + "; damage: " + en.damage);
         }
 
         var leveltext = Resources.Load<TextAsset>("levels");
@@ -189,7 +191,6 @@ public class EnemySpawner : MonoBehaviour
         {
             Level lev = level.ToObject<Level>();
             level_types[lev.name] = lev;
-            //UnityEngine.Debug.Log("level name: " + lev.name + "; waves: " + lev.waves + "; enemySpawned: " + lev.spawns[0].enemy + "; count: " + lev.spawns[1].count + "; delay: " + lev.spawns[2].delay);
 
             GameObject selector = Instantiate(button, level_selector.transform);
             selector.transform.localPosition = new Vector3(0, buttonPos);
@@ -209,7 +210,6 @@ public class EnemySpawner : MonoBehaviour
     public void StartLevel(string levelname)
     {
         level = level_types[levelname];
-        //UnityEngine.Debug.Log(levelname);
         level_selector.gameObject.SetActive(false);
         // this is not nice: we should not have to be required to tell the player directly that the level is starting
         GameManager.Instance.player.GetComponent<PlayerController>().StartLevel();
@@ -225,6 +225,7 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator SpawnWave()
     {
         wave++;
+        int playerStartingHP = player.hp.hp;
         GameManager.Instance.state = GameManager.GameState.COUNTDOWN;
         GameManager.Instance.countdown = 3;
         for (int i = 3; i > 0; i--)
@@ -240,13 +241,15 @@ public class EnemySpawner : MonoBehaviour
         }
 
         yield return new WaitWhile(() => GameManager.Instance.enemy_count > 0);
-        if (wave < level.waves && level.name != "endless")
+        if (wave < level.waves || level.name == "Endless")
         {
+            damageTaken = playerStartingHP - player.hp.hp;
+            betweenWaveText.text = "Damage Taken: " + damageTaken.ToString();
             GameManager.Instance.state = GameManager.GameState.WAVEEND;
         }
         else
         {
-            tmp.text = "You Win!";
+            gameOverText.text = "You Win!";
             GameManager.Instance.state = GameManager.GameState.GAMEOVER;
         }
     }
@@ -265,8 +268,6 @@ public class EnemySpawner : MonoBehaviour
         RPNEvaluator rpn = new RPNEvaluator();
         int new_count = rpn.Eval(count, variables);
 
-        //UnityEngine.Debug.Log("enemy: " + e + " new_count: " + new_count + " delay: " + delay + " location: " + location + " hp: " + hp + " speed: " + speed + " damage: " + damage + " wave: " + wave);
-
         while (n < new_count)
         { 
             int required = sequence[seq];
@@ -275,7 +276,6 @@ public class EnemySpawner : MonoBehaviour
             {
                 StartCoroutine(SpawnEnemy(e, delay, location, hp, speed, damage, wave));
                 n++;
-                //UnityEngine.Debug.Log("Spawned: " + n + " Required this It.: " + required + " Required this Wave: " + new_count);
 
                 if (n == new_count)
                     break;
@@ -292,7 +292,6 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator SpawnEnemy(string e, int delay, string location, string hp, string speed, string damage, int wave)
     {
-        //UnityEngine.Debug.Log("enemy: " + e + " delay: " + delay + " location: " + location + " hp: " + hp + " speed: " + speed + " damage: " + damage + " wave: " + wave);
         Enemy enemyObject = enemy_types[e];
 
         Dictionary<string, int> variables = new Dictionary<string, int>();
