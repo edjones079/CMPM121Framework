@@ -3168,7 +3168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa898092d9b0d8a41b153c7d66e057a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  kind: 0
+  kind: 1
 --- !u!1 &967867791
 GameObject:
   m_ObjectHideFlags: 0
@@ -3755,7 +3755,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 519420033}
         m_TargetAssemblyTypeName: EnemySpawner, Assembly-CSharp
-        m_MethodName: NextWave
+        m_MethodName: RestartLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4486,7 +4486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa898092d9b0d8a41b153c7d66e057a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  kind: 0
+  kind: 1
 --- !u!1 &1468482022
 GameObject:
   m_ObjectHideFlags: 0
@@ -5208,7 +5208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa898092d9b0d8a41b153c7d66e057a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  kind: 0
+  kind: 1
 --- !u!1 &1707093149
 GameObject:
   m_ObjectHideFlags: 0

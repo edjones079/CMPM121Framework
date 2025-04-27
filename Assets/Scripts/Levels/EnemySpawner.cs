@@ -304,6 +304,15 @@ public class EnemySpawner : MonoBehaviour
 
         RPNEvaluator rpn = new RPNEvaluator();
 
+        //if (location == "random red")
+
+        //List<SpawnPoint> spawn_types = new List<SpawnPoint>();
+
+        //foreach (SpawnPoint spawn in SpawnPoints)
+        //{
+
+        //}
+
         SpawnPoint spawn_point = SpawnPoints[UnityEngine.Random.Range(0, SpawnPoints.Length)];
         Vector2 offset = UnityEngine.Random.insideUnitCircle * 1.8f;
         Vector3 initial_position = spawn_point.transform.position + new Vector3(offset.x, offset.y, 0);
