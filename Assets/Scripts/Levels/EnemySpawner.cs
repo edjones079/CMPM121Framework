@@ -158,6 +158,8 @@ public class EnemySpawner : MonoBehaviour
     public GameObject button;
     public GameObject enemy;
     public SpawnPoint[] SpawnPoints;
+    Level level;
+    int wave = 0;
     Dictionary<string, Enemy> enemy_types = new Dictionary<string, Enemy>();
     Dictionary<string, Level> level_types = new Dictionary<string, Level>();
 
@@ -197,29 +199,28 @@ public class EnemySpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
-
+        
     }
 
     public void StartLevel(string levelname)
     {
-        Level level = level_types[levelname];
+        level = level_types[levelname];
         //UnityEngine.Debug.Log(levelname);
         level_selector.gameObject.SetActive(false);
         // this is not nice: we should not have to be required to tell the player directly that the level is starting
         GameManager.Instance.player.GetComponent<PlayerController>().StartLevel();
-        StartCoroutine(SpawnWave(1, level.waves, level.spawns));
+        StartCoroutine(SpawnWave());
     }
 
-    public void NextWave(int wave, int waves, List<Spawn> spawns)
+    public void NextWave()
     {
-        UnityEngine.Debug.Log(wave);
-        StartCoroutine(SpawnWave(wave, waves, spawns));
+        StartCoroutine(SpawnWave());
     }
 
 
-    IEnumerator SpawnWave(int wave, int waves, List<Spawn> spawns)
+    IEnumerator SpawnWave()
     {
+        wave++;
         GameManager.Instance.state = GameManager.GameState.COUNTDOWN;
         GameManager.Instance.countdown = 3;
         for (int i = 3; i > 0; i--)
@@ -228,9 +229,9 @@ public class EnemySpawner : MonoBehaviour
             GameManager.Instance.countdown--;
         }
         GameManager.Instance.state = GameManager.GameState.INWAVE;
-        UnityEngine.Debug.Log("wave: " + wave + " waves: " + waves);
+        UnityEngine.Debug.Log("wave: " + wave + " waves: " + level.waves);
         
-        foreach (Spawn spawn in spawns) // For each enemy type . . .
+        foreach (Spawn spawn in level.spawns) // For each enemy type . . .
         {
             UnityEngine.Debug.Log(spawn.enemy);
             yield return SpawnEnemies(spawn.enemy, spawn.count, spawn.delay, spawn.location, spawn.hp, spawn.speed, spawn.damage, spawn.sequence, wave);
@@ -243,12 +244,6 @@ public class EnemySpawner : MonoBehaviour
 
         yield return new WaitWhile(() => GameManager.Instance.enemy_count > 0);
         GameManager.Instance.state = GameManager.GameState.WAVEEND;
-
-        if (wave < waves)
-        {
-            wave++;
-            NextWave(wave, waves, spawns);
-        }
     }
 
     IEnumerator SpawnEnemies(string e, string count, int delay, string location, string hp, string speed, string damage, List<int> sequence, int wave)
@@ -315,6 +310,9 @@ public class EnemySpawner : MonoBehaviour
 
         variables["base"] = enemyObject.speed;
         en.speed = rpn.Eval(speed, variables);
+
+        variables["base"] = enemyObject.damage;
+        en.damage = rpn.Eval(damage, variables);
 
         GameManager.Instance.AddEnemy(new_enemy);
         yield return new WaitForSeconds(delay);
