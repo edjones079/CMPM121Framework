@@ -247,7 +247,7 @@ public class EnemySpawner : MonoBehaviour
         //}
 
         yield return new WaitWhile(() => GameManager.Instance.enemy_count > 0);
-        if (wave < level.waves && level.name != "endless")
+        if (wave < level.waves || level.name == "Endless")
         {
             GameManager.Instance.state = GameManager.GameState.WAVEEND;
         }
