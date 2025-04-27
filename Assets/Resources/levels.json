@@ -29,7 +29,15 @@
                 "count": "wave 5 /",
                 "hp": "100 25 wave * +",
                 "location": "random bone"
-            }         
+            },
+            {
+                "enemy": "wolf",
+                "count": "1 wave 1 * +",
+                "hp": "base wave 2 * +",
+                "delay": "5",
+                "sequence": [1,3],
+                "location": "random green"
+            }
         ]
    },
    {   

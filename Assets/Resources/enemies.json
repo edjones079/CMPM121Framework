@@ -26,6 +26,13 @@
        "hp:": 50,
        "speed": 4,
        "damage": 15
+   },
+   {
+       "name": "wolf",
+       "sprite": 23,
+       "hp": 10,
+       "speed": 10,
+       "damage": 10
    }
  
 ]
