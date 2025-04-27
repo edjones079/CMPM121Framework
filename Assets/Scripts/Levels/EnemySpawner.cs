@@ -231,18 +231,11 @@ public class EnemySpawner : MonoBehaviour
             GameManager.Instance.countdown--;
         }
         GameManager.Instance.state = GameManager.GameState.INWAVE;
-        //UnityEngine.Debug.Log("wave: " + wave + " waves: " + level.waves);
         
         foreach (Spawn spawn in level.spawns) // For each enemy type . . .
         {
-            //UnityEngine.Debug.Log(spawn.enemy);
             yield return SpawnEnemies(spawn.enemy, spawn.count, spawn.delay, spawn.location, spawn.hp, spawn.speed, spawn.damage, spawn.sequence, wave);
         }
-
-        //for (int i = 0; i < 10; ++i)
-        //{
-            //yield return SpawnZombie();
-        //}
 
         yield return new WaitWhile(() => GameManager.Instance.enemy_count > 0);
         if (wave < level.waves && level.name != "endless")
