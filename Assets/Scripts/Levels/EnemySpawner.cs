@@ -15,6 +15,7 @@ using System.Security.Principal;
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 using System;
+using System.Security.Cryptography;
 
 public class RPNEvaluator
 {
@@ -230,11 +231,11 @@ public class EnemySpawner : MonoBehaviour
             GameManager.Instance.countdown--;
         }
         GameManager.Instance.state = GameManager.GameState.INWAVE;
-        UnityEngine.Debug.Log("wave: " + wave + " waves: " + level.waves);
+        //UnityEngine.Debug.Log("wave: " + wave + " waves: " + level.waves);
         
         foreach (Spawn spawn in level.spawns) // For each enemy type . . .
         {
-            UnityEngine.Debug.Log(spawn.enemy);
+            //UnityEngine.Debug.Log(spawn.enemy);
             yield return SpawnEnemies(spawn.enemy, spawn.count, spawn.delay, spawn.location, spawn.hp, spawn.speed, spawn.damage, spawn.sequence, wave);
         }
 
@@ -304,16 +305,44 @@ public class EnemySpawner : MonoBehaviour
 
         RPNEvaluator rpn = new RPNEvaluator();
 
-        //if (location == "random red")
+        List<SpawnPoint> spawn_types = new List<SpawnPoint>();
 
-        //List<SpawnPoint> spawn_types = new List<SpawnPoint>();
+        if (location == "random")
+        {
+            foreach (SpawnPoint spawn in SpawnPoints)
+            {
+                spawn_types.Add(spawn);
+            }
+        }
 
-        //foreach (SpawnPoint spawn in SpawnPoints)
-        //{
+        else if (location == "random green")
+        {
+            foreach (SpawnPoint spawn in SpawnPoints)
+            {
+                if (spawn.kind == SpawnPoint.SpawnName.GREEN)
+                    spawn_types.Add(spawn);
+            }
+        }
 
-        //}
+        else if (location == "random red")
+        {
+            foreach (SpawnPoint spawn in SpawnPoints)
+            {
+                if (spawn.kind == SpawnPoint.SpawnName.RED)
+                    spawn_types.Add(spawn);
+            }
+        }
 
-        SpawnPoint spawn_point = SpawnPoints[UnityEngine.Random.Range(0, SpawnPoints.Length)];
+        else if (location == "random bone")
+        {
+            foreach (SpawnPoint spawn in SpawnPoints)
+            {
+                if (spawn.kind == SpawnPoint.SpawnName.BONE)
+                    spawn_types.Add(spawn);
+            }
+        }
+
+        SpawnPoint spawn_point = spawn_types[UnityEngine.Random.Range(0, spawn_types.Count)];
         Vector2 offset = UnityEngine.Random.insideUnitCircle * 1.8f;
         Vector3 initial_position = spawn_point.transform.position + new Vector3(offset.x, offset.y, 0);
 
