@@ -16,6 +16,7 @@ using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 using System;
 using System.Security.Cryptography;
+using TMPro;
 
 public class RPNEvaluator
 {
@@ -164,6 +165,7 @@ public class EnemySpawner : MonoBehaviour
     int wave = 0;
     Dictionary<string, Enemy> enemy_types = new Dictionary<string, Enemy>();
     Dictionary<string, Level> level_types = new Dictionary<string, Level>();
+    public TextMeshProUGUI tmp;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -251,6 +253,7 @@ public class EnemySpawner : MonoBehaviour
         }
         else
         {
+            tmp.text = "You Win!";
             GameManager.Instance.state = GameManager.GameState.GAMEOVER;
         }
     }
