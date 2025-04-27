@@ -256,6 +256,9 @@ public class EnemySpawner : MonoBehaviour
         int n = 0;
         int seq = 0;
 
+        if (sequence.Count == 0)
+            sequence.Add(1);
+
         Dictionary<string, int> variables = new Dictionary<string, int>();
         variables["wave"] = wave;
 
@@ -311,10 +314,7 @@ public class EnemySpawner : MonoBehaviour
         en.hp = new Hittable(rpn.Eval(hp, variables), Hittable.Team.MONSTERS, new_enemy);
 
         variables["base"] = enemyObject.speed;
-        en.speed = rpn.Eval(hp, variables);
-
-        //variables["base"] = enemy.damage;
-        //en.damage = rpn.Eval(hp, variables);
+        en.speed = rpn.Eval(speed, variables);
 
         GameManager.Instance.AddEnemy(new_enemy);
         yield return new WaitForSeconds(delay);
