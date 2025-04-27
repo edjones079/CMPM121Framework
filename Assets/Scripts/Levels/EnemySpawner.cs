@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Linq;
 using System.Reflection;
@@ -243,7 +244,14 @@ public class EnemySpawner : MonoBehaviour
         //}
 
         yield return new WaitWhile(() => GameManager.Instance.enemy_count > 0);
-        GameManager.Instance.state = GameManager.GameState.WAVEEND;
+        if (wave < level.waves && level.name != "endless")
+        {
+            GameManager.Instance.state = GameManager.GameState.WAVEEND;
+        }
+        else
+        {
+            GameManager.Instance.state = GameManager.GameState.GAMEOVER;
+        }
     }
 
     IEnumerator SpawnEnemies(string e, string count, int delay, string location, string hp, string speed, string damage, List<int> sequence, int wave)
@@ -333,5 +341,11 @@ public class EnemySpawner : MonoBehaviour
 
         GameManager.Instance.AddEnemy(new_enemy);
         yield return new WaitForSeconds(0.5f);
+    }
+
+    public void RestartLevel()
+    {
+        GameManager.Instance.state = GameManager.GameState.PREGAME;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
