@@ -46,37 +46,37 @@ public class RPNEvaluator
             switch (token)
             {
                 case "%":
-                    value1 = stack.Pop();
                     value2 = stack.Pop();
+                    value1 = stack.Pop();
                     
                     result = value1 % value2;
                     stack.Push(result);
                     break;
 
                 case "*":
-                    value1 = stack.Pop();
                     value2 = stack.Pop();
+                    value1 = stack.Pop();
                     result = value1 * value2;
                     stack.Push(result);
                     break;
 
                 case "/":
-                    value1 = stack.Pop();
                     value2 = stack.Pop();
+                    value1 = stack.Pop();
                     result = value1 / value2;
                     stack.Push(result);
                     break;
 
                 case "+":
-                    value1 = stack.Pop();
                     value2 = stack.Pop();
+                    value1 = stack.Pop();
                     result = value1 + value2;
                     stack.Push(result);
                     break;
 
                 case "-":
-                    value1 = stack.Pop();
                     value2 = stack.Pop();
+                    value1 = stack.Pop();
                     result = value1 - value2;
                     stack.Push(result);
                     break;
@@ -114,7 +114,7 @@ public class Spawn
 {
     public string enemy; // Which type of enemey to spawn (=name in enemies.json)
     public string count; // How many enemies of one type to spawn, overall
-    public List<int> sequence = new List<int> { 1 }; // How many should be spawned at once
+    public List<int> sequence = new List<int>(); // How many should be spawned at once
     public int delay = 2; // The number of seconds between consecutive spawns
     public string location = "random"; // Where to spawn the enemy
     public string hp = "base"; // Modify the properties of the spawned enemy
@@ -213,6 +213,7 @@ public class EnemySpawner : MonoBehaviour
 
     public void NextWave(int wave, int waves, List<Spawn> spawns)
     {
+        UnityEngine.Debug.Log(wave);
         StartCoroutine(SpawnWave(wave, waves, spawns));
     }
 
@@ -227,29 +228,31 @@ public class EnemySpawner : MonoBehaviour
             GameManager.Instance.countdown--;
         }
         GameManager.Instance.state = GameManager.GameState.INWAVE;
+        UnityEngine.Debug.Log("wave: " + wave + " waves: " + waves);
         
         foreach (Spawn spawn in spawns) // For each enemy type . . .
         {
+            UnityEngine.Debug.Log(spawn.enemy);
             yield return SpawnEnemies(spawn.enemy, spawn.count, spawn.delay, spawn.location, spawn.hp, spawn.speed, spawn.damage, spawn.sequence, wave);
         }
 
-        for (int i = 0; i < 10; ++i)
-        {
-            yield return SpawnZombie();
-        }
+        //for (int i = 0; i < 10; ++i)
+        //{
+            //yield return SpawnZombie();
+        //}
 
         yield return new WaitWhile(() => GameManager.Instance.enemy_count > 0);
         GameManager.Instance.state = GameManager.GameState.WAVEEND;
 
         if (wave < waves)
         {
-            NextWave(wave++, waves, spawns);
+            wave++;
+            NextWave(wave, waves, spawns);
         }
     }
 
     IEnumerator SpawnEnemies(string e, string count, int delay, string location, string hp, string speed, string damage, List<int> sequence, int wave)
     {
-        UnityEngine.Debug.Log("Runs ONCE per wave");
         int n = 0;
         int seq = 0;
 
@@ -259,15 +262,17 @@ public class EnemySpawner : MonoBehaviour
         RPNEvaluator rpn = new RPNEvaluator();
         int new_count = rpn.Eval(count, variables);
 
+        //UnityEngine.Debug.Log("enemy: " + e + " new_count: " + new_count + " delay: " + delay + " location: " + location + " hp: " + hp + " speed: " + speed + " damage: " + damage + " wave: " + wave);
+
         while (n < new_count)
-        {
+        { 
             int required = sequence[seq];
 
-            for (int i = 1; i < required; i++)
+            for (int i = 1; i <= required; i++)
             {
-                UnityEngine.Debug.Log("Hello");
-                SpawnEnemy(e, delay, location, hp, speed, damage, wave);
+                StartCoroutine(SpawnEnemy(e, delay, location, hp, speed, damage, wave));
                 n++;
+                //UnityEngine.Debug.Log("Spawned: " + n + " Required this It.: " + required + " Required this Wave: " + new_count);
 
                 if (n == new_count)
                     break;
@@ -284,7 +289,7 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator SpawnEnemy(string e, int delay, string location, string hp, string speed, string damage, int wave)
     {
-        UnityEngine.Debug.Log("enemy: " + e + " delay: " + delay + " location: " + location + " hp: " + hp + " speed: " + speed + " damage: " + damage + " wave: " + wave);
+        //UnityEngine.Debug.Log("enemy: " + e + " delay: " + delay + " location: " + location + " hp: " + hp + " speed: " + speed + " damage: " + damage + " wave: " + wave);
         Enemy enemyObject = enemy_types[e];
 
         Dictionary<string, int> variables = new Dictionary<string, int>();
@@ -300,7 +305,7 @@ public class EnemySpawner : MonoBehaviour
         GameObject new_enemy = Instantiate(enemy, initial_position, Quaternion.identity); // Creates a new enemy
 
         // Enemy Parameters
-        new_enemy.GetComponent<SpriteRenderer>().sprite = GameManager.Instance.enemySpriteManager.Get(0);
+        new_enemy.GetComponent<SpriteRenderer>().sprite = GameManager.Instance.enemySpriteManager.Get(enemyObject.sprite);
         EnemyController en = new_enemy.GetComponent<EnemyController>();
 
         en.hp = new Hittable(rpn.Eval(hp, variables), Hittable.Team.MONSTERS, new_enemy);
