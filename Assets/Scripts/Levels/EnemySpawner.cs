@@ -1,21 +1,9 @@
 using UnityEngine;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using System.IO;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
-using System.Linq;
-using System.Reflection;
-using System.Security;
-using System.Runtime.Versioning;
-using System.Collections.Specialized;
-using System.Security.Principal;
-using System.Diagnostics;
-using System.Security.Cryptography.X509Certificates;
-using System;
-using System.Security.Cryptography;
 using TMPro;
 
 public class RPNEvaluator
@@ -118,7 +106,7 @@ public class Spawn
     public string enemy; // Which type of enemey to spawn (=name in enemies.json)
     public string count; // How many enemies of one type to spawn, overall
     public List<int> sequence = new List<int>(); // How many should be spawned at once
-    public int delay = 2; // The number of seconds between consecutive spawns
+    public string delay = "2"; // The number of seconds between consecutive spawns
     public string location = "random"; // Where to spawn the enemy
     public string hp = "base"; // Modify the properties of the spawned enemy
     public string speed = "base";
@@ -259,7 +247,7 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    IEnumerator SpawnEnemies(string e, string count, int delay, string location, string hp, string speed, string damage, List<int> sequence, int wave)
+    IEnumerator SpawnEnemies(string e, string count, string delay, string location, string hp, string speed, string damage, List<int> sequence, int wave)
     {
         int n = 0;
         int seq = 0;
@@ -291,11 +279,13 @@ public class EnemySpawner : MonoBehaviour
             else
                 seq++;
 
-            yield return new WaitForSeconds(delay);
+            float delayFloat = float.Parse(delay);
+
+            yield return new WaitForSeconds(delayFloat);
         }
     }
 
-    IEnumerator SpawnEnemy(string e, int delay, string location, string hp, string speed, string damage, int wave)
+    IEnumerator SpawnEnemy(string e, string delay, string location, string hp, string speed, string damage, int wave)
     {
         Enemy enemyObject = enemy_types[e];
 
@@ -361,7 +351,10 @@ public class EnemySpawner : MonoBehaviour
         en.damage = rpn.Eval(damage, variables);
 
         GameManager.Instance.AddEnemy(new_enemy);
-        yield return new WaitForSeconds(delay);
+
+        float delayFloat = float.Parse(delay);
+
+        yield return new WaitForSeconds(delayFloat);
     }
 
     IEnumerator SpawnZombie()
