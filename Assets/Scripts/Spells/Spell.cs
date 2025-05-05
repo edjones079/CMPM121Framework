@@ -22,9 +22,9 @@ public class Spell
         this.owner = owner;
     }
     
-    public void SetAttributes(JObject attributes)
+    virtual public void SetAttributes(JToken attributes)
     {
-
+        return;
     }
 
     public string GetName()
@@ -75,7 +75,51 @@ public class Spell
 
 }
 
-public class ModifierSpell : Spell
+public class ArcaneBolt : Spell
 {
 
+    public ArcaneBolt(SpellCaster owner)
+    {
+        this.owner = owner;
+    }
+
+    override public void SetAttributes(JToken attributes)
+    {
+
+    }
 }
+
+public class MagicMissile : Spell
+{
+    override public void SetAttributes(JToken attributes)
+    {
+
+    }
+}
+
+public class ArcaneBlast : Spell
+{
+    override public void SetAttributes(JToken attributes)
+    {
+
+    }
+}
+
+public class ArcaneSpray : Spell
+{
+    override public void SetAttributes(JToken attributes)
+    {
+
+    }
+}
+
+public class ModifierSpell : Spell
+{
+    override public void SetAttributes(JToken attributes)
+    {
+
+    }
+}
+
+
+

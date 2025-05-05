@@ -18,6 +18,7 @@ public class SpellBuilder
    
     public SpellBuilder()
     {        
+
     }
 
     void Start()
@@ -31,7 +32,6 @@ public class SpellBuilder
             spell_types[s.name] = s;
             UnityEngine.Debug.Log(s.name);
         }
- 
     }
 
 }
