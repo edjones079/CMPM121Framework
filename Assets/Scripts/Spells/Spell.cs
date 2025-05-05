@@ -9,9 +9,22 @@ public class Spell
     public SpellCaster owner;
     public Hittable.Team team;
 
+    public string name;
+    public string description;
+    public int icon;
+    Dictionary<string, string> damage = new Dictionary<string, string>();
+    public string mana_cost;
+    public string cooldown;
+    Dictionary<string, string> projectile = new Dictionary<string, string>();
+
     public Spell(SpellCaster owner)
     {
         this.owner = owner;
+    }
+    
+    public void SetAttributes(JObject attributes)
+    {
+
     }
 
     public string GetName()
@@ -59,5 +72,10 @@ public class Spell
         }
 
     }
+
+}
+
+public class ModifierSpell : Spell
+{
 
 }
