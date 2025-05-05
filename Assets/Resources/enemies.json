@@ -15,7 +15,7 @@
    },  
    {
        "name": "warlock",
-       "sprite": 19,
+       "sprite": 4,
        "hp": 30,
        "speed": 7,
        "damage": 10

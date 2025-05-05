@@ -5,81 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using TMPro;
-
-public class RPNEvaluator
-{
-
-    Stack<int> stack = new Stack<int>();
-
-    public RPNEvaluator()
-    {
-        
-    }
-
-    public int Eval(string expression, Dictionary<string, int> variables)
-    {
-        string[] tokens = expression.Split(' ');
-        int final_result;
-
-        foreach (string token in tokens)
-        {
-            int myInt;
-            int value1;
-            int value2;
-            int result;
-
-            if (int.TryParse(token, out myInt))
-                stack.Push(myInt);
-
-            if (variables.ContainsKey(token))
-                stack.Push(variables[token]);
-
-            switch (token)
-            {
-                case "%":
-                    value2 = stack.Pop();
-                    value1 = stack.Pop();
-                    
-                    result = value1 % value2;
-                    stack.Push(result);
-                    break;
-
-                case "*":
-                    value2 = stack.Pop();
-                    value1 = stack.Pop();
-                    result = value1 * value2;
-                    stack.Push(result);
-                    break;
-
-                case "/":
-                    value2 = stack.Pop();
-                    value1 = stack.Pop();
-                    result = value1 / value2;
-                    stack.Push(result);
-                    break;
-
-                case "+":
-                    value2 = stack.Pop();
-                    value1 = stack.Pop();
-                    result = value1 + value2;
-                    stack.Push(result);
-                    break;
-
-                case "-":
-                    value2 = stack.Pop();
-                    value1 = stack.Pop();
-                    result = value1 - value2;
-                    stack.Push(result);
-                    break;
-
-            }
-        }
-
-        final_result = stack.Pop();
-        return final_result;
-
-    }
-}
+using System;
 
 // Determines the type and values of constructed objects. 
 
@@ -213,6 +139,7 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator SpawnWave()
     {
         wave++;
+        Debug.Log("Starting wave " + wave + "!");
         int playerStartingHP = player.hp.hp;
         GameManager.Instance.state = GameManager.GameState.COUNTDOWN;
         GameManager.Instance.countdown = 3;
