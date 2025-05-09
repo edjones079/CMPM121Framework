@@ -17,6 +17,8 @@ public class Spell
     public string cooldown;
     Dictionary<string, string> projectile = new Dictionary<string, string>();
 
+    public RPNEvaluator rpn = new RPNEvaluator();
+
     public Spell(SpellCaster owner)
     {
         this.owner = owner;
@@ -74,6 +76,7 @@ public class Spell
     }
 
 }
+
 
 
 

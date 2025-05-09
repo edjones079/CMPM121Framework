@@ -10,12 +10,13 @@ public class SpellBuilder
 
     Dictionary<string, Spell> spell_types = new Dictionary<string, Spell>();
 
+    JObject attributes;
+
     public Spell Build(SpellCaster owner)
     {
         return new Spell(owner);
     }
 
-   
     public SpellBuilder()
     {        
 
