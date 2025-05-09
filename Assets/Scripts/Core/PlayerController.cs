@@ -15,9 +15,17 @@ public class PlayerController : MonoBehaviour
     public SpellCaster spellcaster;
     public SpellUI spellui;
 
-    public int speed;
+    public int speed = 5;
+
+    string hp_scalar = "95 wave 5 * +";
+    string mana_scalar = "90 wave 10 * +";
+    string mana_regen_scalar = "10 wave +";
+    string spellpower_scalar = "wave 10 *";
 
     public Unit unit;
+
+    Dictionary<string, int> variables = new Dictionary<string, int>();
+    RPNEvaluator rpn = new RPNEvaluator();
 
     public TextMeshProUGUI gameOverText;
 
@@ -30,10 +38,17 @@ public class PlayerController : MonoBehaviour
 
     public void StartLevel()
     {
-        spellcaster = new SpellCaster(125, 8, Hittable.Team.PLAYER);
+        variables["wave"] = 1;
+
+        int max_hp = rpn.Eval(hp_scalar, variables);
+        int mana = rpn.Eval(mana_scalar, variables);
+        int mana_regen = rpn.Eval(mana_regen_scalar, variables);
+        int spellpower = rpn.Eval(spellpower_scalar, variables);
+
+        spellcaster = new SpellCaster(mana, mana_regen, Hittable.Team.PLAYER);
         StartCoroutine(spellcaster.ManaRegeneration());
         
-        hp = new Hittable(100, Hittable.Team.PLAYER, gameObject);
+        hp = new Hittable(max_hp, Hittable.Team.PLAYER, gameObject);
         hp.OnDeath += Die;
         hp.team = Hittable.Team.PLAYER;
 
@@ -41,6 +56,24 @@ public class PlayerController : MonoBehaviour
         healthui.SetHealth(hp);
         manaui.SetSpellCaster(spellcaster);
         spellui.SetSpell(spellcaster.spell);
+
+        Debug.Log("Player HP: " + hp.hp);
+        Debug.Log("Player Mana: " + spellcaster.mana);
+        Debug.Log("Player Mana Regen: " + spellcaster.mana_reg);
+    }
+
+    public void NextWave()
+    {
+        variables["wave"] = GameManager.Instance.GetWave();
+        int max_hp = rpn.Eval(hp_scalar, variables);
+        hp.SetMaxHP(max_hp);
+        spellcaster.mana = rpn.Eval(mana_scalar, variables);
+        spellcaster.mana_reg = rpn.Eval(mana_regen_scalar, variables);
+        int spellpower = rpn.Eval(spellpower_scalar, variables);
+
+        Debug.Log("Player Max_HP: " + hp.max_hp);
+        Debug.Log("Player Mana: " + spellcaster.mana);
+        Debug.Log("Player Mana Regen: " + spellcaster.mana_reg);
     }
 
     // Update is called once per frame

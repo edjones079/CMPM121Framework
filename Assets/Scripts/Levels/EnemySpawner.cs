@@ -132,6 +132,7 @@ public class EnemySpawner : MonoBehaviour
 
     public void NextWave()
     {
+        GameManager.Instance.player.GetComponent<PlayerController>().NextWave();
         StartCoroutine(SpawnWave());
     }
 
