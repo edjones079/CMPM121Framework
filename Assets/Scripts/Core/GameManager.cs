@@ -16,6 +16,7 @@ public class GameManager
     public GameState state;
 
     public int countdown;
+    public int currWave;
     private static GameManager theInstance;
     public static GameManager Instance {  get
         {
@@ -50,6 +51,24 @@ public class GameManager
         if (enemies == null || enemies.Count == 0) return null;
         if (enemies.Count == 1) return enemies[0];
         return enemies.Aggregate((a,b) => (a.transform.position - point).sqrMagnitude < (b.transform.position - point).sqrMagnitude ? a : b);
+    }
+
+    public void SetWave(int wave)
+    {
+        currWave = wave;
+    }
+
+    public int GetWave()
+    {
+        return currWave;
+    }
+
+    public void ClearEnemies()
+    {
+        while (enemy_count != 0)
+        {
+            RemoveEnemy(enemies[enemy_count - 1]);
+        }
     }
 
     private GameManager()

@@ -139,7 +139,8 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator SpawnWave()
     {
         wave++;
-        Debug.Log("Starting wave " + wave + "!");
+        GameManager.Instance.SetWave(wave);
+        Debug.Log("Starting wave " + GameManager.Instance.GetWave() + "!");
         int playerStartingHP = player.hp.hp;
         GameManager.Instance.state = GameManager.GameState.COUNTDOWN;
         GameManager.Instance.countdown = 3;
@@ -299,6 +300,7 @@ public class EnemySpawner : MonoBehaviour
     public void RestartLevel()
     {
         GameManager.Instance.state = GameManager.GameState.PREGAME;
+        GameManager.Instance.ClearEnemies();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
