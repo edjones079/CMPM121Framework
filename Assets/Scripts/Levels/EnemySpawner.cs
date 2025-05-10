@@ -132,8 +132,8 @@ public class EnemySpawner : MonoBehaviour
 
     public void NextWave()
     {
-        GameManager.Instance.player.GetComponent<PlayerController>().NextWave();
         StartCoroutine(SpawnWave());
+        GameManager.Instance.player.GetComponent<PlayerController>().NextWave();
     }
 
 
@@ -300,8 +300,8 @@ public class EnemySpawner : MonoBehaviour
 
     public void RestartLevel()
     {
-        GameManager.Instance.state = GameManager.GameState.PREGAME;
         GameManager.Instance.ClearEnemies();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        GameManager.Instance.state = GameManager.GameState.PREGAME;
     }
 }
