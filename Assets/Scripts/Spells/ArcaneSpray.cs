@@ -3,7 +3,7 @@ using UnityEngine;
 public class ArcaneSpray : Spell
 {
 
-    public ArcaneSpray(SpellCaster owner) : base(owner)
+    public ArcaneSpray()
     {
 
     }

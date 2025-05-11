@@ -19,14 +19,19 @@ public class Spell
 
     public RPNEvaluator rpn = new RPNEvaluator();
 
-    public Spell(SpellCaster owner)
+    public Spell()
     {
-        this.owner = owner;
+
     }
-    
-    virtual public void SetAttributes(JToken attributes)
+
+    virtual public void SetProperties(JObject properties)
     {
         return;
+    }
+
+    public void SetOwner(SpellCaster owner)
+    {
+        this.owner = owner;
     }
 
     public string GetName()

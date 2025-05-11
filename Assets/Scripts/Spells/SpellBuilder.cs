@@ -8,38 +8,50 @@ using System.Collections.Generic;
 public class SpellBuilder 
 {
 
-    Dictionary<string, Spell> spell_types = new Dictionary<string, Spell>();
+    List<string> spells = new List<string>();
+    JObject properties;
+    string name;
 
-    JObject attributes;
-
-    private SpellBuilder MakeSpell()
-
-    public Spell BuildSpell(SpellCaster owner)
+    private Spell MakeSpell(string name)
     {
-        return new Spell(owner);
+        if (name == "arcane_bolt")
+            return new ArcaneBolt();
+
+        return new ArcaneBolt();
     }
 
-    virtual public void SetAttributes(JToken attributes)
+    virtual public void SetProperties(JObject properties)
     {
         return;
     }
 
-    public SpellBuilder()
-    {        
+    // Creates a Spell object and assigns it the corresponding attributes to the JSON file
 
+    public Spell BuildSpell(string name, SpellCaster owner)
+    {
+        Spell spell = MakeSpell(name);
+
+        spell.SetProperties(properties);
+        spell.SetOwner(owner);
+
+        return spell;
+    }
+
+    public SpellBuilder()
+    {
+        var spelltext = Resources.Load<TextAsset>("spells");
+
+        properties = JObject.Parse(spelltext.text);
+        foreach (var a in properties)
+        {
+            spells.Add(a.Key);
+            UnityEngine.Debug.Log(properties["arcane_bolt"]);
+        }
     }
 
     void Start()
     {
-        var spelltext = Resources.Load<TextAsset>("spells");
-
-        JToken jo = JToken.Parse(spelltext.text);
-        foreach (var spell in jo)
-        {
-            Spell s = spell.ToObject<Spell>();
-            spell_types[s.name] = s;
-            UnityEngine.Debug.Log(s.name);
-        }
+        
     }
 
 }
