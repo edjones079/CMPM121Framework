@@ -12,9 +12,16 @@ public class SpellBuilder
 
     JObject attributes;
 
-    public Spell Build(SpellCaster owner)
+    private SpellBuilder MakeSpell()
+
+    public Spell BuildSpell(SpellCaster owner)
     {
         return new Spell(owner);
+    }
+
+    virtual public void SetAttributes(JToken attributes)
+    {
+        return;
     }
 
     public SpellBuilder()
