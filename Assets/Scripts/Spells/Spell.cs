@@ -24,7 +24,7 @@ public class Spell
 
     }
 
-    virtual public void SetProperties(JObject properties)
+    virtual public void SetProperties(JToken properties)
     {
         return;
     }

@@ -8,7 +8,7 @@ using System.Collections.Generic;
 public class SpellBuilder 
 {
 
-    List<string> spells = new List<string>();
+    List<string> spells = new List<string>(); // List of all spells from the JSON file
     JObject properties;
     string name;
 
@@ -20,18 +20,13 @@ public class SpellBuilder
         return new ArcaneBolt();
     }
 
-    virtual public void SetProperties(JObject properties)
-    {
-        return;
-    }
-
     // Creates a Spell object and assigns it the corresponding attributes to the JSON file
 
     public Spell BuildSpell(string name, SpellCaster owner)
     {
         Spell spell = MakeSpell(name);
 
-        spell.SetProperties(properties);
+        spell.SetProperties(properties[name]);
         spell.SetOwner(owner);
 
         return spell;
