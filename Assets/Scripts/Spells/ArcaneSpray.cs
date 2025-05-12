@@ -7,9 +7,6 @@ public class ArcaneSpray : Spell
     string N;
     string spray;
 
-    string N;
-    string spray;
-
     public ArcaneSpray()
     {
 

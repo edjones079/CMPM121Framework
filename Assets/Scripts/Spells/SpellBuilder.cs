@@ -28,21 +28,18 @@ public class SpellBuilder
         return new ArcaneBolt();
     }
 
-    // Creates a Spell object and assigns it the corresponding attributes to the JSON file
-
-    public string SelectSpell()
+    private Spell MakeRandomSpell()
     {
         int spell_name = UnityEngine.Random.Range(0, spells.Count - 1);
-        return spells[spell_name];
+        return MakeSpell(spells[spell_name]);
     }
+
+    // Creates a Spell object and assigns it the corresponding attributes to the JSON file
 
     public Spell BuildSpell(string name, SpellCaster owner)
     {
-
-        string random_spell = SelectSpell();
-        UnityEngine.Debug.Log(random_spell);
-
         Spell spell = MakeSpell(name);
+        Spell random_spell = MakeRandomSpell();
 
         JObject inner = properties[name].Value<JObject>();
 
