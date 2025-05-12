@@ -12,10 +12,11 @@ public class Spell
     public string name;
     public string description;
     public int icon;
-    Dictionary<string, string> damage = new Dictionary<string, string>();
+    public string damage;
+    public Damage.Type damage_type;
     public string mana_cost;
     public string cooldown;
-    Dictionary<string, string> projectile = new Dictionary<string, string>();
+    public Dictionary<string, string> projectile = new Dictionary<string, string>();
 
     public RPNEvaluator rpn = new RPNEvaluator();
 
@@ -24,7 +25,7 @@ public class Spell
 
     }
 
-    virtual public void SetProperties(JToken properties)
+    virtual public void SetProperties(JObject properties)
     {
         return;
     }

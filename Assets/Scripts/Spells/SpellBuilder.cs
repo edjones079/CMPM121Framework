@@ -26,7 +26,9 @@ public class SpellBuilder
     {
         Spell spell = MakeSpell(name);
 
-        spell.SetProperties(properties[name]);
+        JObject inner = properties[name].Value<JObject>();
+
+        spell.SetProperties(inner);
         spell.SetOwner(owner);
 
         return spell;

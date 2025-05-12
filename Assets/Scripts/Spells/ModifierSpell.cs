@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ModifierSpell : MonoBehaviour
+public class ModifierSpell : Spell
 {
 
     public ModifierSpell()
