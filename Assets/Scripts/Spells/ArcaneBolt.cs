@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using TMPro;
 using System.Runtime.InteropServices;
+using System.Collections;
 
 public class ArcaneBolt : Spell
 {
@@ -54,6 +55,16 @@ public class ArcaneBolt : Spell
         return cd;
     }
 
+    public override IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
+    {
+        variables["power"] = owner.GetSpellPower();
+        int speed = rpn.Eval(projectile["speed"], variables);
+        int sprite = int.Parse(projectile["sprite"]);
+        this.team = team;
+        GameManager.Instance.projectileManager.CreateProjectile(sprite, projectile["trajectory"], where, target - where, speed, OnHit);
+        yield return new WaitForEndOfFrame();
+    }
+
     public override void OnHit(Hittable other, Vector3 impact)
     {
         if (other.team != team)
@@ -62,5 +73,4 @@ public class ArcaneBolt : Spell
         }
 
     }
-
 }
