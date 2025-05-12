@@ -3,6 +3,7 @@ using System.IO;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 
 public class SpellBuilder 
@@ -42,7 +43,7 @@ public class SpellBuilder
         foreach (var a in properties)
         {
             spells.Add(a.Key);
-            UnityEngine.Debug.Log(properties["arcane_bolt"]);
+            //UnityEngine.Debug.Log(properties["arcane_bolt"]);
         }
     }
 

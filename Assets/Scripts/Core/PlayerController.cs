@@ -57,9 +57,9 @@ public class PlayerController : MonoBehaviour
         manaui.SetSpellCaster(spellcaster);
         spellui.SetSpell(spellcaster.spell);
 
-        Debug.Log("Player HP: " + hp.hp);
-        Debug.Log("Player Mana: " + spellcaster.mana);
-        Debug.Log("Player Mana Regen: " + spellcaster.mana_reg);
+        //Debug.Log("Player HP: " + hp.hp);
+        //Debug.Log("Player Mana: " + spellcaster.mana);
+        //Debug.Log("Player Mana Regen: " + spellcaster.mana_reg);
     }
 
     public void NextWave()
@@ -71,9 +71,9 @@ public class PlayerController : MonoBehaviour
         spellcaster.mana_reg = rpn.Eval(mana_regen_scalar, variables);
         int spellpower = rpn.Eval(spellpower_scalar, variables);
 
-        Debug.Log("Player Max_HP: " + hp.max_hp);
-        Debug.Log("Player Mana: " + spellcaster.mana);
-        Debug.Log("Player Mana Regen: " + spellcaster.mana_reg);
+        //Debug.Log("Player Max_HP: " + hp.max_hp);
+        //Debug.Log("Player Mana: " + spellcaster.mana);
+        //Debug.Log("Player Mana Regen: " + spellcaster.mana_reg);
     }
 
     // Update is called once per frame
