@@ -17,6 +17,12 @@ public class SpellBuilder
     {
         if (name == "arcane_bolt")
             return new ArcaneBolt();
+        else if (name == "magic_missile")
+            return new MagicMissile();
+        else if (name == "arcane_blast")
+            return new ArcaneBlast();
+        else if (name == "arcane_spray")
+            return new ArcaneSpray();
 
         return new ArcaneBolt();
     }
