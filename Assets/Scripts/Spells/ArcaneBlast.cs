@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ArcaneBlast : Spell
 {
+    RPNEvaluator rpnEval = new RPNEvaluator();
     string N;
     string secondary_damage;
     Dictionary<string, string> secondary_projectile = new Dictionary<string, string>();

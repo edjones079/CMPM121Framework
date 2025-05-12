@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     public SpellUI spellui;
 
     public int speed = 5;
+    public int spellpower = 0;
 
     string hp_scalar = "95 wave 5 * +";
     string mana_scalar = "90 wave 10 * +";
@@ -43,9 +44,9 @@ public class PlayerController : MonoBehaviour
         int max_hp = rpn.Eval(hp_scalar, variables);
         int mana = rpn.Eval(mana_scalar, variables);
         int mana_regen = rpn.Eval(mana_regen_scalar, variables);
-        int spellpower = rpn.Eval(spellpower_scalar, variables);
+        spellpower = rpn.Eval(spellpower_scalar, variables);
 
-        spellcaster = new SpellCaster(mana, mana_regen, Hittable.Team.PLAYER);
+        spellcaster = new SpellCaster(mana, mana_regen, spellpower, Hittable.Team.PLAYER);
         StartCoroutine(spellcaster.ManaRegeneration());
         
         hp = new Hittable(max_hp, Hittable.Team.PLAYER, gameObject);
@@ -69,7 +70,7 @@ public class PlayerController : MonoBehaviour
         hp.SetMaxHP(max_hp);
         spellcaster.mana = rpn.Eval(mana_scalar, variables);
         spellcaster.mana_reg = rpn.Eval(mana_regen_scalar, variables);
-        int spellpower = rpn.Eval(spellpower_scalar, variables);
+        spellcaster.spellpower = rpn.Eval(spellpower_scalar, variables);
 
         //Debug.Log("Player Max_HP: " + hp.max_hp);
         //Debug.Log("Player Mana: " + spellcaster.mana);
@@ -103,5 +104,4 @@ public class PlayerController : MonoBehaviour
         gameOverText.text = "You Lost...";
         GameManager.Instance.state = GameManager.GameState.GAMEOVER;
     }
-
 }

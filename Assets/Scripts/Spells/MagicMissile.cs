@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MagicMissile : Spell
 {
+    RPNEvaluator rpnEval = new RPNEvaluator();
 
     public MagicMissile()
     {

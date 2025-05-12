@@ -45,22 +45,22 @@ public class Spell
         this.owner = owner;
     }
 
-    public string GetName()
+    public virtual string GetName()
     {
         return "Bolt";
     }
 
-    public int GetManaCost()
+    public virtual int GetManaCost()
     {
         return 10;
     }
 
-    public int GetDamage()
+    public virtual int GetDamage()
     {
         return 100;
     }
 
-    public float GetCooldown()
+    public virtual float GetCooldown()
     {
         return 0.75f;
     }
@@ -82,7 +82,7 @@ public class Spell
         yield return new WaitForEndOfFrame();
     }
 
-    void OnHit(Hittable other, Vector3 impact)
+    public virtual void OnHit(Hittable other, Vector3 impact)
     {
         if (other.team != team)
         {

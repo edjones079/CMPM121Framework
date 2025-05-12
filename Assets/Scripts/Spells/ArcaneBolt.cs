@@ -1,9 +1,14 @@
 using UnityEngine;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using TMPro;
+using System.Runtime.InteropServices;
 
 public class ArcaneBolt : Spell
 {
+    RPNEvaluator rpnEval = new RPNEvaluator();
+    Dictionary<string, int> variables = new Dictionary<string, int>();
 
     public ArcaneBolt()
     {
@@ -24,17 +29,38 @@ public class ArcaneBolt : Spell
         projectile["sprite"] = properties["projectile"]["sprite"].ToString();
     }
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override string GetName()
     {
-    
+        return name;
     }
 
-    // Update is called once per frame
-    void Update()
+    public override int GetIcon()
     {
-        
+        return icon;
+    }
+    public override int GetDamage()
+    {
+        variables["power"] = owner.GetSpellPower();
+        return rpn.Eval(damage, variables);
+    }
+    public override int GetManaCost()
+    {
+        variables["power"] = owner.GetSpellPower();
+        return rpn.Eval(mana_cost, variables);
+    }
+    public override float GetCooldown()
+    {
+        float cd = float.Parse(cooldown);
+        return cd;
+    }
+
+    public override void OnHit(Hittable other, Vector3 impact)
+    {
+        if (other.team != team)
+        {
+            other.Damage(new Damage(GetDamage(), damage_type));
+        }
+
     }
 
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ArcaneSpray : Spell
 {
+    RPNEvaluator rpnEval = new RPNEvaluator();
     string N;
     string spray;
 
