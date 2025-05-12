@@ -24,8 +24,9 @@ public class Spell
 
     }
 
-    virtual public void SetProperties(JToken properties)
+    virtual public void SetProperties(JObject properties)
     {
+        this.name = properties["name"].ToString();
         return;
     }
 

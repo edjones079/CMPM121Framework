@@ -3,6 +3,7 @@ using System.IO;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 
 public class SpellBuilder 
@@ -26,7 +27,9 @@ public class SpellBuilder
     {
         Spell spell = MakeSpell(name);
 
-        spell.SetProperties(properties[name]);
+        JObject inner = properties[name].Value<JObject>();
+
+        spell.SetProperties(inner);
         spell.SetOwner(owner);
 
         return spell;
@@ -40,7 +43,7 @@ public class SpellBuilder
         foreach (var a in properties)
         {
             spells.Add(a.Key);
-            UnityEngine.Debug.Log(properties["arcane_bolt"]);
+            //UnityEngine.Debug.Log(properties["arcane_bolt"]);
         }
     }
 
