@@ -69,6 +69,5 @@ public class MagicMissile : Spell
         {
             other.Damage(new Damage(GetDamage(), damage_type));
         }
-
     }
 }

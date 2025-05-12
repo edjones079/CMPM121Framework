@@ -71,6 +71,5 @@ public class ArcaneBolt : Spell
         {
             other.Damage(new Damage(GetDamage(), damage_type));
         }
-
     }
 }

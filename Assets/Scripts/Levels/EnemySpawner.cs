@@ -83,6 +83,7 @@ public class EnemySpawner : MonoBehaviour
     public TextMeshProUGUI gameOverText;
     public TextMeshProUGUI betweenWaveText;
     public PlayerController player;
+    int spawnersActive;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -154,9 +155,11 @@ public class EnemySpawner : MonoBehaviour
         
         foreach (Spawn spawn in level.spawns) // For each enemy type . . .
         {
-            yield return SpawnEnemies(spawn.enemy, spawn.count, spawn.delay, spawn.location, spawn.hp, spawn.speed, spawn.damage, spawn.sequence, wave);
+            spawnersActive++;
+            StartCoroutine(SpawnEnemies(spawn.enemy, spawn.count, spawn.delay, spawn.location, spawn.hp, spawn.speed, spawn.damage, spawn.sequence, wave));
         }
 
+        yield return new WaitWhile(() => (spawnersActive > 0));
         yield return new WaitWhile(() => GameManager.Instance.enemy_count > 0);
         if (wave < level.waves || level.name == "Endless")
         {
@@ -207,6 +210,8 @@ public class EnemySpawner : MonoBehaviour
 
             yield return new WaitForSeconds(delayFloat);
         }
+
+        spawnersActive--;
     }
 
     IEnumerator SpawnEnemy(string e, string delay, string location, string hp, string speed, string damage, int wave)
