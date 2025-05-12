@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MagicMissile : Spell
 {
+    string N;
+    string spray;
 
     public MagicMissile()
     {
@@ -15,6 +17,8 @@ public class MagicMissile : Spell
         name = properties["name"].ToString();
         icon = properties["icon"].ToObject<int>();
         description = properties["description"].ToObject<string>();
+        N = properties["N"].ToString();
+        spray = properties["spray"].ToString();
         damage = properties["damage"]["amount"].ToString();
         damage_type = Damage.TypeFromString(properties["damage"]["type"].ToString());
         mana_cost = properties["mana_cost"].ToString();
@@ -22,14 +26,6 @@ public class MagicMissile : Spell
         projectile["trajectory"] = properties["projectile"]["trajectory"].ToString();
         projectile["speed"] = properties["projectile"]["speed"].ToString();
         projectile["sprite"] = properties["projectile"]["sprite"].ToString();
-        Debug.Log(name);
-        Debug.Log(icon);
-        Debug.Log(description);
-        Debug.Log(damage);
-        Debug.Log(damage_type);
-        Debug.Log(mana_cost);
-        Debug.Log(cooldown);
-        Debug.Log(projectile);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
