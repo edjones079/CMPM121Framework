@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class MagicMissile : Spell
 {
-    string N;
-    string spray;
 
     public MagicMissile()
     {
@@ -17,8 +15,6 @@ public class MagicMissile : Spell
         name = properties["name"].ToString();
         icon = properties["icon"].ToObject<int>();
         description = properties["description"].ToObject<string>();
-        N = properties["N"].ToString();
-        spray = properties["spray"].ToString();
         damage = properties["damage"]["amount"].ToString();
         damage_type = Damage.TypeFromString(properties["damage"]["type"].ToString());
         mana_cost = properties["mana_cost"].ToString();
