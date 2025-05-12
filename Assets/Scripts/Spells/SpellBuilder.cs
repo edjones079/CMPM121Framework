@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System;
 
 
 public class SpellBuilder 
@@ -29,8 +30,18 @@ public class SpellBuilder
 
     // Creates a Spell object and assigns it the corresponding attributes to the JSON file
 
+    public string SelectSpell()
+    {
+        int spell_name = UnityEngine.Random.Range(0, spells.Count - 1);
+        return spells[spell_name];
+    }
+
     public Spell BuildSpell(string name, SpellCaster owner)
     {
+
+        string random_spell = SelectSpell();
+        UnityEngine.Debug.Log(random_spell);
+
         Spell spell = MakeSpell(name);
 
         JObject inner = properties[name].Value<JObject>();
@@ -49,7 +60,6 @@ public class SpellBuilder
         foreach (var a in properties)
         {
             spells.Add(a.Key);
-            //UnityEngine.Debug.Log(properties["arcane_bolt"]);
         }
     }
 

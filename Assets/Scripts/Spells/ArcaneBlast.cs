@@ -31,17 +31,6 @@ public class ArcaneBlast : Spell
         secondary_projectile["speed"] = properties["secondary_projectile"]["speed"].ToString();
         secondary_projectile["lifetime"] = properties["secondary_projectile"]["lifetime"].ToString();
         secondary_projectile["sprite"] = properties["secondary_projectile"]["sprite"].ToString();
-        Debug.Log(name);
-        Debug.Log(icon);
-        Debug.Log(description);
-        Debug.Log(N);
-        Debug.Log(damage);
-        Debug.Log(secondary_damage);
-        Debug.Log(damage_type);
-        Debug.Log(mana_cost);
-        Debug.Log(cooldown);
-        Debug.Log(projectile);
-        Debug.Log(secondary_projectile);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

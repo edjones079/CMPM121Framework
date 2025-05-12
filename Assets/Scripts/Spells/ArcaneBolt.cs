@@ -22,14 +22,6 @@ public class ArcaneBolt : Spell
         projectile["trajectory"] = properties["projectile"]["trajectory"].ToString();
         projectile["speed"] = properties["projectile"]["speed"].ToString();
         projectile["sprite"] = properties["projectile"]["sprite"].ToString();
-        Debug.Log(name);
-        Debug.Log(icon);
-        Debug.Log(description);
-        Debug.Log(damage);
-        Debug.Log(damage_type);
-        Debug.Log(mana_cost);
-        Debug.Log(cooldown);
-        Debug.Log(projectile);
     }
 
 
