@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
+using UnityEngine.U2D;
 
 public class ArcaneBlast : Spell
 {
@@ -51,6 +53,11 @@ public class ArcaneBlast : Spell
         variables["power"] = owner.GetSpellPower();
         return rpn.Eval(damage, variables);
     }
+    public int GetSecondaryDamage()
+    {
+        variables["power"] = owner.GetSpellPower();
+        return rpn.Eval(secondary_damage, variables);
+    }
     public override int GetManaCost()
     {
         variables["power"] = owner.GetSpellPower();
@@ -74,9 +81,28 @@ public class ArcaneBlast : Spell
 
     public override void OnHit(Hittable other, Vector3 impact)
     {
+        variables["power"] = owner.GetSpellPower();
+        int SecondaryProjectileCount = rpn.Eval(N, variables);
+        int speed = rpn.Eval(secondary_projectile["speed"], variables);
+        int sprite = int.Parse(secondary_projectile["sprite"]);
+        float lifetime = rpn.EvalFloat(secondary_projectile["lifetime"], variables);
         if (other.team != team)
         {
             other.Damage(new Damage(GetDamage(), damage_type));
+            for (int i = 0; i < SecondaryProjectileCount; i++)
+            {
+                float launch_angle = ((Mathf.PI * 2) / SecondaryProjectileCount) * i;
+                Vector3 launch_direction = new Vector3(Mathf.Cos(launch_angle), Mathf.Sin(launch_angle), 0);
+                GameManager.Instance.projectileManager.CreateProjectile(sprite, secondary_projectile["trajectory"], impact, launch_direction, speed, OnSecondHit, lifetime);
+            }
+        }
+    }
+
+    public void OnSecondHit(Hittable other, Vector3 impact)
+    {
+        if (other.team != team)
+        {
+            other.Damage(new Damage(GetSecondaryDamage(), damage_type));
         }
     }
 }

@@ -67,7 +67,7 @@ public class ArcaneSpray : Spell
         float sprayAngle = float.Parse(spray);
         float lifetime = rpn.EvalFloat(projectile["lifetime"], variables);
         this.team = team;
-        for (int i = 0; i < projectileCount - 1; i++)
+        for (int i = 0; i < projectileCount; i++)
         {
             float r = Random.Range(-(sprayAngle / 2), (sprayAngle / 2));
             Vector3 direction = target - where;
