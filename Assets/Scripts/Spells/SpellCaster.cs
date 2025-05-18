@@ -10,6 +10,7 @@ public class SpellCaster
     public int spellpower;
     public Hittable.Team team;
     public Spell spell;
+    public SpellBuilder spellbuilder = new SpellBuilder();
 
     public IEnumerator ManaRegeneration()
     {
@@ -28,7 +29,7 @@ public class SpellCaster
         this.mana_reg = mana_reg;
         this.spellpower = spellpower;
         this.team = team;
-        spell = new SpellBuilder().BuildSpell(this);
+        spell = spellbuilder.BuildSpell(this);
     }
 
     public IEnumerator Cast(Vector3 where, Vector3 target)

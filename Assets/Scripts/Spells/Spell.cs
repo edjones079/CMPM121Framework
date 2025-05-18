@@ -20,9 +20,24 @@ public class Spell
 
     public RPNEvaluator rpn = new RPNEvaluator();
 
+    public int childCount = 0;
+    public bool isModifier = false;
+
+    public List<ValueModifier> modifiers = new List<ValueModifier>();
+
     public Spell()
     {
 
+    }
+
+    public bool IsModifier()
+    {
+        return isModifier;
+    }
+
+    public void AddChild(string name)
+    {
+        return;
     }
 
     virtual public void SetProperties(JObject properties)
@@ -92,7 +107,6 @@ public class Spell
     }
 
 }
-
 
 
 

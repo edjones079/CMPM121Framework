@@ -11,7 +11,7 @@
    "magic_missile":  {
        "name": "Magic Missile",
        "description": "A homing bolt.",
-       "icon": 2,
+       "icon": 1,
        "damage": {"amount": "10 power 3 / +", "type": "arcane"},
        "mana_cost": "20",
        "cooldown": "3",
@@ -32,7 +32,7 @@
    "arcane_spray":  {
        "name": "Arcane Spray",
        "description": "A large number of short-range bolts in a cone.",
-       "icon": 1,
+       "icon": 2,
        "N": "7 power 25 / +",
        "spray": "0.3",
        "damage": {"amount": "3 power 5 / +", "type": "arcane"},
