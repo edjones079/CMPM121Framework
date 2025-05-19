@@ -12,6 +12,8 @@ public class SpellCaster
     public Spell spell;
     public SpellBuilder spellbuilder = new SpellBuilder();
 
+    public List<Spell> spellbook = new List<Spell>();
+
     public IEnumerator ManaRegeneration()
     {
         while (true)
@@ -30,6 +32,11 @@ public class SpellCaster
         this.spellpower = spellpower;
         this.team = team;
         spell = spellbuilder.BuildSpell(this);
+
+        //spell = spellbuilder.BuildSpells("damage_amp", "arcane_bolt", this);
+        spellbook.Add(spell);
+
+        UnityEngine.Debug.Log("Parent Spell: " + spell);
     }
 
     public IEnumerator Cast(Vector3 where, Vector3 target)
@@ -40,6 +47,12 @@ public class SpellCaster
             yield return spell.Cast(where, target, team);
         }
         yield break;
+    }
+
+    public void GenerateNewSpell()
+    {
+        if (spellbook.Count >= 4)
+            return;
     }
 
     public int GetSpellPower()

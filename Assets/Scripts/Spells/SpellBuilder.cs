@@ -10,25 +10,27 @@ using System;
 public class SpellBuilder
 {
 
-    List<string> spells = new List<string>(); // List of all spells from the JSON file
+    List<string> spellnames = new List<string>(); // List of all spells from the JSON file
     JObject properties;
     string name;
 
-    HashSet<int> used = new HashSet<int>();
+    //HashSet<int> used = new HashSet<int>();
 
-    private Spell MakeSpell()
+    private Spell MakeSpell(string s)
     {
-        int val = UnityEngine.Random.Range(0, spells.Count - 1);
-
-        while (used.Contains(val))
+        if (s == "random")
         {
-            val = UnityEngine.Random.Range(0, spells.Count - 1);
+            int val = UnityEngine.Random.Range(0, spellnames.Count - 1);
+            name = spellnames[val];
         }
 
-        used.Add(val);
+        //while (used.Contains(val))
+        //{
+            //val = UnityEngine.Random.Range(0, spells.Count - 1);
+        //}
+
+        //used.Add(val);
         
-        name = spells[val];
-        UnityEngine.Debug.Log(name);
 
         if (name == "arcane_bolt")
             return new ArcaneBolt();
@@ -39,9 +41,21 @@ public class SpellBuilder
         else if (name == "arcane_spray")
             return new ArcaneSpray();
 
-        else if (name == "damage_amp" || name == "speed_amp" || name == "chaos" || name == "homing")
+        else if (name == "damage_amp")
         {
-            return new ModifierSpell();
+            return new DamageAmp();
+        }
+        else if (name == "speed_amp")
+        {
+            return new SpeedAmp();
+        }
+        else if (name == "chaos")
+        {
+            return new Chaos();
+        }
+        else if (name == "homing")
+        {
+            return new Homing();
         }
 
         else if (name == "doubler")
@@ -58,14 +72,60 @@ public class SpellBuilder
 
     // Creates a Spell object and assigns it the corresponding attributes to the JSON file
 
-    public void BuildSpells(List<string> spell, SpellCaster owner)
+    public Spell BuildSpells(string mod, string name, SpellCaster owner)
     {
-        return;
+
+        ModifierSpell mod_spell = new DamageAmp();
+
+        JObject jobject = properties[mod].Value<JObject>();
+        mod_spell.SetProperties(jobject);
+        mod_spell.SetOwner(owner);
+
+        Spell inner = new ArcaneBolt();
+
+        JObject jobject1 = properties[name].Value<JObject>();
+        inner.SetProperties(jobject1);
+        inner.SetOwner(owner);
+
+        mod_spell.AddChild(inner.GetName());
+        mod_spell.SetInnerSpell(inner);
+
+        UnityEngine.Debug.Log(mod_spell);
+        UnityEngine.Debug.Log(inner);
+
+        return mod_spell;
     }
+
+    // Building random spells
 
     public Spell BuildSpell(SpellCaster owner)
     {
-        Spell spell = MakeSpell();
+        Spell spell = MakeSpell("random");
+
+        UnityEngine.Debug.Log(name);
+
+        JObject jobject = properties[name].Value<JObject>();
+        spell.SetProperties(jobject);
+        spell.SetOwner(owner);
+
+        UnityEngine.Debug.Log(jobject);
+
+        if (spell.IsModifier())
+        {
+            ModifierSpell mod_spell = (ModifierSpell) spell;
+            Spell inner = BuildSpell(owner);
+            mod_spell.AddChild(inner.GetName());
+            mod_spell.SetInnerSpell(inner);
+
+            return mod_spell;
+        }
+
+        return spell;
+    }
+
+    public Spell BuildSpell(string name, SpellCaster owner)
+    {
+        Spell spell = MakeSpell(name);
 
         //UnityEngine.Debug.Log(name);
 
@@ -77,9 +137,12 @@ public class SpellBuilder
 
         if (spell.IsModifier())
         {
-            Spell mod_spell = spell;
-            spell = BuildSpell(owner);
-            spell.AddChild(mod_spell.GetName());
+            ModifierSpell mod_spell = (ModifierSpell)spell;
+            Spell inner = BuildSpell(owner);
+            mod_spell.AddChild(inner.GetName());
+            mod_spell.SetInnerSpell(inner);
+
+            return mod_spell;
         }
 
         return spell;
@@ -92,7 +155,7 @@ public class SpellBuilder
         properties = JObject.Parse(spelltext.text);
         foreach (var a in properties)
         {
-            spells.Add(a.Key);
+            spellnames.Add(a.Key);
         }
     }
 

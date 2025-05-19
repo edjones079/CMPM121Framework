@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using System;
 
 public class Spell 
 {
@@ -12,6 +13,8 @@ public class Spell
     public string name;
     public string description;
     public int icon;
+
+    // Modifiable Values
     public string damage;
     public Damage.Type damage_type;
     public string mana_cost;
@@ -23,12 +26,21 @@ public class Spell
     public int childCount = 0;
     public bool isModifier = false;
 
-    public List<ValueModifier> modifiers = new List<ValueModifier>();
-
     public Spell()
     {
 
     }
+
+    virtual public void SetInnerSpell(Spell inner)
+    {
+
+    }
+
+    virtual public Spell GetInnerSpell()
+    {
+        return this;
+    }
+
 
     public bool IsModifier()
     {
@@ -92,6 +104,11 @@ public class Spell
 
     public virtual IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
     {
+        return Cast(where, target, team, new Modifiers());
+    }
+
+    public virtual IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team, Modifiers mods)
+    {
         this.team = team;
         GameManager.Instance.projectileManager.CreateProjectile(0, "straight", where, target - where, 15f, OnHit);
         yield return new WaitForEndOfFrame();
@@ -106,6 +123,11 @@ public class Spell
 
     }
 
+}
+
+public class DamageAugmenter : Spell
+{
+    Spell inner;
 }
 
 

@@ -28,7 +28,7 @@ public class Splitter : ModifierSpell
 
     }
 
-    override public IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
+    override public IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team, Modifiers mods)
     {
         inner.Cast(where, target, team);
         inner.Cast(where, target, team);
