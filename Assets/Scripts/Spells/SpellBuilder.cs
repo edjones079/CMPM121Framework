@@ -75,13 +75,13 @@ public class SpellBuilder
     public Spell BuildSpells(string mod, string name, SpellCaster owner)
     {
 
-        ModifierSpell mod_spell = new Splitter();
+        ModifierSpell mod_spell = new DamageAmplifier();
 
         JObject jobject = properties[mod].Value<JObject>();
         mod_spell.SetProperties(jobject);
         mod_spell.SetOwner(owner);
 
-        Spell inner = new ArcaneBolt();
+        Spell inner = new ArcaneSpray();
 
         JObject jobject1 = properties[name].Value<JObject>();
         inner.SetProperties(jobject1);
