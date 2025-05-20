@@ -43,11 +43,11 @@ public class SpellBuilder
 
         else if (name == "damage_amp")
         {
-            return new DamageAmp();
+            return new DamageAmplifier();
         }
         else if (name == "speed_amp")
         {
-            return new SpeedAmp();
+            return new SpeedAmplifier();
         }
         else if (name == "chaos")
         {
@@ -75,7 +75,7 @@ public class SpellBuilder
     public Spell BuildSpells(string mod, string name, SpellCaster owner)
     {
 
-        ModifierSpell mod_spell = new DamageAmp();
+        ModifierSpell mod_spell = new Splitter();
 
         JObject jobject = properties[mod].Value<JObject>();
         mod_spell.SetProperties(jobject);

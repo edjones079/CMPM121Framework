@@ -31,20 +31,21 @@ public class SpellCaster
         this.mana_reg = mana_reg;
         this.spellpower = spellpower;
         this.team = team;
-        spell = spellbuilder.BuildSpell(this);
+        //spell = spellbuilder.BuildSpell(this);
 
-        //spell = spellbuilder.BuildSpells("damage_amp", "arcane_bolt", this);
+        spell = spellbuilder.BuildSpells("splitter", "arcane_bolt", this);
         spellbook.Add(spell);
 
         UnityEngine.Debug.Log("Parent Spell: " + spell);
     }
 
     public IEnumerator Cast(Vector3 where, Vector3 target)
-    {        
+    {
+        Vector3 direction = target - where;
         if (mana >= spell.GetManaCost() && spell.IsReady())
         {
             mana -= spell.GetManaCost();
-            yield return spell.Cast(where, target, team);
+            yield return spell.Cast(where, target, direction, team);
         }
         yield break;
     }

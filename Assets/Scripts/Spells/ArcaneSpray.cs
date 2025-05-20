@@ -6,6 +6,7 @@ using System.Collections;
 
 public class ArcaneSpray : Spell
 {
+    
     RPNEvaluator rpnEval = new RPNEvaluator();
     string N;
     string spray;
@@ -42,23 +43,67 @@ public class ArcaneSpray : Spell
     {
         return icon;
     }
-    public override int GetDamage()
+
+    public override int GetDamage(SpellModifiers mods)
     {
         variables["power"] = owner.GetSpellPower();
-        return rpn.Eval(damage, variables);
-    }
-    public override int GetManaCost()
-    {
-        variables["power"] = owner.GetSpellPower();
-        return rpn.Eval(mana_cost, variables);
-    }
-    public override float GetCooldown()
-    {
-        float cd = float.Parse(cooldown);
-        return cd;
+        variables["wave"] = GameManager.Instance.GetWave();
+
+        int init_damage = rpnEval.Eval(damage, variables);
+        int new_damage = ValueModifier<int>.ApplyModifiers(mods.damage, init_damage);
+
+        return new_damage;
     }
 
-    public override IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
+    public override int GetManaCost(SpellModifiers mods)
+    {
+        variables["power"] = owner.GetSpellPower();
+
+        int init_mana_cost = rpnEval.Eval(mana_cost, variables);
+        int new_mana_cost = ValueModifier<int>.ApplyModifiers(mods.mana_cost, init_mana_cost);
+
+        return new_mana_cost;
+    }
+
+    public override float GetSpeed(SpellModifiers mods)
+    {
+        variables["power"] = owner.GetSpellPower();
+
+        int init_speed = rpnEval.Eval(projectile["speed"], variables);
+        float new_speed = ValueModifier<float>.ApplyModifiers(mods.speed, init_speed);
+
+        return new_speed;
+    }
+
+    public override float GetCooldown(SpellModifiers mods)
+    {
+        float cd = float.Parse(cooldown);
+
+        float new_cd = ValueModifier<float>.ApplyModifiers(mods.cooldown, cd);
+
+        return new_cd;
+    }
+
+    public override float GetLifetime(SpellModifiers mods)
+    {
+        variables["power"] = owner.GetSpellPower();
+
+        float init_lifetime = rpnEval.EvalFloat(projectile["lifetime"], variables);
+        float new_lifetime = ValueModifier<float>.ApplyModifiers(mods.lifetime, init_lifetime);
+
+        return new_lifetime;
+    }
+
+    public override string GetProjectileTrajectory(SpellModifiers mods)
+    {
+
+        string init_projectile_trajectory = projectile["trajectory"];
+        string new_projectile_trajectory = ValueModifier<string>.ApplyModifiers(mods.projectile_trajectory, init_projectile_trajectory);
+        return new_projectile_trajectory;
+    }
+
+
+    public override IEnumerator Cast(Vector3 where, Vector3 target, Vector3 direction, Hittable.Team team, SpellModifiers mods)
     {
         variables["power"] = owner.GetSpellPower();
         int speed = rpn.Eval(projectile["speed"], variables);
@@ -70,21 +115,13 @@ public class ArcaneSpray : Spell
         for (int i = 0; i < projectileCount; i++)
         {
             float r = Random.Range(-(sprayAngle / 2), (sprayAngle / 2));
-            Vector3 direction = target - where;
             float directionAngle = Mathf.Atan2(direction.y, direction.x);
             directionAngle += r;
             Vector3 newDirection = new Vector3(Mathf.Cos(directionAngle), Mathf.Sin(directionAngle), 0);
-            GameManager.Instance.projectileManager.CreateProjectile(sprite, projectile["trajectory"], where, newDirection, speed, OnHit, lifetime);
+            GameManager.Instance.projectileManager.CreateProjectile(sprite, GetProjectileTrajectory(mods), where, newDirection, GetSpeed(mods), GetOnHit(mods), GetLifetime(mods));
 
         }
         yield return new WaitForEndOfFrame();
     }
 
-    public override void OnHit(Hittable other, Vector3 impact)
-    {
-        if (other.team != team)
-        {
-            other.Damage(new Damage(GetDamage(), damage_type));
-        }
-    }
 }

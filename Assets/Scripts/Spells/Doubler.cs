@@ -29,11 +29,11 @@ public class Doubler : ModifierSpell
 
     }
 
-    override public IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team, Modifiers mods)
+    override public IEnumerator Cast(Vector3 where, Vector3 target, Vector3 direction, Hittable.Team team, SpellModifiers mods)
     {
-        inner.Cast(where, target, team);
+        yield return inner.Cast(where, target, direction, team, mods);
         yield return new WaitForSeconds(delay);
-        inner.Cast(where, target, team);
+         yield return inner.Cast(where, target, direction, team, mods);
         yield return new WaitForEndOfFrame();
     }
 

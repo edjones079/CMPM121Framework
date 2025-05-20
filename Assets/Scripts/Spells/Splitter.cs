@@ -28,10 +28,23 @@ public class Splitter : ModifierSpell
 
     }
 
-    override public IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team, Modifiers mods)
+    override public IEnumerator Cast(Vector3 where, Vector3 target, Vector3 direction, Hittable.Team team, SpellModifiers mods)
     {
-        inner.Cast(where, target, team);
-        inner.Cast(where, target, team);
+        float a = angle / 100;
+
+        UnityEngine.Debug.Log(a);
+
+        float directionAngle = Mathf.Atan2(direction.y, direction.x);
+        directionAngle += a;
+        Vector3 newDirection = new Vector3(Mathf.Cos(directionAngle), Mathf.Sin(directionAngle), 0);
+
+        yield return inner.Cast(where, target, newDirection, team, mods);
+
+        directionAngle = Mathf.Atan2(direction.y, direction.x);
+        directionAngle -= a;
+        newDirection = new Vector3(Mathf.Cos(directionAngle), Mathf.Sin(directionAngle), 0);
+
+        yield return inner.Cast(where, target, newDirection, team, mods);
         yield return new WaitForEndOfFrame();
     }
 

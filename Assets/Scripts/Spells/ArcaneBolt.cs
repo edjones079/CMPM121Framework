@@ -3,7 +3,6 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using TMPro;
-using System.Runtime.InteropServices;
 using System.Collections;
 using System;
 
@@ -40,37 +39,62 @@ public class ArcaneBolt : Spell
     {
         return icon;
     }
-    public override int GetDamage()
-    {
+
+    public override int GetDamage(SpellModifiers mods)
+    { 
         variables["power"] = owner.GetSpellPower();
-        return rpn.Eval(damage, variables);
-    }
-    public override int GetManaCost()
-    {
-        variables["power"] = owner.GetSpellPower();
-        return rpn.Eval(mana_cost, variables);
-    }
-    public override float GetCooldown()
-    {
-        float cd = float.Parse(cooldown);
-        return cd;
+        variables["wave"] = GameManager.Instance.GetWave();
+
+        int init_damage = rpnEval.Eval(damage, variables);
+        int new_damage = ValueModifier<int>.ApplyModifiers(mods.damage, init_damage);
+
+        return new_damage;
     }
 
-    public override IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
+    public override int GetManaCost(SpellModifiers mods)
     {
+        int init_mana_cost = rpnEval.Eval(mana_cost, variables);
+        int new_mana_cost = ValueModifier<int>.ApplyModifiers(mods.mana_cost, init_mana_cost);
+
+        return new_mana_cost;
+    }
+
+    public override float GetSpeed(SpellModifiers mods)
+    {
+        variables["power"] = owner.GetSpellPower();
+
+        int init_speed = rpnEval.Eval(projectile["speed"], variables);
+        float new_speed = ValueModifier<float>.ApplyModifiers(mods.speed, init_speed);
+
+        return new_speed;
+    }
+
+    public override float GetCooldown(SpellModifiers mods)
+    {
+        float cd = float.Parse(cooldown);
+
+        float new_cd = ValueModifier<float>.ApplyModifiers(mods.cooldown, cd);
+
+        return new_cd;
+    }
+
+    public override string GetProjectileTrajectory(SpellModifiers mods)
+    {
+
+        string init_projectile_trajectory = projectile["trajectory"];
+        string new_projectile_trajectory = ValueModifier<string>.ApplyModifiers(mods.projectile_trajectory, init_projectile_trajectory);
+        return new_projectile_trajectory;
+    }
+
+    public override IEnumerator Cast(Vector3 where, Vector3 target, Vector3 direction, Hittable.Team team, SpellModifiers mods)
+    {
+
         variables["power"] = owner.GetSpellPower();
         int speed = rpn.Eval(projectile["speed"], variables);
         int sprite = int.Parse(projectile["sprite"]);
-        this.team = team;
-        GameManager.Instance.projectileManager.CreateProjectile(sprite, projectile["trajectory"], where, target - where, speed, OnHit);
-        yield return new WaitForEndOfFrame();
-    }
 
-    public override void OnHit(Hittable other, Vector3 impact)
-    {
-        if (other.team != team)
-        {
-            other.Damage(new Damage(GetDamage(), damage_type));
-        }
+        this.team = team;
+        GameManager.Instance.projectileManager.CreateProjectile(sprite, GetProjectileTrajectory(mods), where, direction, GetSpeed(mods), GetOnHit(mods));
+        yield return new WaitForEndOfFrame();
     }
 }

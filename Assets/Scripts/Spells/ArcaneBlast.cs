@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 using UnityEngine.U2D;
+using System;
 
 public class ArcaneBlast : Spell
 {
@@ -16,7 +17,7 @@ public class ArcaneBlast : Spell
 
     public ArcaneBlast()
     {
-        
+
     }
 
     public override void SetProperties(JObject properties)
@@ -48,54 +49,96 @@ public class ArcaneBlast : Spell
     {
         return icon;
     }
-    public override int GetDamage()
+
+    public override int GetDamage(SpellModifiers mods)
     {
         variables["power"] = owner.GetSpellPower();
-        return rpn.Eval(damage, variables);
+
+        int init_damage = rpnEval.Eval(damage, variables);
+        int new_damage = ValueModifier<int>.ApplyModifiers(mods.damage, init_damage);
+
+        return new_damage;
     }
+
     public int GetSecondaryDamage()
     {
         variables["power"] = owner.GetSpellPower();
         return rpn.Eval(secondary_damage, variables);
     }
-    public override int GetManaCost()
+
+    public override int GetManaCost(SpellModifiers mods)
     {
         variables["power"] = owner.GetSpellPower();
-        return rpn.Eval(mana_cost, variables);
-    }
-    public override float GetCooldown()
-    {
-        float cd = float.Parse(cooldown);
-        return cd;
+
+        int init_mana_cost = rpnEval.Eval(mana_cost, variables);
+        int new_mana_cost = ValueModifier<int>.ApplyModifiers(mods.mana_cost, init_mana_cost);
+
+        return new_mana_cost;
     }
 
-    public override IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
+    public override float GetCooldown(SpellModifiers mods)
+    {
+        float cd = float.Parse(cooldown);
+
+        float new_cd = ValueModifier<float>.ApplyModifiers(mods.cooldown, cd);
+
+        return new_cd;
+    }
+
+    public override float GetSpeed(SpellModifiers mods)
+    {
+        variables["power"] = owner.GetSpellPower();
+
+        int init_speed = rpnEval.Eval(projectile["speed"], variables);
+        float new_speed = ValueModifier<float>.ApplyModifiers(mods.speed, init_speed);
+
+        return new_speed;
+    }
+
+    public override float GetLifetime(SpellModifiers mods)
+    {
+        variables["power"] = owner.GetSpellPower();
+
+        float init_lifetime = rpnEval.EvalFloat(projectile["lifetime"], variables);
+        float new_lifetime = ValueModifier<float>.ApplyModifiers(mods.lifetime, init_lifetime);
+
+        return new_lifetime;
+    }
+
+    public override IEnumerator Cast(Vector3 where, Vector3 target, Vector3 d, Hittable.Team team, SpellModifiers mods)
     {
         variables["power"] = owner.GetSpellPower();
         int speed = rpn.Eval(projectile["speed"], variables);
         int sprite = int.Parse(projectile["sprite"]);
         this.team = team;
-        GameManager.Instance.projectileManager.CreateProjectile(sprite, projectile["trajectory"], where, target - where, speed, OnHit);
+        GameManager.Instance.projectileManager.CreateProjectile(sprite, projectile["trajectory"], where, d, GetSpeed(mods), GetOnHit(mods));
         yield return new WaitForEndOfFrame();
     }
 
-    public override void OnHit(Hittable other, Vector3 impact)
+    public override Action<Hittable, Vector3> GetOnHit(SpellModifiers mods)
     {
-        variables["power"] = owner.GetSpellPower();
-        int SecondaryProjectileCount = rpn.Eval(N, variables);
-        int speed = rpn.Eval(secondary_projectile["speed"], variables);
-        int sprite = int.Parse(secondary_projectile["sprite"]);
-        float lifetime = rpn.EvalFloat(secondary_projectile["lifetime"], variables);
-        if (other.team != team)
+
+
+        void OnHit(Hittable other, Vector3 impact)
         {
-            other.Damage(new Damage(GetDamage(), damage_type));
-            for (int i = 0; i < SecondaryProjectileCount; i++)
+            variables["power"] = owner.GetSpellPower();
+            int SecondaryProjectileCount = rpn.Eval(N, variables);
+            int speed = rpn.Eval(secondary_projectile["speed"], variables);
+            int sprite = int.Parse(secondary_projectile["sprite"]);
+            float lifetime = rpn.EvalFloat(secondary_projectile["lifetime"], variables);
+            if (other.team != team)
             {
-                float launch_angle = ((Mathf.PI * 2) / SecondaryProjectileCount) * i;
-                Vector3 launch_direction = new Vector3(Mathf.Cos(launch_angle), Mathf.Sin(launch_angle), 0);
-                GameManager.Instance.projectileManager.CreateProjectile(sprite, secondary_projectile["trajectory"], impact, launch_direction, speed, OnSecondHit, lifetime);
+                other.Damage(new Damage(GetDamage(mods), damage_type));
+                for (int i = 0; i < SecondaryProjectileCount; i++)
+                {
+                    float launch_angle = ((Mathf.PI * 2) / SecondaryProjectileCount) * i;
+                    Vector3 launch_direction = new Vector3(Mathf.Cos(launch_angle), Mathf.Sin(launch_angle), 0);
+                    GameManager.Instance.projectileManager.CreateProjectile(sprite, secondary_projectile["trajectory"], impact, launch_direction, speed, OnSecondHit, lifetime);
+                }
             }
         }
+
+        return OnHit;
     }
 
     public void OnSecondHit(Hittable other, Vector3 impact)

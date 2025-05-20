@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using System;
 
-public class Spell 
+public class Spell
 {
     public float last_cast;
     public SpellCaster owner;
@@ -72,55 +72,119 @@ public class Spell
         this.owner = owner;
     }
 
+
+    public int GetManaCost()
+    {
+        return GetManaCost(new SpellModifiers());
+    }
+
+    public int GetDamage()
+    {
+        return GetDamage(new SpellModifiers());
+    }
+
+    public float GetCooldown()
+    {
+        return GetCooldown(new SpellModifiers());
+    }
+
+    public int GetSpellpower()
+    {
+        return GetSpellpower(new SpellModifiers());
+    }
+
+    public float GetSpeed()
+    {
+        return GetSpeed(new SpellModifiers());
+    }
+
+    public float GetLifetime()
+    {
+        return GetLifetime(new SpellModifiers());
+    }
+
+    public string GetProjectileTrajectory()
+    {
+        return GetProjectileTrajectory(new SpellModifiers());
+    }
+
+    //
+
     public virtual string GetName()
     {
-        return "Bolt";
-    }
-
-    public virtual int GetManaCost()
-    {
-        return 10;
-    }
-
-    public virtual int GetDamage()
-    {
-        return 100;
-    }
-
-    public virtual float GetCooldown()
-    {
-        return 0.75f;
+        return name;
     }
 
     public virtual int GetIcon()
     {
+        return icon;
+    }
+
+    public virtual int GetManaCost(SpellModifiers mods)
+    {
         return 0;
     }
+
+    public virtual int GetDamage(SpellModifiers mods)
+    {
+        return 0;
+    }
+
+    public virtual float GetCooldown(SpellModifiers mods)
+    {
+        return 0;
+    }
+
+    public virtual int GetSpellpower(SpellModifiers mods)
+    {
+        return owner.GetSpellPower();
+    }
+
+    public virtual float GetSpeed(SpellModifiers mods)
+    {
+        return 0;
+    }
+
+    public virtual float GetLifetime(SpellModifiers mods)
+    {
+        return 0;
+    }
+
+    public virtual string GetProjectileTrajectory(SpellModifiers mods)
+    {
+        return "";
+    }
+
+    //
 
     public bool IsReady()
     {
         return (last_cast + GetCooldown() < Time.time);
     }
 
-    public virtual IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
+    public virtual IEnumerator Cast(Vector3 where, Vector3 target, Vector3 direction, Hittable.Team team)
     {
-        return Cast(where, target, team, new Modifiers());
+        return Cast(where, target, direction, team, new SpellModifiers());
     }
 
-    public virtual IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team, Modifiers mods)
+    public virtual IEnumerator Cast(Vector3 where, Vector3 target, Vector3 direction, Hittable.Team team, SpellModifiers mods)
     {
         this.team = team;
-        GameManager.Instance.projectileManager.CreateProjectile(0, "straight", where, target - where, 15f, OnHit);
+        GameManager.Instance.projectileManager.CreateProjectile(0, "straight", where, direction, 15f, GetOnHit(mods));
         yield return new WaitForEndOfFrame();
     }
 
-    public virtual void OnHit(Hittable other, Vector3 impact)
+    virtual public Action<Hittable, Vector3> GetOnHit(SpellModifiers mods)
     {
-        if (other.team != team)
+        void OnHit(Hittable other, Vector3 impact)
         {
-            other.Damage(new Damage(GetDamage(), Damage.Type.ARCANE));
+            if (other.team != team)
+            {
+                other.Damage(new Damage(GetDamage(mods), Damage.Type.ARCANE));
+            }
         }
 
+        return OnHit;
     }
 
 }
