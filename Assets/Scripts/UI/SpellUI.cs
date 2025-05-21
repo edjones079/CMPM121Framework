@@ -48,5 +48,10 @@ public class SpellUI : MonoBehaviour
             perc = 1-since_last / spell.GetCooldown();
         }
         cooldown.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 48 * perc);
+
+        if (GameManager.Instance.state == GameManager.GameState.WAVEEND)
+        {
+            dropbutton.SetActive(true);
+        }
     }
 }

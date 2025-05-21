@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
         // tell UI elements what to show
         healthui.SetHealth(hp);
         manaui.SetSpellCaster(spellcaster);
-        spellui.SetSpell(spellcaster.spell);
+        spellui.SetSpell(spellcaster.spellbook[0]);
 
         //Debug.Log("Player HP: " + hp.hp);
         //Debug.Log("Player Mana: " + spellcaster.mana);

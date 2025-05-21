@@ -21,5 +21,20 @@ public class SpellUIContainer : MonoBehaviour
     {
         
     }
+    public void DropSpell()
+    {
+        /*if (this.spell != player.spellcaster.spellbook[player.spellcaster.spellbook.Count - 1])
+        {
 
+        }
+        else
+        {
+            this.spell = null;
+        }*/
+    }
+
+    public void AddSpell()
+    {
+        return;
+    }
 }

@@ -10,6 +10,7 @@ public class SpellCaster
     public int spellpower;
     public Hittable.Team team;
     public Spell spell;
+    public Spell newSpell;
     public SpellBuilder spellbuilder = new SpellBuilder();
 
     public List<Spell> spellbook = new List<Spell>();
@@ -31,7 +32,7 @@ public class SpellCaster
         this.mana_reg = mana_reg;
         this.spellpower = spellpower;
         this.team = team;
-        spell = spellbuilder.BuildSpell(this);
+        spell = spellbuilder.BuildSpell("arcane_bolt", this);
 
         // spell = spellbuilder.BuildSpells("chaos", "doubler", "arcane_spray", this);
         spellbook.Add(spell);
@@ -48,12 +49,6 @@ public class SpellCaster
             yield return spell.Cast(where, target, direction, team);
         }
         yield break;
-    }
-
-    public void GenerateNewSpell()
-    {
-        if (spellbook.Count >= 4)
-            return;
     }
 
     public int GetSpellPower()

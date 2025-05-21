@@ -175,5 +175,11 @@ public class SpellBuilder
     {
         
     }
+    public Spell GenerateNewSpell()
+    {
+        //Spell newSpell = ;
 
+        //return newSpell;
+        return null;
+    }
 }
