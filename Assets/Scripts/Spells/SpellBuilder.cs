@@ -85,7 +85,7 @@ public class SpellBuilder
         mod_spell.SetProperties(jobject);
         mod_spell.SetOwner(owner);
 
-        Spell inner = new MagicMissile();
+        Spell inner = new ArcaneSpray();
 
         JObject jobject1 = properties[name].Value<JObject>();
         inner.SetProperties(jobject1);
@@ -94,7 +94,7 @@ public class SpellBuilder
         mod_spell.AddChild(inner.GetName());
         mod_spell.SetInnerSpell(inner);
 
-        ModifierSpell mod_spell2 = new Splitter();
+        ModifierSpell mod_spell2 = new Chaos();
         JObject jobject2 = properties[mod2].Value<JObject>();
         mod_spell2.SetProperties(jobject2);
         mod_spell2.SetOwner(owner);

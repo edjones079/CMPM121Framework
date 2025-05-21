@@ -72,6 +72,12 @@
        "angle": "10",
        "mana_multiplier": "1.5"
    },
+   "piercer": {
+       "name": "piercing",
+       "description": "Spell pierces through the first enemy it hits; increased mana cost and cooldown",
+       "cooldown_multiplier": "1.5",
+       "mana_multiplier": "1.25"
+   },
    "chaos": {
        "name": "chaotic",
        "description": "Significantly increased damage, but projectile is spiraling.",
