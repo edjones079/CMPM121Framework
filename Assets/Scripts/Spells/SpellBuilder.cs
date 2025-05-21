@@ -57,6 +57,10 @@ public class SpellBuilder
         {
             return new Homing();
         }
+        else if (name == "rapid_fire")
+        {
+            return new RapidFire();
+        }
 
         else if (name == "doubler")
         {

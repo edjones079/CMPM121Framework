@@ -254,3 +254,24 @@ public class Homing : ModifierSpell
 
 }
 
+public class RapidFire : ModifierSpell
+{
+    public RapidFire()
+    {
+
+    }
+
+    override public void SetProperties(JObject properties)
+    {
+        isModifier = true;
+
+        name = properties["name"].ToString();
+        description = properties["description"].ToObject<string>();
+        damage_multiplier = properties["damage_multiplier"].ToObject<string>();
+        speed_multiplier = properties["speed_multiplier"].ToObject<string>();
+        mana_multiplier = properties["mana_multiplier"].ToObject<string>();
+
+    }
+
+}
+
