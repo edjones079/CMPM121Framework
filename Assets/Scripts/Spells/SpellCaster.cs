@@ -31,9 +31,9 @@ public class SpellCaster
         this.mana_reg = mana_reg;
         this.spellpower = spellpower;
         this.team = team;
-        spell = spellbuilder.BuildSpell(this);
+        // spell = spellbuilder.BuildSpell(this);
 
-        //spell = spellbuilder.BuildSpells("damage_amp", "arcane_spray", this);
+        spell = spellbuilder.BuildSpells("splitter", "doubler", "arcane_bolt", this);
         spellbook.Add(spell);
 
         UnityEngine.Debug.Log("Parent Spell: " + spell);

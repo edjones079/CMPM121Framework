@@ -38,13 +38,13 @@ public class Splitter : ModifierSpell
         directionAngle += a;
         Vector3 newDirection = new Vector3(Mathf.Cos(directionAngle), Mathf.Sin(directionAngle), 0);
 
-        yield return inner.Cast(where, target, newDirection, team, mods);
+        CoroutineManager.Instance.StartCoroutine(inner.Cast(where, target, newDirection, team, mods));
 
         directionAngle = Mathf.Atan2(direction.y, direction.x);
         directionAngle -= a;
         newDirection = new Vector3(Mathf.Cos(directionAngle), Mathf.Sin(directionAngle), 0);
 
-        yield return inner.Cast(where, target, newDirection, team, mods);
+        CoroutineManager.Instance.StartCoroutine(inner.Cast(where, target, newDirection, team, mods));
         yield return new WaitForEndOfFrame();
     }
 

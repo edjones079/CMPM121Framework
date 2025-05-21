@@ -33,7 +33,7 @@ public class Doubler : ModifierSpell
     {
         yield return inner.Cast(where, target, direction, team, mods);
         yield return new WaitForSeconds(delay);
-         yield return inner.Cast(where, target, direction, team, mods);
+        yield return inner.Cast(where, target, direction, team, mods);
         yield return new WaitForEndOfFrame();
     }
 
