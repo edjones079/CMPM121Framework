@@ -26,7 +26,7 @@ public class Piercer : ModifierSpell
 
     }
 
-    override public Action<Hittable, Vector3> GetOnHit(SpellModifiers mods)
+    /*override public Action<Hittable, Vector3> GetOnHit(SpellModifiers mods)
     {
         void OnHit(Hittable other, Vector3 impact)
         {
@@ -37,5 +37,5 @@ public class Piercer : ModifierSpell
         }
 
         return OnHit;
-    }
+    }*/
 }

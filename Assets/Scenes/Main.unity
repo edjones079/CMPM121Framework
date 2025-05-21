@@ -495,7 +495,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &96316928
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1706,7 +1706,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &457295003
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2867,7 +2867,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &797691354
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5641,6 +5641,7 @@ MonoBehaviour:
   manaui: {fileID: 71109453}
   spellui: {fileID: 2085212185}
   speed: 5
+  spellpower: 0
   unit: {fileID: 0}
   gameOverText: {fileID: 1533559640}
 --- !u!4 &1718273953
