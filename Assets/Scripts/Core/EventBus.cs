@@ -14,11 +14,32 @@ public class EventBus
         }
     }
 
+    public event Action OnWaveEnd;
+
+    public void DoWaveEnd()
+    {
+        OnWaveEnd?.Invoke();
+    }
+
     public event Action<Vector3, Damage, Hittable> OnDamage;
     
     public void DoDamage(Vector3 where, Damage dmg, Hittable target)
     {
         OnDamage?.Invoke(where, dmg, target);
+    }
+
+    public event Action<EnemyController> OnEnemyDeath;
+
+    public void DoEnemyDeath(EnemyController enemy)
+    {
+        OnEnemyDeath?.Invoke(enemy);
+    }
+
+    public event Action<PlayerController> OnStandStill;
+
+    public void DoStandStill(PlayerController player)
+    {
+        OnStandStill?.Invoke(player);
     }
 
 }

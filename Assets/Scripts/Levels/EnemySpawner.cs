@@ -165,7 +165,7 @@ public class EnemySpawner : MonoBehaviour
         {
             damageTaken = playerStartingHP - player.hp.hp;
             betweenWaveText.text = "Damage Taken: " + damageTaken.ToString();
-            GameManager.Instance.state = GameManager.GameState.WAVEEND;
+            GameManager.Instance.SetWaveEnd();
         }
         else
         {

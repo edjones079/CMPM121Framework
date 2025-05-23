@@ -72,6 +72,8 @@ public class PlayerController : MonoBehaviour
         spellcaster.mana_reg = rpn.Eval(mana_regen_scalar, variables);
         spellcaster.spellpower = rpn.Eval(spellpower_scalar, variables);
 
+        spellcaster.GenerateRandomSpell();
+
         //Debug.Log("Player Max_HP: " + hp.max_hp);
         //Debug.Log("Player Mana: " + spellcaster.mana);
         //Debug.Log("Player Mana Regen: " + spellcaster.mana_reg);
@@ -81,6 +83,16 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void AddSpell()
+    {
+        spellcaster.AddSpell();
+    }
+
+    void OnChangeSpell()
+    {
+        spellcaster.ChangeSpell();
     }
 
     void OnAttack(InputValue value)

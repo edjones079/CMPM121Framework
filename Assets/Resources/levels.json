@@ -5,7 +5,7 @@
        "spawns": [
             {
                 "enemy": "zombie",
-                "count": "5 wave +",
+                "count": "1",
                 "hp": "base 5 wave * +",
                 "delay": "5",
                 "sequence": [1,2,3],

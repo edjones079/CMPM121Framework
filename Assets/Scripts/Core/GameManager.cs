@@ -37,6 +37,12 @@ public class GameManager
     private List<GameObject> enemies;
     public int enemy_count { get { return enemies.Count; } }
 
+    public void SetWaveEnd()
+    {
+        EventBus.Instance.DoWaveEnd();
+        state = GameState.WAVEEND;
+    }
+
     public void AddEnemy(GameObject enemy)
     {
         enemies.Add(enemy);
