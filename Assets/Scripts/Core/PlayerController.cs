@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
     {
         unit = GetComponent<Unit>();
         GameManager.Instance.player = gameObject;
+        EventBus.Instance.OnWaveEnd += GenerateRandomSpell;
     }
 
     public void StartLevel()
@@ -72,8 +73,6 @@ public class PlayerController : MonoBehaviour
         spellcaster.mana_reg = rpn.Eval(mana_regen_scalar, variables);
         spellcaster.spellpower = rpn.Eval(spellpower_scalar, variables);
 
-        spellcaster.GenerateRandomSpell();
-
         //Debug.Log("Player Max_HP: " + hp.max_hp);
         //Debug.Log("Player Mana: " + spellcaster.mana);
         //Debug.Log("Player Mana Regen: " + spellcaster.mana_reg);
@@ -93,6 +92,11 @@ public class PlayerController : MonoBehaviour
     void OnChangeSpell()
     {
         spellcaster.ChangeSpell();
+    }
+
+    void GenerateRandomSpell()
+    {
+        spellcaster.GenerateRandomSpell();
     }
 
     void OnAttack(InputValue value)

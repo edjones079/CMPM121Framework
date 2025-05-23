@@ -17,7 +17,7 @@ public class SpellCaster
 
     void Start()
     {
-        EventBus.Instance.OnWaveEnd += GenerateRandomSpell;
+        
     }
 
     public IEnumerator ManaRegeneration()
