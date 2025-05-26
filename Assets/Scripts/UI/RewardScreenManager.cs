@@ -25,7 +25,6 @@ public class RewardScreenManager : MonoBehaviour
         if (GameManager.Instance.state == GameManager.GameState.WAVEEND)
         {
             rewardUI.SetActive(true);
-            newSpell.SetActive(true);
             GameManager.Instance.spellIconManager.PlaceSprite(spellcaster.reward_spell.GetIcon(), newSpellIcon.GetComponent<Image>());
             spellInfo.text = spellcaster.reward_spell.GetName();
             Spell rewardSpellCopy = spellcaster.reward_spell;
@@ -44,6 +43,7 @@ public class RewardScreenManager : MonoBehaviour
         }
         else
         {
+            newSpell.SetActive(true);
             rewardUI.SetActive(false);
         }
     }
