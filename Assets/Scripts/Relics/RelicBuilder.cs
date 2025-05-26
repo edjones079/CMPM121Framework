@@ -40,10 +40,10 @@ public class EnemyDeath : Triggers
 {
     public EnemyDeath()
     {
-        EventBus.Instance.OnEnemyDeath += OnEnemyDeath;
+        EventBus.Instance.OnEnemyDeath += ActivateEffect;
     }
 
-    public void OnEnemyDeath(EnemyController enemy)
+    public void ActivateEffect(EnemyController enemy)
     {
 
     }
@@ -51,10 +51,26 @@ public class EnemyDeath : Triggers
 
 public class StandStill : Triggers
 {
+    public StandStill()
+    {
+        EventBus.Instance.OnStandStill += ActivateEffect;
+    }
 
+    public void ActivateEffect(PlayerController player)
+    {
+
+    }
 }
 
 public class TakeDamage : Triggers
 {
+    public TakeDamage()
+    {
+        EventBus.Instance.OnDamage += ActivateEffect;
+    }
 
+    public void ActivateEffect(Vector3 where, Damage dmg, Hittable target)
+    {
+
+    }
 }
