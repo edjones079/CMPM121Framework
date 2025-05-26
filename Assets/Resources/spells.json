@@ -11,7 +11,7 @@
    "magic_missile":  {
        "name": "Magic Missile",
        "description": "A homing bolt.",
-       "icon": 1,
+       "icon": 4,
        "damage": {"amount": "10 power 3 / +", "type": "arcane"},
        "mana_cost": "20",
        "cooldown": "3",
@@ -20,7 +20,7 @@
    "arcane_blast":  {
        "name": "Arcane Blast",
        "description": "A bolt that explodes into smaller bolts on impact.",
-       "icon": 2,
+       "icon": 1,
        "N": "8 power 5 / +",
        "damage": {"amount": "20 power 3 / +", "type": "arcane"},
        "secondary_damage": "5 power 10 / +",
@@ -41,18 +41,18 @@
        "projectile": {"trajectory": "straight", "speed": "8", "sprite": 0, "lifetime": "0.1 power 100 / +"}
    },
    "damage_amp": {
-       "name": "damage-amplified",
+       "name": "Damage-Amplified",
        "description": "Increased damage and increased mana cost.",
        "damage_multiplier": "1.5",
        "mana_multiplier": "1.5"
    },
    "speed_amp": {
-       "name": "speed-amplified",
+       "name": "Speed-Amplified",
        "description": "Faster projectile speed",
        "speed_multiplier": "1.75"
    },
    "rapid_fire":{
-        "name": "rapid_fire",
+        "name": "Rapid Fire",
         "description": "Decreased cooldown and damage, but increased speed.",
         "damage_multiplier": "0.25",
         "mana_multiplier": "0.5",
@@ -60,32 +60,26 @@
         "cooldown_multiplier": "0.1"
    },
    "doubler": {
-       "name": "doubled",
+       "name": "Doubled",
        "description": "Spell is cast a second time after a small delay; increased mana cost and cooldown.",
        "delay": "0.5",
        "mana_multiplier": "1.5",
        "cooldown_multiplier": "1.5"
    },
    "splitter": {
-       "name": "split",
+       "name": "Split",
        "description": "Spell is cast twice in slightly different directions; increased mana cost.",
        "angle": "10",
        "mana_multiplier": "1.5"
    },
-   "piercer": {
-       "name": "piercing",
-       "description": "Spell pierces through the first enemy it hits; increased mana cost and cooldown",
-       "cooldown_multiplier": "1.5",
-       "mana_multiplier": "1.25"
-   },
    "chaos": {
-       "name": "chaotic",
+       "name": "Chaotic",
        "description": "Significantly increased damage, but projectile is spiraling.",
        "damage_multiplier": "1.5 wave 5 / +",
        "projectile_trajectory": "spiraling"
    },
    "homing": {
-       "name": "homing",
+       "name": "Homing",
        "description": "Homing projectile, with decreased damage and increased mana cost.",
        "damage_multiplier": "0.75",
        "mana_adder": "10",

@@ -23,7 +23,6 @@ public class Spell
 
     public RPNEvaluator rpn = new RPNEvaluator();
 
-    public int childCount = 0;
     public bool isModifier = false;
 
     public Spell()
@@ -118,6 +117,11 @@ public class Spell
     public virtual int GetIcon()
     {
         return icon;
+    }
+    
+    public virtual string GetDescription() 
+    { 
+        return description;
     }
 
     public virtual int GetManaCost(SpellModifiers mods)

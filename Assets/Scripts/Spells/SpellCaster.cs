@@ -42,6 +42,8 @@ public class SpellCaster
         // spell = spellbuilder.BuildSpells("chaos", "doubler", "arcane_spray", this);
         spellbook.Add(spell);
 
+        EventBus.Instance.OnWaveEnd += GenerateRandomSpell;
+
         UnityEngine.Debug.Log("Parent Spell: " + spell);
 
         EventBus.Instance.OnWaveEnd += GenerateRandomSpell;
@@ -79,15 +81,17 @@ public class SpellCaster
     {
         UnityEngine.Debug.Log("Spell Changed");
         int curr = spellbook.IndexOf(spell);
+        Debug.Log(curr);
 
         if (curr >= spellbook.Count - 1)
         {
             curr = 0;
-            UnityEngine.Debug.Log(curr);
+            Debug.Log("curr reset to " + curr);
         }
         else
         {
             curr += 1;
+            Debug.Log("curr incremented to " + curr);
         }
 
         spell = spellbook[curr];

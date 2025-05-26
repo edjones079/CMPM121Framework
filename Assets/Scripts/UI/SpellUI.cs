@@ -58,5 +58,9 @@ public class SpellUI : MonoBehaviour
         {
             dropbutton.SetActive(true);
         }
+        else
+        {
+            dropbutton.SetActive(false);
+        }
     }
 }
