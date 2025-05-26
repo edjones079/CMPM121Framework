@@ -64,11 +64,6 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    public void SetMaxHP()
-    {
-
-    }
-
     public void StartLevel()
     {
         variables["wave"] = 1;
