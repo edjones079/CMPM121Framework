@@ -342,7 +342,7 @@ GameObject:
   - component: {fileID: 36456918}
   - component: {fileID: 36456917}
   m_Layer: 5
-  m_Name: ClassSelector
+  m_Name: ClassSelectorScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -710,7 +710,7 @@ GameObject:
   - component: {fileID: 232596021}
   - component: {fileID: 232596022}
   m_Layer: 0
-  m_Name: tilemap_packed_178
+  m_Name: sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6228,6 +6228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4ef5265fce1b544c872205988919fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  class_selector: {fileID: 0}
   healthui: {fileID: 765025204}
   manaui: {fileID: 71109453}
   spellui: {fileID: 2085212185}
@@ -6252,6 +6253,7 @@ Transform:
   - {fileID: 71109452}
   - {fileID: 519420032}
   - {fileID: 232596021}
+  - {fileID: 1986784937}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1718273954
@@ -56790,6 +56792,57 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1906250983}
   m_CullTransparentMesh: 1
+--- !u!1 &1928302329
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1928302330}
+  - component: {fileID: 1928302331}
+  m_Layer: 0
+  m_Name: MenuSelectorController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1928302330
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928302329}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.41968, y: 1.9528569, z: -0.16334634}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1928302331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928302329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edeaaba44c967974aa7f7c02def9c8c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  label: {fileID: 0}
+  level: 
+  spawner: {fileID: 0}
+  class_selector: {fileID: 0}
+  player: {fileID: 0}
+  curr_screen: {fileID: 36456915}
+  next_screen: {fileID: 1115058366}
 --- !u!1 &1982188283
 GameObject:
   m_ObjectHideFlags: 0
@@ -56887,6 +56940,54 @@ MonoBehaviour:
   - {fileID: 96316927}
   - {fileID: 457295002}
   - {fileID: 797691353}
+  player: {fileID: 1718273952}
+--- !u!1 &1986784936
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1986784937}
+  - component: {fileID: 1986784938}
+  m_Layer: 0
+  m_Name: ClassSelector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1986784937
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1986784936}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1718273953}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1986784938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1986784936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e0992ed802db484fa8867cb74c5e273, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 6791571272867747119, guid: 0718be3edff3cea4ea615ef038c679df, type: 3}
+  buttonPos: 0
+  class_selector: {fileID: 36456917}
   player: {fileID: 1718273952}
 --- !u!1 &2007398911
 GameObject:
@@ -57717,3 +57818,4 @@ SceneRoots:
   - {fileID: 947241246}
   - {fileID: 856041117}
   - {fileID: 462403411}
+  - {fileID: 1928302330}

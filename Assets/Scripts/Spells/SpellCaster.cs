@@ -43,6 +43,8 @@ public class SpellCaster
         spellbook.Add(spell);
 
         UnityEngine.Debug.Log("Parent Spell: " + spell);
+
+        EventBus.Instance.OnWaveEnd += GenerateRandomSpell;
     }
 
     void FixedUpdate()
@@ -78,9 +80,10 @@ public class SpellCaster
         UnityEngine.Debug.Log("Spell Changed");
         int curr = spellbook.IndexOf(spell);
 
-        if (curr == spellbook.Count - 1)
+        if (curr >= spellbook.Count - 1)
         {
             curr = 0;
+            UnityEngine.Debug.Log(curr);
         }
         else
         {

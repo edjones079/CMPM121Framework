@@ -8,6 +8,9 @@ using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
+
+    public ClassSelector class_selector;
+
     public Hittable hp;
     public HealthBar healthui;
     public ManaBar manaui;
@@ -18,10 +21,17 @@ public class PlayerController : MonoBehaviour
     public int speed = 5;
     public int spellpower = 0;
 
+    // Class Stats
+
+    int max_hp;
+    int mana;
+    int mana_regen;
+
     string hp_scalar = "95 wave 5 * +";
     string mana_scalar = "90 wave 10 * +";
     string mana_regen_scalar = "10 wave +";
     string spellpower_scalar = "wave 10 *";
+    string speed_scalar = "5";
 
     public Unit unit;
 
@@ -35,17 +45,39 @@ public class PlayerController : MonoBehaviour
     {
         unit = GetComponent<Unit>();
         GameManager.Instance.player = gameObject;
-        EventBus.Instance.OnWaveEnd += GenerateRandomSpell;
+
+        class_selector = GetComponent<ClassSelector>();
+
+        //EventBus.Instance.OnWaveEnd += GenerateRandomSpell;
+    }
+
+    public void SetClass(JToken class_stats)
+    {
+        UnityEngine.Debug.Log(class_stats);
+
+        //sprite = class_stats["sprite"].ToObject<int>();
+        hp_scalar = class_stats["health"].ToObject<string>();
+        mana_scalar = class_stats["mana"].ToObject<string>();
+        mana_regen_scalar = class_stats["mana_regeneration"].ToObject<string>();
+        spellpower_scalar = class_stats["spellpower"].ToObject<string>();
+        speed_scalar = class_stats["speed"].ToObject<string>();
+
+    }
+
+    public void SetMaxHP()
+    {
+
     }
 
     public void StartLevel()
     {
         variables["wave"] = 1;
 
-        int max_hp = rpn.Eval(hp_scalar, variables);
-        int mana = rpn.Eval(mana_scalar, variables);
-        int mana_regen = rpn.Eval(mana_regen_scalar, variables);
+        max_hp = rpn.Eval(hp_scalar, variables);
+        mana = rpn.Eval(mana_scalar, variables);
+        mana_regen = rpn.Eval(mana_regen_scalar, variables);
         spellpower = rpn.Eval(spellpower_scalar, variables);
+        speed = rpn.Eval(speed_scalar, variables);
 
         spellcaster = new SpellCaster(mana, mana_regen, spellpower, Hittable.Team.PLAYER);
         StartCoroutine(spellcaster.ManaRegeneration());
@@ -72,6 +104,7 @@ public class PlayerController : MonoBehaviour
         spellcaster.mana = rpn.Eval(mana_scalar, variables);
         spellcaster.mana_reg = rpn.Eval(mana_regen_scalar, variables);
         spellcaster.spellpower = rpn.Eval(spellpower_scalar, variables);
+        speed = rpn.Eval(speed_scalar, variables);
 
         //Debug.Log("Player Max_HP: " + hp.max_hp);
         //Debug.Log("Player Mana: " + spellcaster.mana);
@@ -92,11 +125,6 @@ public class PlayerController : MonoBehaviour
     void OnChangeSpell()
     {
         spellcaster.ChangeSpell();
-    }
-
-    void GenerateRandomSpell()
-    {
-        spellcaster.GenerateRandomSpell();
     }
 
     void OnAttack(InputValue value)
