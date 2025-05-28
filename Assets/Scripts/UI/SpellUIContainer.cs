@@ -39,7 +39,6 @@ public class SpellUIContainer : MonoBehaviour
         {
             if (spellUIs[i].GetComponent<SpellUI>().spell == spell_to_drop)
             {
-                indice = i;
                 break;
             }
         }
@@ -47,17 +46,12 @@ public class SpellUIContainer : MonoBehaviour
         for (int j = indice + 1; j < spellcaster.spellbook.Count; ++j) 
         {
             //spellUIs[indice].GetComponent<SpellUI>().spell = spellUIs[j].GetComponent<SpellUI>().spell;
+            UnityEngine.Debug.Log("Indice: " + indice + ":: j: " + j);
             spellUIs[j - 1].GetComponent<SpellUI>().SetSpell(spellUIs[j].GetComponent<SpellUI>().spell);
         }
 
         spellUIs[spellcaster.spellbook.Count - 1].SetActive(false);
-        spellUIs[spellcaster.spellbook.Count - 1].GetComponent<SpellUI>().spell = null;
         spellcaster.DropSpell(indice);
-
-        foreach(var s in spellUIs)
-        {
-            UnityEngine.Debug.Log("SPELL SHOWN: " + s.GetComponent<SpellUI>().spell);
-        }
     }
 
     public void AddSpell()

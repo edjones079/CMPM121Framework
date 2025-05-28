@@ -5,7 +5,7 @@
             "mana": "90 wave 10 * +",
             "mana_regeneration": "10 wave +",
             "spellpower": "wave 10 *",
-            "speed": "25"
+            "speed": "5"
            },
     "warlock": {
             "sprite": 1,

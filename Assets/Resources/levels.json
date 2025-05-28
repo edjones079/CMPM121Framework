@@ -13,7 +13,7 @@
             },
             {   
                 "enemy": "skeleton",
-                "count": "1",
+                "count": "wave 3 /",
                 "hp": "30 wave *",
                 "sequence": [2, 2],
                 "location": "random red"
