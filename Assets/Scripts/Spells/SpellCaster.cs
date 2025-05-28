@@ -92,6 +92,8 @@ public class SpellCaster
         }
 
         Spell spell_temp = spellbook.ElementAt<Spell>(spell_to_drop);
+        UnityEngine.Debug.Log("Spell_to_drop: " + spell_to_drop);
+        UnityEngine.Debug.Log("Indice for spell_to_drop: " + spell_temp);
         spellbook.RemoveAt(spell_to_drop);
 
         if (spell_temp == spell)
