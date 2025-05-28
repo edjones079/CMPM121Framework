@@ -142,7 +142,7 @@ public class EnemySpawner : MonoBehaviour
     {
         wave++;
         GameManager.Instance.SetWave(wave);
-        Debug.Log("Starting wave " + GameManager.Instance.GetWave() + "!");
+        //Debug.Log("Starting wave " + GameManager.Instance.GetWave() + "!");
         int playerStartingHP = player.hp.hp;
         GameManager.Instance.state = GameManager.GameState.COUNTDOWN;
         GameManager.Instance.countdown = 3;

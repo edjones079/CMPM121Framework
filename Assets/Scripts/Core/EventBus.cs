@@ -15,6 +15,7 @@ public class EventBus
     }
 
     public event Action OnWaveEnd;
+
     public event Action<Vector3, Damage, Hittable> OnDamage;
     public event Action<EnemyController> OnEnemyDeath;
     public event Action<PlayerController> OnStandStill;
@@ -23,6 +24,8 @@ public class EventBus
     {
         OnWaveEnd?.Invoke();
     }
+
+    // Trigger Events
     
     public void DoDamage(Vector3 where, Damage dmg, Hittable target)
     {

@@ -13,6 +13,7 @@ public class SpellUI : MonoBehaviour
     float last_text_update;
     const float UPDATE_DELAY = 1;
     public GameObject dropbutton;
+    public GameObject spellUIContainer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -28,7 +29,7 @@ public class SpellUI : MonoBehaviour
 
     public void DropSpell()
     {
-
+        spellUIContainer.GetComponent<SpellUIContainer>().DropSpell(spell);
     }
 
     // Update is called once per frame

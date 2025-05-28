@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class SpellCaster 
 {
@@ -12,6 +13,8 @@ public class SpellCaster
     public Spell spell;
     public Spell reward_spell;
     public SpellBuilder spellbuilder = new SpellBuilder();
+
+    SpellUIContainer spellUIContainer;
 
     public List<Spell> spellbook = new List<Spell>();
 
@@ -39,14 +42,14 @@ public class SpellCaster
         this.team = team;
         spell = spellbuilder.BuildSpell("arcane_bolt", this);
 
+        spellUIContainer = GameObject.FindGameObjectsWithTag("spelluicontainer")[0].GetComponent<SpellUIContainer>();
+
         // spell = spellbuilder.BuildSpells("chaos", "doubler", "arcane_spray", this);
         spellbook.Add(spell);
 
         EventBus.Instance.OnWaveEnd += GenerateRandomSpell;
 
         UnityEngine.Debug.Log("Parent Spell: " + spell);
-
-        EventBus.Instance.OnWaveEnd += GenerateRandomSpell;
     }
 
     void FixedUpdate()
@@ -67,14 +70,39 @@ public class SpellCaster
 
     public void GenerateRandomSpell()
     {
-        UnityEngine.Debug.Log("YE");
         reward_spell = spellbuilder.BuildSpell(this);
     }
 
     public void AddSpell()
     {
         UnityEngine.Debug.Log("Spell Added");
+
+        if (spellbook.Count >= 4)
+            return;
+
         spellbook.Add(reward_spell);
+    }
+
+    public void DropSpell(int spell_to_drop)
+    {
+        UnityEngine.Debug.Log("BEFORE");
+        foreach (var s in spellbook)
+        {
+            UnityEngine.Debug.Log(s);
+        }
+
+        Spell spell_temp = spellbook.ElementAt<Spell>(spell_to_drop);
+        spellbook.RemoveAt(spell_to_drop);
+
+        if (spell_temp == spell)
+            spell = spellbook.ElementAt<Spell>(0);
+
+
+        UnityEngine.Debug.Log("AFTER");
+        foreach (var s in spellbook)
+        {
+            UnityEngine.Debug.Log(s);
+        }
     }
 
     public void ChangeSpell()
@@ -83,18 +111,20 @@ public class SpellCaster
         int curr = spellbook.IndexOf(spell);
         Debug.Log(curr);
 
+        spellUIContainer.UnHighlightSpell(curr);
+
         if (curr >= spellbook.Count - 1)
         {
             curr = 0;
-            Debug.Log("curr reset to " + curr);
         }
         else
         {
             curr += 1;
-            Debug.Log("curr incremented to " + curr);
         }
 
         spell = spellbook[curr];
+
+        spellUIContainer.HighlightSpell(curr);
 
     }
 
