@@ -26,11 +26,11 @@ public class SpellBuilder
 
         //while (used.Contains(val))
         //{
-            //val = UnityEngine.Random.Range(0, spells.Count - 1);
+        //val = UnityEngine.Random.Range(0, spells.Count - 1);
         //}
 
         //used.Add(val);
-        
+
 
         if (name == "arcane_bolt")
             return new ArcaneBolt();
@@ -40,6 +40,8 @@ public class SpellBuilder
             return new ArcaneBlast();
         else if (name == "arcane_spray")
             return new ArcaneSpray();
+        else if (name == "arcane_shove")
+            return new ArcaneShove();
 
         else if (name == "damage_amp")
         {

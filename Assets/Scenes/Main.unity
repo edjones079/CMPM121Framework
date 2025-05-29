@@ -654,7 +654,7 @@ MonoBehaviour:
   damage: {fileID: 757752468}
   highlight: {fileID: 279594428}
   dropbutton: {fileID: 426128245}
-  spellUIContainer: {fileID: 462403409}
+  spellUIContainer: {fileID: 0}
 --- !u!114 &96316930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2206,7 +2206,7 @@ MonoBehaviour:
   damage: {fileID: 1860547075}
   highlight: {fileID: 1477215737}
   dropbutton: {fileID: 1528944909}
-  spellUIContainer: {fileID: 462403409}
+  spellUIContainer: {fileID: 0}
 --- !u!114 &457295005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3579,7 +3579,7 @@ MonoBehaviour:
   damage: {fileID: 989605413}
   highlight: {fileID: 12506828}
   dropbutton: {fileID: 578112679}
-  spellUIContainer: {fileID: 462403409}
+  spellUIContainer: {fileID: 0}
 --- !u!114 &797691356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57357,9 +57357,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   label: {fileID: 0}
   level: 
-  spawner: {fileID: 0}
-  class_selector: {fileID: 0}
-  player: {fileID: 0}
+  spawner: {fileID: 519420033}
+  class_selector: {fileID: 1986784938}
+  player: {fileID: 1718273952}
   curr_screen: {fileID: 36456915}
   next_screen: {fileID: 1115058366}
 --- !u!1 &1966319164
@@ -58207,7 +58207,7 @@ MonoBehaviour:
   damage: {fileID: 982783696}
   highlight: {fileID: 1270515289}
   dropbutton: {fileID: 672798488}
-  spellUIContainer: {fileID: 462403409}
+  spellUIContainer: {fileID: 0}
 --- !u!114 &2085212186
 MonoBehaviour:
   m_ObjectHideFlags: 0
