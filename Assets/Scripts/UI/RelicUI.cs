@@ -4,6 +4,7 @@ using TMPro;
 
 public class RelicUI : MonoBehaviour
 {
+    public GameObject relic;
     public PlayerController player;
     public int index;
 

@@ -11,9 +11,12 @@ public class RelicManager
         get
         {
             if (theInstance == null)
+            {
                 theInstance = new RelicManager();
+            }
             return theInstance;
         }
+
     }
 
     // Variables

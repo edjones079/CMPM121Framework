@@ -33,7 +33,10 @@ public class RelicBuilder
     {
         Relic relic = MakeRelic();
 
-        relic.SetProperties(properties);
+        int i = UnityEngine.Random.Range(0, properties.Count - 1);
+
+        JObject jobject = properties[i].Value<JObject>();
+        relic.SetProperties(jobject);
 
         return relic;
     }

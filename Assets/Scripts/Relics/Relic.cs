@@ -20,7 +20,7 @@ public class Relic
 
     public Relic() { }
 
-    public void SetProperties(JArray properties)
+    public void SetProperties(JObject properties)
     {
         name = properties["name"].ToObject<string>();
         sprite = properties["sprite"].ToObject<int>();
@@ -36,6 +36,12 @@ public class Relic
     public int GetIcon()
     {
         return sprite;
+    }
+
+    public string GetDescription()
+    {
+        string description = trigger_data["description"] + ", " + effect_data["description"];
+        return description;
     }
 
     public void SetTrigger()
