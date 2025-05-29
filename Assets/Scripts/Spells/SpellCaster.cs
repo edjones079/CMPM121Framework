@@ -85,26 +85,11 @@ public class SpellCaster
 
     public void DropSpell(int spell_to_drop)
     {
-        UnityEngine.Debug.Log("BEFORE");
-        foreach (var s in spellbook)
-        {
-            UnityEngine.Debug.Log(s);
-        }
-
         Spell spell_temp = spellbook.ElementAt<Spell>(spell_to_drop);
-        UnityEngine.Debug.Log("Spell_to_drop: " + spell_to_drop);
-        UnityEngine.Debug.Log("Indice for spell_to_drop: " + spell_temp);
         spellbook.RemoveAt(spell_to_drop);
 
         if (spell_temp == spell)
             spell = spellbook.ElementAt<Spell>(0);
-
-
-        UnityEngine.Debug.Log("AFTER");
-        foreach (var s in spellbook)
-        {
-            UnityEngine.Debug.Log(s);
-        }
     }
 
     public void ChangeSpell()

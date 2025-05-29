@@ -15,18 +15,26 @@ public class EventBus
     }
 
     public event Action OnWaveEnd;
-
-    public event Action<Vector3, Damage, Hittable> OnDamage;
-    public event Action<EnemyController> OnEnemyDeath;
-    public event Action<PlayerController> OnStandStill;
+    public event Action OnThirdWave;
 
     public void DoWaveEnd()
     {
         OnWaveEnd?.Invoke();
     }
 
-    // Trigger Events
-    
+    public void DoBuildRelics()
+    {
+        OnThirdWave?.Invoke();
+    }
+
+    public event Action<Relic> OnRelicPickup;
+
+    //Trigger Events
+
+    public event Action<Vector3, Damage, Hittable> OnDamage;
+    public event Action<EnemyController> OnEnemyDeath;
+    public event Action<PlayerController> OnStandStill;
+
     public void DoDamage(Vector3 where, Damage dmg, Hittable target)
     {
         OnDamage?.Invoke(where, dmg, target);

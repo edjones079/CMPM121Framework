@@ -11,9 +11,43 @@ public class Relic
 
     string name;
     int sprite;
+
+    Dictionary<string, string> trigger_data = new Dictionary<string, string>();
+    Dictionary<string, string> effect_data = new Dictionary<string, string>();
+
     Triggers trigger;
     Effects effect;
 
     public Relic() { }
+
+    public void SetProperties(JArray properties)
+    {
+        name = properties["name"].ToObject<string>();
+        sprite = properties["sprite"].ToObject<int>();
+        trigger_data["description"] = properties["trigger"]["description"].ToObject<string>();
+        trigger_data["type"] = properties["trigger"]["type"].ToObject<string>();
+
+        effect_data["description"] = properties["effect"]["description"].ToObject<string>();
+        effect_data["type"] = properties["effect"]["type"].ToObject<string>();
+        effect_data["amount"] = properties["effect"]["amount"].ToObject<string>();
+     
+    }
+
+    public int GetIcon()
+    {
+        return sprite;
+    }
+
+    public void SetTrigger()
+    {
+
+    }
+
+    public void SetEffect()
+    {
+
+    }
+
+
     
 }

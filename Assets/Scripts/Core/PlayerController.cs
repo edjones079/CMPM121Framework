@@ -35,6 +35,8 @@ public class PlayerController : MonoBehaviour
 
     public Unit unit;
 
+    public List<Relic> relics = new List<Relic>();
+
     Dictionary<string, int> variables = new Dictionary<string, int>();
     RPNEvaluator rpn = new RPNEvaluator();
 
@@ -48,7 +50,6 @@ public class PlayerController : MonoBehaviour
 
         class_selector = GetComponent<ClassSelector>();
 
-        //EventBus.Instance.OnWaveEnd += GenerateRandomSpell;
     }
 
     public void SetClass(JToken class_stats)

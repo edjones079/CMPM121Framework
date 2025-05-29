@@ -15,38 +15,64 @@ public class RelicBuilder
    
 
     List<string> relicnames = new List<string>();
-    JObject properties;
+    JArray properties;
 
     public RelicBuilder()
     {
         var relictext = Resources.Load<TextAsset>("relics");
 
-        properties = JObject.Parse(relictext.text);
+        properties = JArray.Parse(relictext.text);
         foreach (var a in properties)
         {
-            relicnames.Add(a.Key);
+            relicnames.Add(a["name"].ToObject<string>());
         }
+
     }
 
+    public Relic BuildRelic()
+    {
+        Relic relic = MakeRelic();
+
+        relic.SetProperties(properties);
+
+        return relic;
+    }
+
+    public Relic MakeRelic()
+    {
+
+        return new Relic();
+    }
 }
 
 public class Triggers
 {
 
+    public void ActivateEffect()
+    {
 
+    }
 }
 
 public class EnemyDeath : Triggers
 {
-    public EnemyDeath()
+
+    private static List<Effects> effects;
+
+    public static void Invoke(EnemyController enemy)
     {
-        EventBus.Instance.OnEnemyDeath += ActivateEffect;
+        foreach (Effects effect in effects)
+        {
+            //effect.OnEnemyDeath(enemy);
+        }
     }
 
-    public void ActivateEffect(EnemyController enemy)
+    public static void Register(Effects effect)
     {
-
+        effects.Add(effect);
     }
+
+    public EnemyDeath() { }
 }
 
 public class StandStill : Triggers

@@ -15,7 +15,7 @@ public class GainMana : Effects
 {
     public GainMana(SpellCaster spellcaster)
     {
-
+        
     }
 
     public void OnEnemyDeath(EnemyController enemy)

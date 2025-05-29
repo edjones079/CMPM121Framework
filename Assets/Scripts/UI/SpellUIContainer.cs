@@ -53,11 +53,6 @@ public class SpellUIContainer : MonoBehaviour
         spellUIs[spellcaster.spellbook.Count - 1].SetActive(false);
         spellUIs[spellcaster.spellbook.Count - 1].GetComponent<SpellUI>().spell = null;
         spellcaster.DropSpell(indice);
-
-        foreach(var s in spellUIs)
-        {
-            UnityEngine.Debug.Log("SPELL SHOWN: " + s.GetComponent<SpellUI>().spell);
-        }
     }
 
     public void AddSpell()
