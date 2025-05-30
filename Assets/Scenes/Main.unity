@@ -725,22 +725,15 @@ MonoBehaviour:
   rewardUI: {fileID: 1709288111}
   newSpell: {fileID: 32176826}
   newSpellIcon: {fileID: 2050153901}
-  rewardRelicContainer: {fileID: 0}
+  spellInfo: {fileID: 482055824}
+  rewardRelicContainer: {fileID: 1202173122}
+  relicUIManager: {fileID: 1202924358}
   rewardRelics:
   - {fileID: 307756946}
   - {fileID: 559184276}
   - {fileID: 1685416346}
-  newRelicDescriptions:
-  - {fileID: 1732660328}
-  - {fileID: 1247203325}
-  - {fileID: 1527724022}
-  newRelicIcons:
-  - {fileID: 1847665740}
-  - {fileID: 1189560951}
-  - {fileID: 1895486806}
   player: {fileID: 1718273950}
   playerController: {fileID: 0}
-  spellInfo: {fileID: 482055824}
 --- !u!4 &220180078
 Transform:
   m_ObjectHideFlags: 0
@@ -1468,6 +1461,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 307756947}
+  - component: {fileID: 307756948}
   m_Layer: 5
   m_Name: RewardRelic1
   m_TagString: Untagged
@@ -1497,6 +1491,23 @@ RectTransform:
   m_AnchoredPosition: {x: -200, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &307756948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307756946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7c1e415705a0e844b648ddca4d8437b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1718273952}
+  relicUIManager: {fileID: 1202924362}
+  icon: {fileID: 1847665742}
+  description: {fileID: 1732660328}
+  takebutton: {fileID: 1966319164}
 --- !u!1 &334187433
 GameObject:
   m_ObjectHideFlags: 0
@@ -1655,18 +1666,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1718273952}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: AddSpell
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 0
       - m_Target: {fileID: 462403410}
         m_TargetAssemblyTypeName: SpellUIContainer, Assembly-CSharp
         m_MethodName: AddSpell
@@ -2961,6 +2960,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 559184277}
+  - component: {fileID: 559184278}
   m_Layer: 5
   m_Name: RewardRelic2
   m_TagString: Untagged
@@ -2990,6 +2990,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &559184278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559184276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7c1e415705a0e844b648ddca4d8437b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1718273952}
+  relicUIManager: {fileID: 1202924362}
+  icon: {fileID: 1189560953}
+  description: {fileID: 1247203325}
+  takebutton: {fileID: 1574730914}
 --- !u!1 &578112679
 GameObject:
   m_ObjectHideFlags: 0
@@ -4813,7 +4830,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1115899132}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1685416348}
+        m_TargetAssemblyTypeName: RelicUI, Assembly-CSharp
+        m_MethodName: AddRelic
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1115899132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4864,7 +4893,7 @@ GameObject:
   - component: {fileID: 1189560954}
   - component: {fileID: 1189560953}
   m_Layer: 5
-  m_Name: RewardRelicIcon2
+  m_Name: RewardRelicIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4936,6 +4965,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1202173123}
+  - component: {fileID: 1202173124}
   m_Layer: 5
   m_Name: RewardRelics
   m_TagString: Untagged
@@ -4965,6 +4995,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1202173124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202173122}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce38fee215498b44bc8339c30b3e4f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rewardRelics:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &1202924358
 GameObject:
   m_ObjectHideFlags: 0
@@ -4978,7 +5024,7 @@ GameObject:
   - component: {fileID: 1202924360}
   - component: {fileID: 1202924362}
   m_Layer: 5
-  m_Name: RelicUI
+  m_Name: RelicUIManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5055,6 +5101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   relicUIPrefab: {fileID: 7557543120329724951, guid: 0fc6ca25fb4ca524ab2a9d7d17db72de, type: 3}
   player: {fileID: 1718273952}
+  rewardRelicContainer: {fileID: 1202173122}
 --- !u!1 &1205124565
 GameObject:
   m_ObjectHideFlags: 0
@@ -5278,7 +5325,7 @@ GameObject:
   - component: {fileID: 1247203326}
   - component: {fileID: 1247203325}
   m_Layer: 5
-  m_Name: RelicDescription2
+  m_Name: RelicDescription
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5627,52 +5674,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1298929768}
   m_CullTransparentMesh: 1
---- !u!1 &1311090733
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1311090735}
-  - component: {fileID: 1311090734}
-  m_Layer: 0
-  m_Name: RelicUIManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1311090734
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1311090733}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec995af6e64492b49bc7c6b66acd06c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  relicUIPrefab: {fileID: 7557543120329724951, guid: 0fc6ca25fb4ca524ab2a9d7d17db72de, type: 3}
-  player: {fileID: 1718273952}
---- !u!4 &1311090735
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1311090733}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 105.19469, y: 18.40747, z: -0.48187304}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1316251273
 GameObject:
   m_ObjectHideFlags: 0
@@ -6089,7 +6090,7 @@ GameObject:
   - component: {fileID: 1527724023}
   - component: {fileID: 1527724022}
   m_Layer: 5
-  m_Name: RelicDescription3
+  m_Name: RelicDescription
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6652,7 +6653,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1574730917}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 559184278}
+        m_TargetAssemblyTypeName: RelicUI, Assembly-CSharp
+        m_MethodName: AddRelic
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1574730917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7076,6 +7089,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1685416347}
+  - component: {fileID: 1685416348}
   m_Layer: 5
   m_Name: RewardRelic3
   m_TagString: Untagged
@@ -7105,6 +7119,23 @@ RectTransform:
   m_AnchoredPosition: {x: 200, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1685416348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685416346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7c1e415705a0e844b648ddca4d8437b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1718273952}
+  relicUIManager: {fileID: 1202924362}
+  icon: {fileID: 1895486808}
+  description: {fileID: 1527724022}
+  takebutton: {fileID: 1115899129}
 --- !u!1 &1707093149
 GameObject:
   m_ObjectHideFlags: 0
@@ -7585,7 +7616,7 @@ GameObject:
   - component: {fileID: 1732660329}
   - component: {fileID: 1732660328}
   m_Layer: 5
-  m_Name: RelicDescription1
+  m_Name: RelicDescription
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7890,7 +7921,7 @@ GameObject:
   - component: {fileID: 1847665743}
   - component: {fileID: 1847665742}
   m_Layer: 5
-  m_Name: RewardRelicIcon1
+  m_Name: RewardRelicIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58021,7 +58052,7 @@ GameObject:
   - component: {fileID: 1895486809}
   - component: {fileID: 1895486808}
   m_Layer: 5
-  m_Name: RewardRelicIcon3
+  m_Name: RewardRelicIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58119,7 +58150,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -76.20001}
+  m_AnchoredPosition: {x: 200, y: -76.20001}
   m_SizeDelta: {x: 500, y: 50.5789}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1906250985
@@ -58181,8 +58212,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 24
+  m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -58366,7 +58397,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1966319167}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 307756948}
+        m_TargetAssemblyTypeName: RelicUI, Assembly-CSharp
+        m_MethodName: AddRelic
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1966319167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59518,4 +59561,3 @@ SceneRoots:
   - {fileID: 856041117}
   - {fileID: 462403411}
   - {fileID: 1928302330}
-  - {fileID: 1311090735}

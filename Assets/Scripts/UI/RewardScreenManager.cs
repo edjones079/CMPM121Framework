@@ -9,26 +9,27 @@ public class RewardScreenManager : MonoBehaviour
 {
     public GameObject rewardUI;
 
+    // Reward Spell
+
     public GameObject newSpell;
     public GameObject newSpellIcon;
+    public TextMeshProUGUI spellInfo;
 
-    public List<Relic> reward_relics = new List<Relic>();
+    // Reward Relics
 
     public GameObject rewardRelicContainer;
+    public GameObject relicUIManager;
     public GameObject[] rewardRelics;
 
-    public GameObject player;
-    public PlayerController playerController;
-
-    public SpellCaster spellcaster;
+    // Relic Methods
 
     public RelicBuilder relicbuilder;
 
-    public TextMeshProUGUI spellInfo;
+    // Player 
 
-    public delegate void Delegate(int i);
-    public Delegate build_relic;
-    public Delegate show_relics;
+    public GameObject player;
+    public PlayerController playerController;
+    public SpellCaster spellcaster;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -36,10 +37,9 @@ public class RewardScreenManager : MonoBehaviour
         playerController = player.GetComponent<PlayerController>();
         relicbuilder = new RelicBuilder();
 
-        build_relic = BuildRelic;
-        show_relics = ShowRelics;
-
         EventBus.Instance.OnWaveEnd += BuildRelics;
+        EventBus.Instance.OnWaveEnd += ShowRelics;
+
     }
 
     // Update is called once per frame
@@ -69,13 +69,6 @@ public class RewardScreenManager : MonoBehaviour
                 rewardSpellCopy = rewardSpellCopy.GetInnerSpell();
             }
 
-            // Reward Relics UI
-
-            if (OnThirdWave())
-            {
-                rewardRelicContainer.SetActive(true);
-                OnXRelics(show_relics);
-            }
         }
         else
         {
@@ -95,32 +88,22 @@ public class RewardScreenManager : MonoBehaviour
         return false;
     }
 
-    public void OnXRelics(Delegate relic_method)
-    {
-        UnityEngine.Debug.Log(rewardRelics.Length);
-        for (int i = 0; i < rewardRelics.Length; ++i)
-        {
-            relic_method(i);
-        }
-    }
-
-    public void BuildRelic(int i)
-    {
-        reward_relics.Add(relicbuilder.BuildRelic());
-    }
-
     public void BuildRelics()
     {
         if (OnThirdWave())
-            OnXRelics(build_relic);
+        {
+            for (int i = 0; i< rewardRelics.Length; ++i)
+            {
+                Relic r = relicbuilder.BuildRelic();
+                rewardRelics[i].GetComponent<RelicUI>().SetRelic(r);
+            }
+        }
     }
 
-    public void ShowRelics(int i)
+    public void ShowRelics()
     {
-        TextMeshProUGUI relicDescription = rewardRelics[i].transform.Find("RelicDescription").gameObject.GetComponent<TextMeshProUGUI>();;
-        GameObject relicIcon = rewardRelics[i].transform.Find("RewardRelicIcon").gameObject;
-        GameManager.Instance.spellIconManager.PlaceSprite(reward_relics[i].GetIcon(), relicIcon.GetComponent<Image>());
-        relicDescription.text = reward_relics[i].GetDescription();
+        if (OnThirdWave())
+            rewardRelicContainer.SetActive(true);
     }
 
 }

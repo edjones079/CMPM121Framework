@@ -1,35 +1,29 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Image = UnityEngine.UI.Image;
 using TMPro;
+using static System.Net.Mime.MediaTypeNames;
 
 public class RelicUI : MonoBehaviour
 {
-    public GameObject relic;
+    public Relic relic;
     public PlayerController player;
-    public int index;
+    public RelicUIManager relicUIManager;
 
     public Image icon;
-    public GameObject highlight;
-    public TextMeshProUGUI label;
+    public TextMeshProUGUI description;
+    public GameObject takebutton;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void SetRelic(Relic relic)
     {
-        // if a player has relics, this is how you *could* show them
-        /*
-        Relic r = player.relics[index];
-        GameManager.Instance.relicIconManager.PlaceSprite(r.sprite, icon);
-        */
+        this.relic = relic;
+        GameManager.Instance.relicIconManager.PlaceSprite(relic.GetIcon(), icon.GetComponent<Image>());
+        description.text = relic.GetDescription();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void AddRelic()
     {
-        // Relics could have labels and/or an active-status
-        /*
-        Relic r = player.relics[index];
-        label.text = r.GetLabel();
-        highlight.SetActive(r.IsActive());
-        */
+        relicUIManager.GetComponent<RelicUIManager>().AddRelic(relic);
     }
+
 }

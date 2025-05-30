@@ -41,6 +41,8 @@ public class SpellUIContainer : MonoBehaviour
             {
                 break;
             }
+
+            indice++;
         }
 
         for (int j = indice + 1; j < spellcaster.spellbook.Count; ++j) 

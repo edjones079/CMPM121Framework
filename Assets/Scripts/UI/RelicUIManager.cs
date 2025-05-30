@@ -5,6 +5,8 @@ public class RelicUIManager : MonoBehaviour
     public GameObject relicUIPrefab;
     public PlayerController player;
 
+    public GameObject rewardRelicContainer;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -27,4 +29,14 @@ public class RelicUIManager : MonoBehaviour
         ruic.index = player.relics.Count - 1;
         
     }*/
+
+    public void AddRelic(Relic relic)
+    {
+        if (!player.relics.Contains(relic))
+        {
+            player.relics.Add(relic);
+            rewardRelicContainer.SetActive(false);
+        }
+
+    }
 }
