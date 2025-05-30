@@ -19,6 +19,7 @@ public class Spell
     public Damage.Type damage_type;
     public string mana_cost;
     public string cooldown;
+    public string duration;
     public Dictionary<string, string> projectile = new Dictionary<string, string>();
 
     public RPNEvaluator rpn = new RPNEvaluator();

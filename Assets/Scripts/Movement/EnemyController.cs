@@ -53,4 +53,9 @@ public class EnemyController : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    public void SetSpeed(int newSpeed)
+    {
+        speed = newSpeed;
+    }
 }

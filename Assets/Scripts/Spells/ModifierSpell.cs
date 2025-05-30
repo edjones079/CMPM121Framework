@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using System;
 
 public class ModifierSpell : Spell
 {
@@ -29,6 +30,8 @@ public class ModifierSpell : Spell
     public float angle;
 
     public string projectile_trajectory;
+
+    public string duration;
 
     RPNEvaluator rpnEval = new RPNEvaluator();
     Dictionary<string, int> variables = new Dictionary<string, int>();
@@ -170,7 +173,7 @@ public class ModifierSpell : Spell
 
     public override int GetIcon()
     {
-        return 0;
+        return inner.GetIcon();
     }
 
 }
@@ -274,4 +277,3 @@ public class RapidFire : ModifierSpell
     }
 
 }
-

@@ -40,8 +40,8 @@ public class SpellBuilder
             return new ArcaneBlast();
         else if (name == "arcane_spray")
             return new ArcaneSpray();
-        else if (name == "arcane_shove")
-            return new ArcaneShove();
+        else if (name == "ice_bolt")
+            return new IceBolt();
 
         else if (name == "damage_amp")
         {
@@ -71,6 +71,10 @@ public class SpellBuilder
         else if (name == "splitter")
         {
             return new Splitter();
+        }
+        else if (name == "stun")
+        {
+            return new Stun();
         }
 
         return new ArcaneBolt();

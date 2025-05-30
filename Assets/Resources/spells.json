@@ -40,14 +40,15 @@
        "cooldown": "0.5",
        "projectile": {"trajectory": "straight", "speed": "8", "sprite": 0, "lifetime": "0.1 power 100 / +"}
    },
-   "arcane_shove": {
-       "name": "Arcane Shove",
-       "description": "A slower-moving bolt that knocks back enemies on hit",
-       "icon": 3,
-       "damage": {"amount": "2 power 10 / +", "type": "arcane"},
-       "mana_cost": "10 power 5 / +",
-       "cooldown": "5",
-       "projectile": {"trajectory": "straight", "speed": "5", "sprite": 0}
+   "ice_bolt":  {
+       "name": "Ice Bolt",
+       "description": "A fast moving bolt of ice that stuns enemies on hit.",
+       "icon": 12,
+       "damage": {"amount": "10 power 5 / +", "type": "ice"},
+       "mana_cost": "15",
+       "cooldown": "3",
+       "duration": "1 power 100 / +",
+       "projectile": {"trajectory": "straight", "speed": "12 power 3 / +", "sprite": 0}
    },
    "damage_amp": {
        "name": "Damage-Amplified",

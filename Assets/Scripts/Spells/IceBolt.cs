@@ -6,12 +6,12 @@ using TMPro;
 using System.Collections;
 using System;
 
-public class ArcaneShove : Spell
+public class IceBolt : Spell
 {
     RPNEvaluator rpnEval = new RPNEvaluator();
     Dictionary<string, int> variables = new Dictionary<string, int>();
 
-    public ArcaneShove()
+    public IceBolt()
     {
 
     }
@@ -25,6 +25,7 @@ public class ArcaneShove : Spell
         damage_type = Damage.TypeFromString(properties["damage"]["type"].ToString());
         mana_cost = properties["mana_cost"].ToString();
         cooldown = properties["cooldown"].ToString();
+        duration = properties["duration"].ToString();
         projectile["trajectory"] = properties["projectile"]["trajectory"].ToString();
         projectile["speed"] = properties["projectile"]["speed"].ToString();
         projectile["sprite"] = properties["projectile"]["sprite"].ToString();
@@ -84,6 +85,31 @@ public class ArcaneShove : Spell
         string init_projectile_trajectory = projectile["trajectory"];
         string new_projectile_trajectory = ValueModifier<string>.ApplyModifiers(mods.projectile_trajectory, init_projectile_trajectory);
         return new_projectile_trajectory;
+    }
+
+    public override Action<Hittable, Vector3> GetOnHit(SpellModifiers mods)
+    {
+        void OnHit(Hittable other, Vector3 impact)
+        {
+            if (other.team != team)
+            {
+                other.Damage(new Damage(GetDamage(mods), Damage.Type.ARCANE));
+                int stunDuration = rpnEval.Eval(duration, variables);
+                CoroutineManager.Instance.StartCoroutine(Freeze(stunDuration, other));
+            }
+        }
+
+        return OnHit;
+    }
+
+    IEnumerator Freeze(int stunDuration, Hittable other)
+    {
+        var ec = other.owner.GetComponent<EnemyController>();
+
+        int speed = ec.speed;
+        ec.speed = 0;
+        yield return new WaitForSeconds(stunDuration);
+        ec.speed = speed;
     }
 
     public override IEnumerator Cast(Vector3 where, Vector3 target, Vector3 direction, Hittable.Team team, SpellModifiers mods)
