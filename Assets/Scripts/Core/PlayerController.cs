@@ -105,7 +105,11 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("Player Max_HP: " + hp.max_hp);
         //Debug.Log("Player Mana: " + spellcaster.mana);
         //Debug.Log("Player Mana Regen: " + spellcaster.mana_reg);
-        UnityEngine.Debug.Log("Relics: " + relics);
+        UnityEngine.Debug.Log("Relics");
+        foreach (var r in relics)
+        {
+            UnityEngine.Debug.Log(r.GetName());
+        }
     }
 
     // Update is called once per frame

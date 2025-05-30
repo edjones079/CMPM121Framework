@@ -33,6 +33,12 @@ public class Relic
      
     }
 
+    public string GetName()
+    {
+        return name;
+    }
+
+
     public int GetIcon()
     {
         return sprite;

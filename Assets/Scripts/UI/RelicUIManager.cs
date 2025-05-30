@@ -3,14 +3,15 @@ using UnityEngine;
 public class RelicUIManager : MonoBehaviour
 {
     public GameObject relicUIPrefab;
-    public PlayerController player;
+    public GameObject player;
+    public PlayerController playerController;
 
     public GameObject rewardRelicContainer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //EventBus.Instance.OnRelicPickup += OnRelicPickup;
+        playerController = player.GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
@@ -19,23 +20,24 @@ public class RelicUIManager : MonoBehaviour
         
     }
 
-    /*public void OnRelicPickup(Relic r)
+    public void OnRelicPickup(Relic r)
     {
         // make a new Relic UI representation
         GameObject rui = Instantiate(relicUIPrefab, transform);
-        rui.transform.localPosition = new Vector3(-450 + 40 * (player.relics.Count - 1), 0, 0);
-        RelicUI ruic = rui.GetComponent<RelicUI>();
-        ruic.player = player;
-        ruic.index = player.relics.Count - 1;
+        rui.transform.localPosition = new Vector3(-525 + 40 * (playerController.relics.Count - 1), 0, 0);
+        PlayerRelicUI ruic = rui.GetComponent<PlayerRelicUI>();
+        ruic.player = playerController;
+        ruic.index = playerController.relics.Count - 1;
         
-    }*/
+    }
 
     public void AddRelic(Relic relic)
     {
-        if (!player.relics.Contains(relic))
+        if (!playerController.relics.Contains(relic))
         {
-            player.relics.Add(relic);
+            playerController.relics.Add(relic);
             rewardRelicContainer.SetActive(false);
+            OnRelicPickup(relic);
         }
 
     }
