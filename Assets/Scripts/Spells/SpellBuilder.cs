@@ -72,9 +72,9 @@ public class SpellBuilder
         {
             return new Splitter();
         }
-        else if (name == "stun")
+        else if (name == "slug")
         {
-            return new Stun();
+            return new Slug();
         }
 
         return new ArcaneBolt();
@@ -82,16 +82,16 @@ public class SpellBuilder
 
     // Creates a Spell object and assigns it the corresponding attributes to the JSON file
 
-    public Spell BuildSpells(string mod2, string mod, string name, SpellCaster owner)
+    public Spell BuildSpells(string mod, string name, SpellCaster owner)
     {
 
-        ModifierSpell mod_spell = new Doubler();
+        ModifierSpell mod_spell = new Slug();
 
         JObject jobject = properties[mod].Value<JObject>();
         mod_spell.SetProperties(jobject);
         mod_spell.SetOwner(owner);
 
-        Spell inner = new ArcaneSpray();
+        Spell inner = new ArcaneBolt();
 
         JObject jobject1 = properties[name].Value<JObject>();
         inner.SetProperties(jobject1);
@@ -100,18 +100,10 @@ public class SpellBuilder
         mod_spell.AddChild(inner.GetName());
         mod_spell.SetInnerSpell(inner);
 
-        ModifierSpell mod_spell2 = new Chaos();
-        JObject jobject2 = properties[mod2].Value<JObject>();
-        mod_spell2.SetProperties(jobject2);
-        mod_spell2.SetOwner(owner);
-
-        mod_spell2.AddChild(mod_spell.GetName());
-        mod_spell2.SetInnerSpell(mod_spell);
-
         UnityEngine.Debug.Log(mod_spell);
         UnityEngine.Debug.Log(inner);
 
-        return mod_spell2;
+        return mod_spell;
     }
 
     // Building random spells
