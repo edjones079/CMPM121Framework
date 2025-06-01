@@ -12,7 +12,7 @@ public class RelicEffects
 
     protected int amount;
     protected string until;
-    protected SpellCaster player = GameManager.Instance.player.GetComponent<PlayerController>().spellcaster;
+    protected PlayerController owner;
 
     public virtual void apply()
     {
@@ -22,14 +22,15 @@ public class RelicEffects
 
 public class GainMana : RelicEffects
 {
-    public GainMana(string amount)
+    public GainMana(string amount, PlayerController owner)
     {
         this.amount = rpn.Eval(amount, variables);
+        this.owner = owner;
     }
 
     public override void apply()
     {
-        player.mana += amount;
+        owner.spellcaster.mana += amount;
     }
 }
 
