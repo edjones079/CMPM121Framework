@@ -5,12 +5,12 @@
             "mana": "90 wave 10 * +",
             "mana_regeneration": "10 wave +",
             "spellpower": "wave 10 *",
-            "speed": "25"
+            "speed": "5"
            },
     "warlock": {
             "sprite": 1,
-            "health": "90 wave 10 * +",
-            "mana": "90 wave 10 * +",
+            "health": "100 wave 12 * +",
+            "mana": "100 wave 9 * +",
             "mana_regeneration": "10",
             "spellpower": "wave 7 *",
             "speed": "7"
