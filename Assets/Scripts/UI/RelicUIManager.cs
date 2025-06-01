@@ -25,11 +25,6 @@ public class RelicUIManager : MonoBehaviour
         
     }
 
-    public void SetRelicUI()
-    {
-
-    }
-
     public void OnRelicPickup(Relic r)
     {
         // make a new Relic UI representation
@@ -45,7 +40,9 @@ public class RelicUIManager : MonoBehaviour
     {
         if (!playerController.relics.Contains(relic))
         {
+            relic.SetOwner(playerController);
             playerController.relics.Add(relic);
+
             rewardRelicContainer.SetActive(false);
             OnRelicPickup(relic);
         }

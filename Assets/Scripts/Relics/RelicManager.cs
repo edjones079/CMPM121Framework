@@ -97,4 +97,6 @@ public class RelicManager : MonoBehaviour
         int i = UnityEngine.Random.Range(0, all_relics.Count - 1);
         return all_relics.ElementAt(i);
     }
+
+
 }

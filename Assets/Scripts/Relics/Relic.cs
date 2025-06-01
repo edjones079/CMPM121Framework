@@ -12,6 +12,7 @@ public class Relic
     string name;
     int sprite;
     string description;
+    PlayerController owner;
 
     RelicTriggers trigger;
     RelicEffects effect;
@@ -39,6 +40,11 @@ public class Relic
     public string GetDescription()
     {
         return description;
+    }
+
+    public void SetOwner(PlayerController owner)
+    {
+        this.owner = owner;
     }
     
 }
