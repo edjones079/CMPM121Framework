@@ -3,7 +3,6 @@ using System.IO;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System;
 
 public class RelicEffects
@@ -13,6 +12,12 @@ public class RelicEffects
 
     protected int amount;
     protected string until;
+    protected SpellCaster player = GameManager.Instance.player.GetComponent<PlayerController>().spellcaster;
+
+    public virtual void apply()
+    {
+
+    }
 }
 
 public class GainMana : RelicEffects
@@ -22,9 +27,9 @@ public class GainMana : RelicEffects
         this.amount = rpn.Eval(amount, variables);
     }
 
-    public void Invoke(EnemyController enemy)
+    public override void apply()
     {
-        //spellcaster.mana += amount;
+        player.mana += amount;
     }
 }
 
@@ -34,5 +39,10 @@ public class GainSpellPower : RelicEffects
     {
         variables["wave"] = GameManager.Instance.GetWave();
         this.amount = rpn.Eval(amount, variables);
+    }
+
+    public override void apply()
+    {
+        
     }
 }

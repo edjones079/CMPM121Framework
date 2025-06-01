@@ -49,7 +49,7 @@ public class SpellCaster
 
         EventBus.Instance.OnWaveEnd += GenerateRandomSpell;
 
-        UnityEngine.Debug.Log("Parent Spell: " + spell);
+        Debug.Log("Parent Spell: " + spell);
     }
 
     void FixedUpdate()
@@ -75,7 +75,7 @@ public class SpellCaster
 
     public void AddSpell()
     {
-        UnityEngine.Debug.Log("Spell Added");
+        Debug.Log("Spell Added");
 
         if (spellbook.Count >= 4)
             return;
