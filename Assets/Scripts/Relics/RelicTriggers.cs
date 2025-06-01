@@ -29,8 +29,12 @@ public class RelicTriggers
 
 public class EnemyDeath : RelicTriggers
 {
-
     RelicEffects effect = new RelicEffects();
+
+    public EnemyDeath()
+    {
+        EventBus.Instance.OnEnemyDeath += ApplyEffect;
+    }
 
     override public void Register(RelicEffects effect)
     {
@@ -42,34 +46,50 @@ public class EnemyDeath : RelicTriggers
         effect.apply();
     }
 
-    public EnemyDeath() 
-    {
-        EventBus.Instance.OnEnemyDeath += ApplyEffect;
-    }
 }
 
 public class StandStill : RelicTriggers
 {
+    RelicEffects effect = new RelicEffects();
+
     public StandStill(string amount)
     {
         this.amount = rpn.Eval(amount, variables);
+        EventBus.Instance.OnEnemyDeath += ApplyEffect;
     }
 
-    public void ActivateEffect(PlayerController player)
+    override public void ApplyEffect()
     {
-
+        effect.apply();
     }
 }
 
 public class TakeDamage : RelicTriggers
 {
+    RelicEffects effect = new RelicEffects();
+
     public TakeDamage()
     {
-        
+        EventBus.Instance.OnTakeDamage += ApplyEffect;
     }
 
-    public void ActivateEffect(Vector3 where, Damage dmg, Hittable target)
+    override public void ApplyEffect()
     {
+        effect.apply();
+    }
+}
 
+public class MaxMana : RelicTriggers
+{
+    RelicEffects effect = new RelicEffects();
+
+    public MaxMana()
+    {
+        EventBus.Instance.OnMaxMana += ApplyEffect;
+    }
+
+    override public void ApplyEffect()
+    {
+        effect.apply();
     }
 }

@@ -30,6 +30,8 @@ public class EventBus
     //Trigger Events
 
     public event Action<Vector3, Damage, Hittable> OnDamage;
+
+    public event Action OnTakeDamage;
     public event Action OnEnemyDeath;
     public event Action OnStandStill;
     public event Action OnMaxMana; 
@@ -37,6 +39,11 @@ public class EventBus
     public void DoDamage(Vector3 where, Damage dmg, Hittable target)
     {
         OnDamage?.Invoke(where, dmg, target);
+    }
+
+    public void DoTakeDamage()
+    {
+        OnTakeDamage?.Invoke();
     }
 
     public void DoEnemyDeath()
