@@ -11,7 +11,7 @@ public class PlayerRelicUI : MonoBehaviour
 
     public Image icon;
     public GameObject highlight;
-    public TextMeshProUGUI label;
+    //public TextMeshProUGUI label;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -27,8 +27,8 @@ public class PlayerRelicUI : MonoBehaviour
         if (HasRelics())
         {
             Relic r = player.relics[index];
-            label.text = r.GetName();
-            label.fontSize = 10;
+            //label.text = r.GetName();
+            //label.fontSize = 10;
             GameManager.Instance.relicIconManager.PlaceSprite(r.GetIcon(), icon);
         }
         

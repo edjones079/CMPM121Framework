@@ -726,12 +726,8 @@ MonoBehaviour:
   newSpell: {fileID: 32176826}
   newSpellIcon: {fileID: 2050153901}
   spellInfo: {fileID: 482055824}
-  rewardRelicContainer: {fileID: 1202173122}
-  relicUIManager: {fileID: 1202924358}
-  rewardRelics:
-  - {fileID: 307756946}
-  - {fileID: 559184276}
-  - {fileID: 1685416346}
+  container: {fileID: 1202173122}
+  rewardRelicContainer: {fileID: 1202173124}
   player: {fileID: 1718273950}
   playerController: {fileID: 0}
 --- !u!4 &220180078
@@ -1503,8 +1499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7c1e415705a0e844b648ddca4d8437b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1718273952}
-  relicUIManager: {fileID: 1202924362}
+  relic_ui_manager: {fileID: 1202924362}
   icon: {fileID: 1847665742}
   description: {fileID: 1732660328}
   takebutton: {fileID: 1966319164}
@@ -3002,8 +2997,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7c1e415705a0e844b648ddca4d8437b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1718273952}
-  relicUIManager: {fileID: 1202924362}
+  relic_ui_manager: {fileID: 1202924362}
   icon: {fileID: 1189560953}
   description: {fileID: 1247203325}
   takebutton: {fileID: 1574730914}
@@ -4698,17 +4692,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1115058366}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2021125305}
+  m_Father: {fileID: 1982188284}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -5}
-  m_SizeDelta: {x: -400, y: -112}
+  m_AnchoredPosition: {x: 374.4, y: 224.3}
+  m_SizeDelta: {x: 422, y: 401}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1115058368
 MonoBehaviour:
@@ -5008,9 +5002,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rewardRelics:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 307756946}
+  - {fileID: 559184276}
+  - {fileID: 1685416346}
 --- !u!1 &1202924358
 GameObject:
   m_ObjectHideFlags: 0
@@ -6537,6 +6531,37 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -76.2}
   m_SizeDelta: {x: 500, y: 50.5789}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1570750599
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1570750600}
+  m_Layer: 0
+  m_Name: RelicManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1570750600
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570750599}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 192.55788, y: 262.66977, z: 1.5571091}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1574730914
 GameObject:
   m_ObjectHideFlags: 0
@@ -7097,8 +7122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7c1e415705a0e844b648ddca4d8437b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1718273952}
-  relicUIManager: {fileID: 1202924362}
+  relic_ui_manager: {fileID: 1202924362}
   icon: {fileID: 1895486808}
   description: {fileID: 1527724022}
   takebutton: {fileID: 1115899129}
@@ -58449,6 +58473,7 @@ RectTransform:
   - {fileID: 96316928}
   - {fileID: 457295003}
   - {fileID: 797691354}
+  - {fileID: 1115058367}
   m_Father: {fileID: 2021125305}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -58807,7 +58832,6 @@ RectTransform:
   - {fileID: 1202924359}
   - {fileID: 2007398912}
   - {fileID: 1982188284}
-  - {fileID: 1115058367}
   - {fileID: 36456916}
   - {fileID: 1709288114}
   - {fileID: 1889072080}
@@ -59526,3 +59550,4 @@ SceneRoots:
   - {fileID: 856041117}
   - {fileID: 462403411}
   - {fileID: 1928302330}
+  - {fileID: 1570750600}

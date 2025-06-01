@@ -1,7 +1,12 @@
 using UnityEngine;
+using UnityEngine.UI;
+using Image = UnityEngine.UI.Image;
+using TMPro;
+using static System.Net.Mime.MediaTypeNames;
 
 public class RelicUIManager : MonoBehaviour
 {
+
     public GameObject relicUIPrefab;
     public GameObject player;
     public PlayerController playerController;
@@ -18,6 +23,11 @@ public class RelicUIManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void SetRelicUI()
+    {
+
     }
 
     public void OnRelicPickup(Relic r)

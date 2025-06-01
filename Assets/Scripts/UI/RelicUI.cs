@@ -7,12 +7,16 @@ using static System.Net.Mime.MediaTypeNames;
 public class RelicUI : MonoBehaviour
 {
     public Relic relic;
-    public PlayerController player;
-    public RelicUIManager relicUIManager;
+    public RelicUIManager relic_ui_manager;
 
     public Image icon;
     public TextMeshProUGUI description;
     public GameObject takebutton;
+
+    public RelicUI()
+    {
+
+    }
 
     public void SetRelic(Relic relic)
     {
@@ -23,7 +27,7 @@ public class RelicUI : MonoBehaviour
 
     public void AddRelic()
     {
-        relicUIManager.GetComponent<RelicUIManager>().AddRelic(relic);
+        relic_ui_manager.AddRelic(relic);
     }
 
 }

@@ -32,6 +32,7 @@ public class EventBus
     public event Action<Vector3, Damage, Hittable> OnDamage;
     public event Action<EnemyController> OnEnemyDeath;
     public event Action<PlayerController> OnStandStill;
+    public event Action<PlayerController> OnMaxMana; 
 
     public void DoDamage(Vector3 where, Damage dmg, Hittable target)
     {
@@ -46,6 +47,11 @@ public class EventBus
     public void DoStandStill(PlayerController player)
     {
         OnStandStill?.Invoke(player);
+    }
+
+    public void DoMaxMana(PlayerController player)
+    {
+        OnMaxMana?.Invoke(player);
     }
 
 }

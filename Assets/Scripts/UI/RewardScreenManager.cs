@@ -17,13 +17,8 @@ public class RewardScreenManager : MonoBehaviour
 
     // Reward Relics
 
-    public GameObject rewardRelicContainer;
-    public GameObject relicUIManager;
-    public GameObject[] rewardRelics;
-
-    // Relic Methods
-
-    public RelicBuilder relicbuilder;
+    public GameObject container;
+    public RewardRelicContainer rewardRelicContainer;
 
     // Player 
 
@@ -35,10 +30,9 @@ public class RewardScreenManager : MonoBehaviour
     void Start()
     {
         playerController = player.GetComponent<PlayerController>();
-        relicbuilder = new RelicBuilder();
+        rewardRelicContainer = container.GetComponent<RewardRelicContainer>();
 
-        EventBus.Instance.OnWaveEnd += BuildRelics;
-        EventBus.Instance.OnWaveEnd += ShowRelics;
+        EventBus.Instance.OnWaveEnd += DoRewardRelics;
 
     }
 
@@ -73,7 +67,7 @@ public class RewardScreenManager : MonoBehaviour
         else
         {
             newSpell.SetActive(true);
-            rewardRelicContainer.SetActive(false);
+            container.SetActive(false);
             rewardUI.SetActive(false);
         }
     }
@@ -88,22 +82,19 @@ public class RewardScreenManager : MonoBehaviour
         return false;
     }
 
-    public void BuildRelics()
+    public void DoRewardRelics()
     {
         if (OnThirdWave())
         {
-            for (int i = 0; i< rewardRelics.Length; ++i)
+            UnityEngine.Debug.Log("RewardRelics: " + rewardRelicContainer.rewardRelics.Length);
+            for (int i = 0; i< rewardRelicContainer.rewardRelics.Length; i++)
             {
-                Relic r = relicbuilder.BuildRelic();
-                rewardRelics[i].GetComponent<RelicUI>().SetRelic(r);
+                Relic r = RelicManager.Instance.SelectRelic();
+
+                rewardRelicContainer.SetRelicUI(r, i);
             }
+
+            container.SetActive(true);
         }
     }
-
-    public void ShowRelics()
-    {
-        if (OnThirdWave())
-            rewardRelicContainer.SetActive(true);
-    }
-
 }

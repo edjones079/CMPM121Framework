@@ -11,26 +11,18 @@ public class Relic
 
     string name;
     int sprite;
+    string description;
 
-    Dictionary<string, string> trigger_data = new Dictionary<string, string>();
-    Dictionary<string, string> effect_data = new Dictionary<string, string>();
+    RelicTriggers trigger;
+    RelicEffects effect;
 
-    Triggers trigger;
-    Effects effect;
-
-    public Relic() { }
-
-    public void SetProperties(JObject properties)
+    public Relic(string name, int sprite, string description, RelicTriggers trigger, RelicEffects effect) 
     {
-        name = properties["name"].ToObject<string>();
-        sprite = properties["sprite"].ToObject<int>();
-        trigger_data["description"] = properties["trigger"]["description"].ToObject<string>();
-        trigger_data["type"] = properties["trigger"]["type"].ToObject<string>();
-
-        effect_data["description"] = properties["effect"]["description"].ToObject<string>();
-        effect_data["type"] = properties["effect"]["type"].ToObject<string>();
-        effect_data["amount"] = properties["effect"]["amount"].ToObject<string>();
-     
+        this.name = name;
+        this.sprite = sprite;
+        this.description = description;
+        this.trigger = trigger;
+        this.effect = effect;
     }
 
     public string GetName()
@@ -46,20 +38,7 @@ public class Relic
 
     public string GetDescription()
     {
-        string description = trigger_data["description"] + ", " + effect_data["description"];
         return description;
     }
-
-    public void SetTrigger()
-    {
-
-    }
-
-    public void SetEffect()
-    {
-
-    }
-
-
     
 }

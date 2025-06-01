@@ -1,4 +1,6 @@
 using UnityEngine;
+using Debug = UnityEngine.Debug;
+using System.Diagnostics;
 using UnityEngine.InputSystem;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
@@ -49,6 +51,11 @@ public class PlayerController : MonoBehaviour
         GameManager.Instance.player = gameObject;
 
         class_selector = GetComponent<ClassSelector>();
+
+        //RelicBuilder relicBuilder = new RelicBuilder();
+        //relics.Add(relicBuilder.BuildThisRelic("Cursed Scroll"));
+        //Debug.Log(relics);
+
 
     }
 
