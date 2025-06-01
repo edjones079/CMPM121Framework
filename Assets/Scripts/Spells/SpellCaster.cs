@@ -9,6 +9,7 @@ public class SpellCaster
     public int max_mana;
     public int mana_reg;
     public int spellpower;
+    public int relic_mods;
     public Hittable.Team team;
     public Spell spell;
     public Spell reward_spell;
@@ -117,7 +118,14 @@ public class SpellCaster
 
     public int GetSpellPower()
     {
-        return spellpower;
+        if (relic_mods == 0)
+        {
+            return spellpower;
+        }
+        else
+        {
+            return spellpower + relic_mods;
+        }
     }
 
 }
