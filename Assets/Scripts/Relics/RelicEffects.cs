@@ -41,8 +41,8 @@ public class GainSpellPower : RelicEffects
     public GainSpellPower(string amount, string until, PlayerController owner)
     {
         variables["wave"] = GameManager.Instance.GetWave();
-        this.owner = owner;
         this.amount = rpn.Eval(amount, variables);
+        this.owner = owner;
     }
 
     public override void apply()
