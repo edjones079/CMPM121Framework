@@ -25,6 +25,11 @@ public class RelicTriggers
 
     }
 
+    virtual public void RemoveEffect()
+    {
+
+    }
+
 }
 
 public class EnemyDeath : RelicTriggers
@@ -58,6 +63,11 @@ public class StandStill : RelicTriggers
         EventBus.Instance.OnStandStill += ApplyEffect;
     }
 
+    override public void Register(RelicEffects effect)
+    {
+        this.effect = effect;
+    }
+
     override public void ApplyEffect()
     {
         effect.apply();
@@ -73,9 +83,19 @@ public class TakeDamage : RelicTriggers
         EventBus.Instance.OnTakeDamage += ApplyEffect;
     }
 
+    override public void Register(RelicEffects effect)
+    {
+        this.effect = effect;
+    }
+
     override public void ApplyEffect()
     {
         effect.apply();
+    }
+
+    public override void RemoveEffect()
+    {
+        effect.remove();
     }
 }
 
@@ -86,6 +106,11 @@ public class MaxMana : RelicTriggers
     public MaxMana()
     {
         EventBus.Instance.OnMaxMana += ApplyEffect;
+    }
+
+    override public void Register(RelicEffects effect)
+    {
+        this.effect = effect;
     }
 
     override public void ApplyEffect()

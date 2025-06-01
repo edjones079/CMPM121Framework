@@ -4,7 +4,6 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System;
-using System.Diagnostics;
 
 public class RelicEffects
 {
@@ -16,6 +15,11 @@ public class RelicEffects
     protected PlayerController owner;
 
     public virtual void apply()
+    {
+
+    }
+
+    public virtual void remove()
     {
 
     }
@@ -32,7 +36,7 @@ public class GainMana : RelicEffects
     public override void apply()
     {
         owner.spellcaster.mana += amount;
-        UnityEngine.Debug.Log("Applied!");
+        Debug.Log("Applied!");
     }
 }
 
@@ -48,7 +52,14 @@ public class GainSpellPower : RelicEffects
 
     public override void apply()
     {
-        owner.spellcaster.relic_mods = amount;
+        owner.spellcaster.spellpower += amount;
+        Debug.Log("In GainSpellPower.apply()\nOwner's spellpower set to: " + owner.spellcaster.spellpower);
+    }
+
+    public override void remove()
+    {
+        owner.spellcaster.spellpower -= amount;
+        Debug.Log("In GainSpellPower.remove()\nOwner's spellpower set to: " + owner.spellcaster.spellpower);
     }
 }
 
@@ -63,6 +74,6 @@ public class GainX : RelicEffects
 
     public override void apply()
     {
-        owner.spellcaster.relic_mods = amount;
+        //owner.spellcaster.relic_mods = amount;
     }
 }

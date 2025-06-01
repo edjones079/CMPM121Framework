@@ -64,12 +64,10 @@ public class RelicManager : MonoBehaviour
     {
         string trigger_type = trigger_object["type"].ToObject<string>();
         string amount;
-        string until;
-
-        UnityEngine.Debug.Log("Trigger Type: " + trigger_object["type"].ToObject<string>());
 
         if (trigger_type == "take-damage")
         {
+            Debug.Log("Attempting to build take-damage trigger");
             return new TakeDamage();
         }
         else if (trigger_type == "stand-still")
@@ -79,7 +77,6 @@ public class RelicManager : MonoBehaviour
         }
         else if (trigger_type == "on-kill")
         {
-            UnityEngine.Debug.Log("Attempting to make On-Kill Trigger.");
             return new EnemyDeath();
         }
 
@@ -99,8 +96,9 @@ public class RelicManager : MonoBehaviour
         }
         else if (effect_type == "gain-spellpower")
         {
+            Debug.Log("Attempting to build gain-spellpower effect");
             amount = effect_object["amount"].ToObject<string>();
-            until = effect_object["amount"].ToObject<string>();
+            until = effect_object["until"].ToObject<string>();
             return new GainSpellPower(amount, until, player);
         }
 
