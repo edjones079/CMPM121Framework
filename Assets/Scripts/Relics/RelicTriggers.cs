@@ -55,7 +55,7 @@ public class StandStill : RelicTriggers
     public StandStill(string amount)
     {
         this.amount = rpn.Eval(amount, variables);
-        EventBus.Instance.OnEnemyDeath += ApplyEffect;
+        EventBus.Instance.OnStandStill += ApplyEffect;
     }
 
     override public void ApplyEffect()
