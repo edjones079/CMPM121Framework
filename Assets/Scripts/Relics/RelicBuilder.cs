@@ -27,8 +27,8 @@ public class RelicBuilder
         string name = relic_object["name"].ToObject<string>();
         int sprite = relic_object["sprite"].ToObject<int>();
         string description = relic_object["trigger"]["description"].ToObject<string>() + ", " + relic_object["effect"]["description"].ToObject<string>();
-        RelicTriggers trigger = RelicManager.Instance.CreateTrigger(relic_object["trigger"].ToObject<JObject>());
-        RelicEffects effect = RelicManager.Instance.CreateEffect(relic_object["effect"].ToObject<JObject>());
+        RelicTriggers trigger = RelicManager.Instance.BuildTrigger(relic_object["trigger"].ToObject<JObject>());
+        RelicEffects effect = RelicManager.Instance.BuildEffect(relic_object["effect"].ToObject<JObject>());
 
         Relic relic = new Relic(name, sprite, description, trigger, effect);
 

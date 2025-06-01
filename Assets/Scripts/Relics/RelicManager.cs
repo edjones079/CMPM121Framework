@@ -48,7 +48,7 @@ public class RelicManager : MonoBehaviour
         }
     }
 
-    public RelicTriggers CreateTrigger(JObject trigger_object)
+    public RelicTriggers BuildTrigger(JObject trigger_object)
     {
         string trigger_type = trigger_object["type"].ToObject<string>();
         string amount;
@@ -71,7 +71,7 @@ public class RelicManager : MonoBehaviour
         return new RelicTriggers();
     }
 
-    public RelicEffects CreateEffect(JObject effect_object)
+    public RelicEffects BuildEffect(JObject effect_object)
     {
         string effect_type = effect_object["type"].ToObject<string>();
         string amount;
