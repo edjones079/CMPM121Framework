@@ -42,6 +42,22 @@ public class GainSpellPower : RelicEffects
     {
         variables["wave"] = GameManager.Instance.GetWave();
         this.amount = rpn.Eval(amount, variables);
+        this.until = until;
+        this.owner = owner;
+    }
+
+    public override void apply()
+    {
+        owner.spellcaster.relic_mods = amount;
+    }
+}
+
+public class GainX : RelicEffects
+{
+    public GainX(string amount, string until, PlayerController owner)
+    {
+        variables["wave"] = GameManager.Instance.GetWave();
+        this.amount = rpn.Eval(amount, variables);
         this.owner = owner;
     }
 

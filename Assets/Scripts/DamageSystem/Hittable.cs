@@ -19,6 +19,7 @@ public class Hittable
         if (team == Team.PLAYER)
         {
             EventBus.Instance.DoTakeDamage();
+            UnityEngine.Debug.Log("TakeDamage event sent.");
         }
 
         hp -= damage.amount;
