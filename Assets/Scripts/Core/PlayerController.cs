@@ -54,10 +54,6 @@ public class PlayerController : MonoBehaviour
 
         class_selector = GetComponent<ClassSelector>();
 
-        ui.AddRelic(RelicManager.Instance.SelectRelic());
-        Debug.Log(relics);
-
-
     }
 
     public void SetClass(JToken class_stats)
@@ -76,6 +72,8 @@ public class PlayerController : MonoBehaviour
     public void StartLevel()
     {
         variables["wave"] = 1;
+
+        ui.AddRelic(RelicManager.Instance.BuildRelic());
 
         max_hp = rpn.Eval(hp_scalar, variables);
         mana = rpn.Eval(mana_scalar, variables);
@@ -113,11 +111,6 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("Player Max_HP: " + hp.max_hp);
         //Debug.Log("Player Mana: " + spellcaster.mana);
         //Debug.Log("Player Mana Regen: " + spellcaster.mana_reg);
-        UnityEngine.Debug.Log("Relics");
-        foreach (var r in relics)
-        {
-            UnityEngine.Debug.Log(r.GetName());
-        }
     }
 
     // Update is called once per frame

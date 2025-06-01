@@ -15,27 +15,37 @@ public class RelicTriggers
     protected int amount;
     protected string until;
 
+    virtual public void Register(RelicEffects effect)
+    {
+        
+    }
+
+    virtual public void ApplyEffect()
+    {
+
+    }
+
 }
 
 public class EnemyDeath : RelicTriggers
 {
 
-    private static List<RelicEffects> effects;
+    RelicEffects effect = new RelicEffects();
 
-    public static void Invoke(EnemyController enemy)
+    override public void Register(RelicEffects effect)
     {
-        foreach (RelicEffects effect in effects)
-        {
-            //effect.OnEnemyDeath(enemy);
-        }
+        this.effect = effect;   
     }
 
-    public static void Register(RelicEffects effect)
+    override public void ApplyEffect()
     {
-        effects.Add(effect);
+        effect.apply();
     }
 
-    public EnemyDeath() { }
+    public EnemyDeath() 
+    {
+        EventBus.Instance.OnEnemyDeath += ApplyEffect;
+    }
 }
 
 public class StandStill : RelicTriggers

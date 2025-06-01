@@ -51,7 +51,7 @@
         "effect": {
             "description": "you gain 25 mana.",
             "type": "gain-mana",
-            "amount": "25"
+            "amount": "10"
         }
     }
 ]

@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System;
+using System.Diagnostics;
 
 public class RelicEffects
 {
@@ -31,14 +32,16 @@ public class GainMana : RelicEffects
     public override void apply()
     {
         owner.spellcaster.mana += amount;
+        UnityEngine.Debug.Log("Applied!");
     }
 }
 
 public class GainSpellPower : RelicEffects
 {
-    public GainSpellPower(string amount, string until)
+    public GainSpellPower(string amount, string until, PlayerController owner)
     {
         variables["wave"] = GameManager.Instance.GetWave();
+        this.owner = owner;
         this.amount = rpn.Eval(amount, variables);
     }
 

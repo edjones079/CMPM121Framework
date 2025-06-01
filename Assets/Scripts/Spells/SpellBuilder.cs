@@ -112,13 +112,13 @@ public class SpellBuilder
     {
         Spell spell = MakeSpell("random");
 
-        UnityEngine.Debug.Log(name);
+        //UnityEngine.Debug.Log(name);
 
         JObject jobject = properties[name].Value<JObject>();
         spell.SetProperties(jobject);
         spell.SetOwner(owner);
 
-        UnityEngine.Debug.Log(jobject);
+        //UnityEngine.Debug.Log(jobject);
 
         if (spell.IsModifier())
         {
@@ -143,7 +143,7 @@ public class SpellBuilder
         spell.SetProperties(jobject);
         spell.SetOwner(owner);
 
-        UnityEngine.Debug.Log(jobject);
+        //UnityEngine.Debug.Log(jobject);
 
         if (spell.IsModifier())
         {

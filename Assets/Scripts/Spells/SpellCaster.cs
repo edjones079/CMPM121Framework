@@ -49,7 +49,7 @@ public class SpellCaster
 
         EventBus.Instance.OnWaveEnd += GenerateRandomSpell;
 
-        Debug.Log("Parent Spell: " + spell);
+        //Debug.Log("Parent Spell: " + spell);
     }
 
     void FixedUpdate()

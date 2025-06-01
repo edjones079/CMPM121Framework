@@ -88,7 +88,7 @@ public class RewardScreenManager : MonoBehaviour
         {
             for (int i = 0; i< rewardRelicContainer.rewardRelics.Length; i++)
             {
-                Relic r = RelicManager.Instance.SelectRelic();
+                Relic r = RelicManager.Instance.BuildRelic();
 
                 rewardRelicContainer.SetRelicUI(r, i);
             }

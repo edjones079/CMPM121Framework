@@ -23,11 +23,18 @@ public class RelicManager : MonoBehaviour
 
     private List<Relic> all_relics = new List<Relic>();
 
+    JArray relic_data;
+    List<JObject> relic_objects;
+    RelicBuilder relic_builder;
+    PlayerController player;
+
     public void Start()
     {
-        JArray relic_data = ReadRelicData();
-        BuildRelics(relic_data);
-        Debug.Log(all_relics.Count);
+        relic_data = ReadRelicData();
+        BuildRelicObjects(relic_data);
+        relic_builder = new RelicBuilder();
+        player = GameObject.FindFirstObjectByType<PlayerController>();
+        //Debug.Log(all_relics.Count);
     }
 
     public JArray ReadRelicData()
@@ -37,14 +44,20 @@ public class RelicManager : MonoBehaviour
         return JArray.Parse(relictext.text);
     }
 
-    public void BuildRelics(JArray relic_objects)
+    public void BuildRelicObjects(JArray relic_data)
     {
-        RelicBuilder relic_builder = new RelicBuilder();
-        foreach (JObject relic_object in relic_objects)
+        relic_objects = new List<JObject>();
+
+        foreach (JObject relic_object in relic_data)
         {
-            Relic relic = relic_builder.BuildRelic(relic_object);
-            all_relics.Add(relic);
+            relic_objects.Add(relic_object);
         }
+    }
+
+    public Relic BuildRelic()
+    {
+        int i = UnityEngine.Random.Range(0, all_relics.Count - 1);
+        return relic_builder.BuildRelic(relic_objects[3]);
     }
 
     public RelicTriggers BuildTrigger(JObject trigger_object)
@@ -53,17 +66,20 @@ public class RelicManager : MonoBehaviour
         string amount;
         string until;
 
-        if (trigger_type == "take_damage")
+        UnityEngine.Debug.Log("Trigger Type: " + trigger_object["type"].ToObject<string>());
+
+        if (trigger_type == "take-damage")
         {
             return new TakeDamage();
         }
-        else if (trigger_type == "stand_still")
+        else if (trigger_type == "stand-still")
         {
             amount = trigger_object["amount"].ToObject<string>();
             return new StandStill(amount);
         }
-        else if (trigger_type == "on_kill")
+        else if (trigger_type == "on-kill")
         {
+            UnityEngine.Debug.Log("Attempting to make On-Kill Trigger.");
             return new EnemyDeath();
         }
 
@@ -76,24 +92,19 @@ public class RelicManager : MonoBehaviour
         string amount;
         string until;
 
-        if (effect_type == "gain_mana")
+        if (effect_type == "gain-mana")
         {
             amount = effect_object["amount"].ToObject<string>();
-            return new GainMana(amount);
+            return new GainMana(amount, player);
         }
-        else if (effect_type == "gain_spellpower")
+        else if (effect_type == "gain-spellpower")
         {
             amount = effect_object["amount"].ToObject<string>();
             until = effect_object["amount"].ToObject<string>();
-            return new GainSpellPower(amount, until);
+            return new GainSpellPower(amount, until, player);
         }
 
         return new RelicEffects();
     }
 
-    public Relic SelectRelic()
-    {
-        int i = UnityEngine.Random.Range(0, all_relics.Count - 1);
-        return all_relics.ElementAt(3);
-    }
 }

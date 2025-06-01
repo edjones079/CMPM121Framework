@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System;
 using System.Reflection;
+using System.Diagnostics;
 
 public class RelicBuilder
 {
@@ -28,6 +29,9 @@ public class RelicBuilder
         string description = relic_object["trigger"]["description"].ToObject<string>() + ", " + relic_object["effect"]["description"].ToObject<string>();
         RelicTriggers trigger = RelicManager.Instance.BuildTrigger(relic_object["trigger"].ToObject<JObject>());
         RelicEffects effect = RelicManager.Instance.BuildEffect(relic_object["effect"].ToObject<JObject>());
+
+        trigger.Register(effect);
+        UnityEngine.Debug.Log("Effect has supposedly been registered.");
 
         Relic relic = new Relic(name, sprite, description, trigger, effect);
 

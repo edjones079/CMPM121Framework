@@ -47,7 +47,8 @@ public class EnemyController : MonoBehaviour
     {
         if (!dead)
         {
-            EventBus.Instance.DoEnemyDeath(this);
+            EventBus.Instance.DoEnemyDeath();
+            UnityEngine.Debug.Log("EnemyDeath event sent.");
             dead = true;
             GameManager.Instance.RemoveEnemy(gameObject);
             Destroy(gameObject);

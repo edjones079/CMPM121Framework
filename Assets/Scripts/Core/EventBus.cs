@@ -30,28 +30,28 @@ public class EventBus
     //Trigger Events
 
     public event Action<Vector3, Damage, Hittable> OnDamage;
-    public event Action<EnemyController> OnEnemyDeath;
-    public event Action<PlayerController> OnStandStill;
-    public event Action<PlayerController> OnMaxMana; 
+    public event Action OnEnemyDeath;
+    public event Action OnStandStill;
+    public event Action OnMaxMana; 
 
     public void DoDamage(Vector3 where, Damage dmg, Hittable target)
     {
         OnDamage?.Invoke(where, dmg, target);
     }
 
-    public void DoEnemyDeath(EnemyController enemy)
+    public void DoEnemyDeath()
     {
-        OnEnemyDeath?.Invoke(enemy);
+        OnEnemyDeath?.Invoke();
     }
 
-    public void DoStandStill(PlayerController player)
+    public void DoStandStill()
     {
-        OnStandStill?.Invoke(player);
+        OnStandStill?.Invoke();
     }
 
-    public void DoMaxMana(PlayerController player)
+    public void DoMaxMana()
     {
-        OnMaxMana?.Invoke(player);
+        OnMaxMana?.Invoke();
     }
 
 }
