@@ -3,7 +3,6 @@ using System.IO;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System;
 using System.Reflection;
 using System.Linq;
@@ -28,7 +27,7 @@ public class RelicManager : MonoBehaviour
     {
         JArray relic_data = ReadRelicData();
         BuildRelics(relic_data);
-        UnityEngine.Debug.Log(all_relics.Count);
+        Debug.Log(all_relics.Count);
     }
 
     public JArray ReadRelicData()
