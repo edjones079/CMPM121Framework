@@ -47,6 +47,6 @@ public class GainSpellPower : RelicEffects
 
     public override void apply()
     {
-        
+        owner.spellcaster.relic_mods = amount;
     }
 }
