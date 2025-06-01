@@ -86,7 +86,6 @@ public class RewardScreenManager : MonoBehaviour
     {
         if (OnThirdWave())
         {
-            UnityEngine.Debug.Log("RewardRelics: " + rewardRelicContainer.rewardRelics.Length);
             for (int i = 0; i< rewardRelicContainer.rewardRelics.Length; i++)
             {
                 Relic r = RelicManager.Instance.SelectRelic();

@@ -44,6 +44,8 @@ public class PlayerController : MonoBehaviour
 
     public TextMeshProUGUI gameOverText;
 
+    public RelicUIManager ui;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -52,9 +54,8 @@ public class PlayerController : MonoBehaviour
 
         class_selector = GetComponent<ClassSelector>();
 
-        //RelicBuilder relicBuilder = new RelicBuilder();
-        //relics.Add(relicBuilder.BuildThisRelic("Cursed Scroll"));
-        //Debug.Log(relics);
+        ui.AddRelic(RelicManager.Instance.SelectRelic());
+        Debug.Log(relics);
 
 
     }

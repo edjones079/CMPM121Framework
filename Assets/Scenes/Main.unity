@@ -7425,6 +7425,7 @@ MonoBehaviour:
   spellpower: 0
   unit: {fileID: 0}
   gameOverText: {fileID: 1533559640}
+  ui: {fileID: 1202924362}
 --- !u!4 &1718273953
 Transform:
   m_ObjectHideFlags: 0
