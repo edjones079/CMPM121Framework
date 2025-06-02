@@ -27,7 +27,7 @@ public class EventBus
         OnThirdWave?.Invoke();
     }
 
-    //Trigger Events
+    //RelicTrigger Events
 
     public event Action<Vector3, Damage, Hittable> OnDamage;
 

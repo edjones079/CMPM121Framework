@@ -2,9 +2,11 @@ using UnityEngine;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System;
+using System.Threading;
 
 public class RelicTriggers
 {
@@ -12,8 +14,8 @@ public class RelicTriggers
     protected RPNEvaluator rpn = new RPNEvaluator();
     protected Dictionary<string, int> variables = new Dictionary<string, int>();
 
+    protected PlayerController owner;
     protected int amount;
-    protected string until;
 
     virtual public void Register(RelicEffects effect)
     {
@@ -25,14 +27,20 @@ public class RelicTriggers
 
     }
 
+    virtual public void RemoveEffect(RelicEffects effect)
+    {
+
+    }
+
 }
 
 public class EnemyDeath : RelicTriggers
 {
     RelicEffects effect = new RelicEffects();
 
-    public EnemyDeath()
+    public EnemyDeath(PlayerController owner)
     {
+        this.owner = owner;
         EventBus.Instance.OnEnemyDeath += ApplyEffect;
     }
 
@@ -46,21 +54,60 @@ public class EnemyDeath : RelicTriggers
         effect.apply();
     }
 
+    override public void RemoveEffect(RelicEffects effect)
+    {
+
+    }
+
 }
 
 public class StandStill : RelicTriggers
 {
     RelicEffects effect = new RelicEffects();
 
-    public StandStill(string amount)
+    public StandStill(string amount, PlayerController owner)
     {
         this.amount = rpn.Eval(amount, variables);
-        EventBus.Instance.OnStandStill += ApplyEffect;
+        this.owner = owner;
+
+        StartTimer();
+        UnityEngine.Debug.Log("Coroutine Started!");
+        owner.unit.OnMove += ResetTimer;
+    }
+
+    override public void Register(RelicEffects effect)
+    {
+        this.effect = effect;
+    }
+
+    IEnumerator Timer()
+    {
+        yield return new WaitForSeconds(amount);
+        ApplyEffect();
+    }
+
+    public void StartTimer()
+    {
+        CoroutineManager.Instance.Run(Timer());
+        
+    }
+
+    public void ResetTimer(float val)
+    {
+        CoroutineManager.Instance.Cancel(Timer());
+        StartTimer();
+        UnityEngine.Debug.Log("Coroutine Restarted!");
     }
 
     override public void ApplyEffect()
     {
         effect.apply();
+        UnityEngine.Debug.Log("Effect Applied!");
+    }
+
+    override public void RemoveEffect(RelicEffects effect)
+    {
+
     }
 }
 
@@ -68,15 +115,27 @@ public class TakeDamage : RelicTriggers
 {
     RelicEffects effect = new RelicEffects();
 
-    public TakeDamage()
+    public TakeDamage(PlayerController owner)
     {
+        this.owner = owner;
         EventBus.Instance.OnTakeDamage += ApplyEffect;
+    }
+
+    override public void Register(RelicEffects effect)
+    {
+        this.effect = effect;
     }
 
     override public void ApplyEffect()
     {
         effect.apply();
     }
+
+    override public void RemoveEffect(RelicEffects effect)
+    {
+
+    }
+
 }
 
 public class MaxMana : RelicTriggers
@@ -88,8 +147,18 @@ public class MaxMana : RelicTriggers
         EventBus.Instance.OnMaxMana += ApplyEffect;
     }
 
+    override public void Register(RelicEffects effect)
+    {
+        this.effect = effect;
+    }
+
     override public void ApplyEffect()
     {
         effect.apply();
+    }
+
+    override public void RemoveEffect(RelicEffects effect)
+    {
+
     }
 }

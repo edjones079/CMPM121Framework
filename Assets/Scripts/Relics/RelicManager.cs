@@ -57,30 +57,29 @@ public class RelicManager : MonoBehaviour
     public Relic BuildRelic()
     {
         int i = UnityEngine.Random.Range(0, all_relics.Count - 1);
-        return relic_builder.BuildRelic(relic_objects[2]);
+        return relic_builder.BuildRelic(relic_objects[1]);
     }
 
     public RelicTriggers BuildTrigger(JObject trigger_object)
     {
         string trigger_type = trigger_object["type"].ToObject<string>();
         string amount;
-        string until;
 
         UnityEngine.Debug.Log("Trigger Type: " + trigger_object["type"].ToObject<string>());
 
         if (trigger_type == "take-damage")
         {
-            return new TakeDamage();
+            return new TakeDamage(player);
         }
         else if (trigger_type == "stand-still")
         {
             amount = trigger_object["amount"].ToObject<string>();
-            return new StandStill(amount);
+            return new StandStill(amount, player);
         }
         else if (trigger_type == "on-kill")
         {
             UnityEngine.Debug.Log("Attempting to make On-Kill Trigger.");
-            return new EnemyDeath();
+            return new EnemyDeath(player);
         }
 
         return new RelicTriggers();

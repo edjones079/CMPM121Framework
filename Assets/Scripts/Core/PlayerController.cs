@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Collections.Generic;
 using TMPro;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
@@ -136,7 +137,19 @@ public class PlayerController : MonoBehaviour
     void OnMove(InputValue value)
     {
         if (GameManager.Instance.state == GameManager.GameState.PREGAME || GameManager.Instance.state == GameManager.GameState.GAMEOVER) return;
-        unit.movement = value.Get<Vector2>()*speed;
+        unit.movement = value.Get<Vector2>() * speed;
+
+        
+
+        if (unit.movement.magnitude <= Mathf.Epsilon)
+        {
+            EventBus.Instance.DoStandStill();
+            UnityEngine.Debug.Log("StandStill event sent.");
+        }
+        else if (unit.movement.magnitude > Mathf.Epsilon)
+        {
+            UnityEngine.Debug.Log("OnMove event sent.");
+        }
     }
 
     void Die()

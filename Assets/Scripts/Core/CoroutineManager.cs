@@ -21,4 +21,9 @@ public class CoroutineManager : MonoBehaviour
     {
         StartCoroutine(coroutine);
     }
+
+    public void Cancel(IEnumerator coroutine)
+    {
+        StopCoroutine(coroutine);
+    }
 }
