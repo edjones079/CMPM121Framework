@@ -7,6 +7,7 @@ using System;
 using Unity.Jobs;
 using UnityEngine.Rendering.Universal;
 using System.Diagnostics;
+using System.Collections;
 
 public class RelicTriggers
 {
@@ -16,6 +17,7 @@ public class RelicTriggers
 
     protected int amount;
     protected string until;
+    protected PlayerController owner;
     protected bool applied;
 
     virtual public void Register(RelicEffects effect)
@@ -56,12 +58,21 @@ public class EnemyDeath : RelicTriggers
         {
             if (effect.until == "cast-spell")
             {
-                EventBus.Instance.OnCastSpell += effect.remove;
+                EventBus.Instance.OnCastSpell += RemoveEffect;
             }
             else if (effect.until == "move")
             {
-                EventBus.Instance.OnMove += effect.remove;
+                EventBus.Instance.OnMove += RemoveEffect;
             }
+        }
+    }
+
+    override public void RemoveEffect()
+    {
+        if (applied)
+        {
+            effect.remove();
+            applied = false;
         }
     }
 
@@ -71,11 +82,14 @@ public class StandStill : RelicTriggers
 {
     RelicEffects effect = new RelicEffects();
 
-    public StandStill(string amount)
+    public StandStill(string amount, PlayerController owner)
     {
         this.amount = rpn.Eval(amount, variables);
-        EventBus.Instance.OnStandStill += ApplyEffect;
-        EventBus.Instance.OnMove += RemoveEffect;
+        EventBus.Instance.OnStandStill += StartTimer;
+        this.owner = owner;
+
+        StartTimer();
+        UnityEngine.Debug.Log("Coroutine Started!");
     }
 
     override public void Register(RelicEffects effect)
@@ -83,18 +97,38 @@ public class StandStill : RelicTriggers
         this.effect = effect;
     }
 
+    IEnumerator Timer()
+    {
+        yield return new WaitForSeconds(amount);
+        ApplyEffect();
+    }
+
+    public void StartTimer()
+    {
+        CoroutineManager.Instance.Run(Timer());
+
+    }
+
+    public void ResetTimer()
+    {
+        RemoveEffect();
+        CoroutineManager.Instance.Cancel(Timer());
+        UnityEngine.Debug.Log("Coroutine Restarted!");
+    }
+
     override public void ApplyEffect()
     {
         effect.apply();
+        applied = true;
         if (effect.until != null)
         {
             if (effect.until == "cast-spell")
             {
-                EventBus.Instance.OnCastSpell += effect.remove;
+                EventBus.Instance.OnCastSpell += ResetTimer;
             }
             else if (effect.until == "move")
             {
-                EventBus.Instance.OnMove += effect.remove;
+                owner.unit.OnMove += ResetTimer;
             }
         }
     }
@@ -109,6 +143,7 @@ public class StandStill : RelicTriggers
             UnityEngine.Debug.Log("Effect removed!");
         }
     }
+
 }
 
 public class TakeDamage : RelicTriggers

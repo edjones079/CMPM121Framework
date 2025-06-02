@@ -58,7 +58,7 @@ public class RelicManager : MonoBehaviour
     public Relic BuildRelic()
     {
         int i = UnityEngine.Random.Range(0, all_relics.Count - 1);
-        return relic_builder.BuildRelic(relic_objects[2]);
+        return relic_builder.BuildRelic(relic_objects[1]);
     }
 
     public RelicTriggers BuildTrigger(JObject trigger_object)
@@ -74,7 +74,7 @@ public class RelicManager : MonoBehaviour
         else if (trigger_type == "stand-still")
         {
             amount = trigger_object["amount"].ToObject<string>();
-            return new StandStill(amount);
+            return new StandStill(amount, player);
         }
         else if (trigger_type == "on-kill")
         {

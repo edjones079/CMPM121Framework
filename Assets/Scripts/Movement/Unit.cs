@@ -7,7 +7,7 @@ public class Unit : MonoBehaviour
     
     public Vector2 movement;
     public float distance;
-    public event Action<float> OnMove;
+    public event Action OnMove;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,7 +23,7 @@ public class Unit : MonoBehaviour
         distance += movement.magnitude*Time.fixedDeltaTime;
         if (distance > 0.5f)
         {
-            OnMove?.Invoke(distance);
+            OnMove?.Invoke();
             distance = 0;
         }
     }
