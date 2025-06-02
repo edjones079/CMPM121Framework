@@ -34,7 +34,9 @@ public class EventBus
     public event Action OnTakeDamage;
     public event Action OnEnemyDeath;
     public event Action OnStandStill;
-    public event Action OnMaxMana; 
+    public event Action OnMaxMana;
+    public event Action OnCastSpell;
+    public event Action OnMove;
 
     public void DoDamage(Vector3 where, Damage dmg, Hittable target)
     {
@@ -59,6 +61,16 @@ public class EventBus
     public void DoMaxMana()
     {
         OnMaxMana?.Invoke();
+    }
+
+    public void DoCastSpell()
+    {
+        OnCastSpell?.Invoke();
+    }
+
+    public void DoOnMove()
+    {
+        OnMove?.Invoke();
     }
 
 }

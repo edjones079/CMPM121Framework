@@ -2,11 +2,11 @@ using UnityEngine;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System;
-using System.Threading;
+using Unity.Jobs;
+using UnityEngine.Rendering.Universal;
+using System.Diagnostics;
 
 public class RelicTriggers
 {
@@ -14,12 +14,13 @@ public class RelicTriggers
     protected RPNEvaluator rpn = new RPNEvaluator();
     protected Dictionary<string, int> variables = new Dictionary<string, int>();
 
-    protected PlayerController owner;
     protected int amount;
+    protected string until;
+    protected bool applied;
 
     virtual public void Register(RelicEffects effect)
     {
-        
+
     }
 
     virtual public void ApplyEffect()
@@ -27,7 +28,7 @@ public class RelicTriggers
 
     }
 
-    virtual public void RemoveEffect(RelicEffects effect)
+    virtual public void RemoveEffect()
     {
 
     }
@@ -38,25 +39,30 @@ public class EnemyDeath : RelicTriggers
 {
     RelicEffects effect = new RelicEffects();
 
-    public EnemyDeath(PlayerController owner)
+    public EnemyDeath()
     {
-        this.owner = owner;
         EventBus.Instance.OnEnemyDeath += ApplyEffect;
     }
 
     override public void Register(RelicEffects effect)
     {
-        this.effect = effect;   
+        this.effect = effect;
     }
 
     override public void ApplyEffect()
     {
         effect.apply();
-    }
-
-    override public void RemoveEffect(RelicEffects effect)
-    {
-
+        if (effect.until != null)
+        {
+            if (effect.until == "cast-spell")
+            {
+                EventBus.Instance.OnCastSpell += effect.remove;
+            }
+            else if (effect.until == "move")
+            {
+                EventBus.Instance.OnMove += effect.remove;
+            }
+        }
     }
 
 }
@@ -65,14 +71,10 @@ public class StandStill : RelicTriggers
 {
     RelicEffects effect = new RelicEffects();
 
-    public StandStill(string amount, PlayerController owner)
+    public StandStill(string amount)
     {
         this.amount = rpn.Eval(amount, variables);
-        this.owner = owner;
-
-        StartTimer();
-        UnityEngine.Debug.Log("Coroutine Started!");
-        owner.unit.OnMove += ResetTimer;
+        EventBus.Instance.OnStandStill += ApplyEffect;
     }
 
     override public void Register(RelicEffects effect)
@@ -80,34 +82,20 @@ public class StandStill : RelicTriggers
         this.effect = effect;
     }
 
-    IEnumerator Timer()
-    {
-        yield return new WaitForSeconds(amount);
-        ApplyEffect();
-    }
-
-    public void StartTimer()
-    {
-        CoroutineManager.Instance.Run(Timer());
-        
-    }
-
-    public void ResetTimer(float val)
-    {
-        CoroutineManager.Instance.Cancel(Timer());
-        StartTimer();
-        UnityEngine.Debug.Log("Coroutine Restarted!");
-    }
-
     override public void ApplyEffect()
     {
         effect.apply();
-        UnityEngine.Debug.Log("Effect Applied!");
-    }
-
-    override public void RemoveEffect(RelicEffects effect)
-    {
-
+        if (effect.until != null)
+        {
+            if (effect.until == "cast-spell")
+            {
+                EventBus.Instance.OnCastSpell += effect.remove;
+            }
+            else if (effect.until == "move")
+            {
+                EventBus.Instance.OnMove += effect.remove;
+            }
+        }
     }
 }
 
@@ -115,10 +103,10 @@ public class TakeDamage : RelicTriggers
 {
     RelicEffects effect = new RelicEffects();
 
-    public TakeDamage(PlayerController owner)
+    public TakeDamage()
     {
-        this.owner = owner;
         EventBus.Instance.OnTakeDamage += ApplyEffect;
+        EventBus.Instance.OnCastSpell -= RemoveEffect;
     }
 
     override public void Register(RelicEffects effect)
@@ -128,14 +116,25 @@ public class TakeDamage : RelicTriggers
 
     override public void ApplyEffect()
     {
-        effect.apply();
+        if (!applied)
+        {
+            effect.apply();
+            applied = true;
+            UnityEngine.Debug.Log("Effect applied!");
+            UnityEngine.Debug.Log("applied is: " + applied);
+        }
     }
 
-    override public void RemoveEffect(RelicEffects effect)
+    override public void RemoveEffect()
     {
-
+        UnityEngine.Debug.Log("Event heard!");
+        if (applied)
+        {
+            effect.remove();
+            applied = false;
+            UnityEngine.Debug.Log("Effect removed!");
+        }
     }
-
 }
 
 public class MaxMana : RelicTriggers
@@ -155,10 +154,16 @@ public class MaxMana : RelicTriggers
     override public void ApplyEffect()
     {
         effect.apply();
-    }
-
-    override public void RemoveEffect(RelicEffects effect)
-    {
-
+        if (effect.until != null)
+        {
+            if (effect.until == "cast-spell")
+            {
+                EventBus.Instance.OnCastSpell += effect.remove;
+            }
+            else if (effect.until == "move")
+            {
+                EventBus.Instance.OnMove += effect.remove;
+            }
+        }
     }
 }

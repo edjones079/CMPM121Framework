@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System;
 using System.Reflection;
 using System.Linq;
+using System.Diagnostics;
 
 public class RelicManager : MonoBehaviour
 {
@@ -57,7 +58,7 @@ public class RelicManager : MonoBehaviour
     public Relic BuildRelic()
     {
         int i = UnityEngine.Random.Range(0, all_relics.Count - 1);
-        return relic_builder.BuildRelic(relic_objects[1]);
+        return relic_builder.BuildRelic(relic_objects[2]);
     }
 
     public RelicTriggers BuildTrigger(JObject trigger_object)
@@ -65,21 +66,19 @@ public class RelicManager : MonoBehaviour
         string trigger_type = trigger_object["type"].ToObject<string>();
         string amount;
 
-        UnityEngine.Debug.Log("Trigger Type: " + trigger_object["type"].ToObject<string>());
-
         if (trigger_type == "take-damage")
         {
-            return new TakeDamage(player);
+            UnityEngine.Debug.Log("Attempting to build take-damage trigger");
+            return new TakeDamage();
         }
         else if (trigger_type == "stand-still")
         {
             amount = trigger_object["amount"].ToObject<string>();
-            return new StandStill(amount, player);
+            return new StandStill(amount);
         }
         else if (trigger_type == "on-kill")
         {
-            UnityEngine.Debug.Log("Attempting to make On-Kill Trigger.");
-            return new EnemyDeath(player);
+            return new EnemyDeath();
         }
 
         return new RelicTriggers();
@@ -98,8 +97,9 @@ public class RelicManager : MonoBehaviour
         }
         else if (effect_type == "gain-spellpower")
         {
+            UnityEngine.Debug.Log("Attempting to build gain-spellpower effect");
             amount = effect_object["amount"].ToObject<string>();
-            until = effect_object["amount"].ToObject<string>();
+            until = effect_object["until"].ToObject<string>();
             return new GainSpellPower(amount, until, player);
         }
 
