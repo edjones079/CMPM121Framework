@@ -63,9 +63,9 @@ public class GainSpellPower : RelicEffects
     }
 }
 
-public class GainX : RelicEffects
+public class GainDefense : RelicEffects
 {
-    public GainX(string amount, string until, PlayerController owner)
+    public GainDefense(string amount, PlayerController owner)
     {
         variables["wave"] = GameManager.Instance.GetWave();
         this.amount = rpn.Eval(amount, variables);

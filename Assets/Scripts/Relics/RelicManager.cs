@@ -51,14 +51,14 @@ public class RelicManager : MonoBehaviour
         foreach (JObject relic_object in relic_data)
         {
             relic_objects.Add(relic_object);
-            UnityEngine.Debug.Log("Relic: " + relic_object["name"]);
+            //UnityEngine.Debug.Log("Relic: " + relic_object["name"]);
         }
     }
 
     public Relic BuildRelic()
     {
         int i = UnityEngine.Random.Range(0, relic_objects.Count);
-        return relic_builder.BuildRelic(relic_objects[i]);
+        return relic_builder.BuildRelic(relic_objects[3]);
     }
 
     public RelicTriggers BuildTrigger(JObject trigger_object)
@@ -75,6 +75,11 @@ public class RelicManager : MonoBehaviour
         {
             amount = trigger_object["amount"].ToObject<string>();
             return new StandStill(amount, player);
+        }
+        else if (trigger_type == "on-max-mana")
+        {
+            amount = trigger_object["amount"].ToObject<string>();
+            return new MaxMana(amount, player);
         }
         else if (trigger_type == "on-kill")
         {
@@ -101,6 +106,12 @@ public class RelicManager : MonoBehaviour
             amount = effect_object["amount"].ToObject<string>();
             until = effect_object["until"].ToObject<string>();
             return new GainSpellPower(amount, until, player);
+        }
+        else if (effect_type == "gain-defense")
+        {
+            UnityEngine.Debug.Log("Attempting to build gain-defense effect");
+            amount = effect_object["amount"].ToObject<string>();
+            return new GainDefense(amount, player);
         }
 
         return new RelicEffects();

@@ -196,8 +196,10 @@ public class MaxMana : RelicTriggers
 {
     RelicEffects effect = new RelicEffects();
 
-    public MaxMana()
+    public MaxMana(string amount, PlayerController owner)
     {
+        this.amount = rpn.Eval(amount, variables);
+        this.owner = owner;
         EventBus.Instance.OnMaxMana += ApplyEffect;
     }
 
