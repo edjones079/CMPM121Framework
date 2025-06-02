@@ -3,8 +3,9 @@ using System.IO;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System;
+using Unity.Jobs;
+using UnityEngine.Rendering.Universal;
 
 public class RelicTriggers
 {
@@ -14,6 +15,7 @@ public class RelicTriggers
 
     protected int amount;
     protected string until;
+    protected bool applied;
 
     virtual public void Register(RelicEffects effect)
     {
@@ -27,7 +29,7 @@ public class RelicTriggers
 
     virtual public void RemoveEffect()
     {
-
+        
     }
 
 }
@@ -49,6 +51,17 @@ public class EnemyDeath : RelicTriggers
     override public void ApplyEffect()
     {
         effect.apply();
+        if (effect.until != null)
+        {
+            if (effect.until == "cast-spell")
+            {
+                EventBus.Instance.OnCastSpell += effect.remove;
+            }
+            else if (effect.until == "move")
+            {
+                EventBus.Instance.OnMove += effect.remove;
+            }
+        }
     }
 
 }
@@ -71,6 +84,17 @@ public class StandStill : RelicTriggers
     override public void ApplyEffect()
     {
         effect.apply();
+        if (effect.until != null)
+        {
+            if (effect.until == "cast-spell")
+            {
+                EventBus.Instance.OnCastSpell += effect.remove;
+            }
+            else if (effect.until == "move")
+            {
+                EventBus.Instance.OnMove += effect.remove;
+            }
+        }
     }
 }
 
@@ -81,6 +105,7 @@ public class TakeDamage : RelicTriggers
     public TakeDamage()
     {
         EventBus.Instance.OnTakeDamage += ApplyEffect;
+        EventBus.Instance.OnCastSpell -= RemoveEffect;
     }
 
     override public void Register(RelicEffects effect)
@@ -90,12 +115,24 @@ public class TakeDamage : RelicTriggers
 
     override public void ApplyEffect()
     {
-        effect.apply();
+        if (!applied)
+        {
+            effect.apply();
+            applied = true;
+            Debug.Log("Effect applied!");
+            Debug.Log("applied is: " + applied);
+        }
     }
 
-    public override void RemoveEffect()
+    override public void RemoveEffect()
     {
-        effect.remove();
+        Debug.Log("Event heard!");
+        if (applied)
+        {
+            effect.remove();
+            applied = false;
+            Debug.Log("Effect removed!");
+        }
     }
 }
 
@@ -116,5 +153,16 @@ public class MaxMana : RelicTriggers
     override public void ApplyEffect()
     {
         effect.apply();
+        if (effect.until != null)
+        {
+            if (effect.until == "cast-spell")
+            {
+                EventBus.Instance.OnCastSpell += effect.remove;
+            }
+            else if (effect.until == "move")
+            {
+                EventBus.Instance.OnMove += effect.remove;
+            }
+        }
     }
 }

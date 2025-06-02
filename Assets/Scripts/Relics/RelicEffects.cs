@@ -11,7 +11,7 @@ public class RelicEffects
     protected Dictionary<string, int> variables = new Dictionary<string, int>();
 
     protected int amount;
-    protected string until;
+    public string until;
     protected PlayerController owner;
 
     public virtual void apply()
