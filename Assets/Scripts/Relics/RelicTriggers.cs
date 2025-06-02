@@ -75,6 +75,7 @@ public class StandStill : RelicTriggers
     {
         this.amount = rpn.Eval(amount, variables);
         EventBus.Instance.OnStandStill += ApplyEffect;
+        EventBus.Instance.OnMove += RemoveEffect;
     }
 
     override public void Register(RelicEffects effect)
@@ -97,6 +98,17 @@ public class StandStill : RelicTriggers
             }
         }
     }
+
+    override public void RemoveEffect()
+    {
+        UnityEngine.Debug.Log("Spell cast!");
+        if (applied)
+        {
+            effect.remove();
+            applied = false;
+            UnityEngine.Debug.Log("Effect removed!");
+        }
+    }
 }
 
 public class TakeDamage : RelicTriggers
@@ -106,12 +118,23 @@ public class TakeDamage : RelicTriggers
     public TakeDamage()
     {
         EventBus.Instance.OnTakeDamage += ApplyEffect;
-        EventBus.Instance.OnCastSpell += RemoveEffect;
     }
 
     override public void Register(RelicEffects effect)
     {
         this.effect = effect;
+
+        if (effect.until != null)
+        {
+            if (effect.until == "cast-spell")
+            {
+                EventBus.Instance.OnCastSpell += RemoveEffect;
+            }
+            else if (effect.until == "move")
+            {
+                EventBus.Instance.OnMove += RemoveEffect;
+            }
+        }
     }
 
     override public void ApplyEffect()
@@ -122,6 +145,7 @@ public class TakeDamage : RelicTriggers
             effect.apply();
             applied = true;
             UnityEngine.Debug.Log("Effect applied!");
+    
         }
     }
 
