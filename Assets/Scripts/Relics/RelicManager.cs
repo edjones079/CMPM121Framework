@@ -35,7 +35,6 @@ public class RelicManager : MonoBehaviour
         BuildRelicObjects(relic_data);
         relic_builder = new RelicBuilder();
         player = GameObject.FindFirstObjectByType<PlayerController>();
-        //Debug.Log(all_relics.Count);
     }
 
     public JArray ReadRelicData()
@@ -52,13 +51,14 @@ public class RelicManager : MonoBehaviour
         foreach (JObject relic_object in relic_data)
         {
             relic_objects.Add(relic_object);
+            UnityEngine.Debug.Log("Relic: " + relic_object["name"]);
         }
     }
 
     public Relic BuildRelic()
     {
-        int i = UnityEngine.Random.Range(0, all_relics.Count - 1);
-        return relic_builder.BuildRelic(relic_objects[0]);
+        int i = UnityEngine.Random.Range(0, relic_objects.Count);
+        return relic_builder.BuildRelic(relic_objects[i]);
     }
 
     public RelicTriggers BuildTrigger(JObject trigger_object)
