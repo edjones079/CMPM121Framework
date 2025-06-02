@@ -48,7 +48,7 @@ public class ArcaneBolt : Spell
         int init_damage = rpnEval.Eval(damage, variables);
         int new_damage = ValueModifier<int>.ApplyModifiers(mods.damage, init_damage);
 
-        UnityEngine.Debug.Log("New damage: " + new_damage);
+        //UnityEngine.Debug.Log("New damage: " + new_damage);
 
         return new_damage;
     }
@@ -96,7 +96,7 @@ public class ArcaneBolt : Spell
         int sprite = int.Parse(projectile["sprite"]);
 
         this.team = team;
-        UnityEngine.Debug.Log("Spellpower currently: " + variables["power"]);
+        //UnityEngine.Debug.Log("Spellpower currently: " + variables["power"]);
         GameManager.Instance.projectileManager.CreateProjectile(sprite, GetProjectileTrajectory(mods), where, direction, GetSpeed(mods), GetOnHit(mods));
         UnityEngine.Debug.Log("Spell made!");
         yield return new WaitForEndOfFrame();

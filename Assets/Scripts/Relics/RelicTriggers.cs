@@ -175,13 +175,9 @@ public class TakeDamage : RelicTriggers
     override public void ApplyEffect()
     {
         UnityEngine.Debug.Log("TakeDamage event sent.");
-        if (!applied)
-        {
-            effect.apply();
-            applied = true;
-            UnityEngine.Debug.Log("Effect applied!");
-    
-        }
+        effect.apply();
+        applied = true;
+        UnityEngine.Debug.Log("Effect applied!");
     }
 
     override public void RemoveEffect()
