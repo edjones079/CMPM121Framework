@@ -65,6 +65,7 @@ public class SpellCaster
             mana -= spell.GetManaCost();
             yield return spell.Cast(where, target, direction, team);
         }
+
         yield break;
     }
 

@@ -144,11 +144,10 @@ public class PlayerController : MonoBehaviour
         if (unit.movement.magnitude <= Mathf.Epsilon)
         {
             EventBus.Instance.DoStandStill();
-            UnityEngine.Debug.Log("StandStill event sent.");
         }
         else if (unit.movement.magnitude > Mathf.Epsilon)
         {
-            UnityEngine.Debug.Log("OnMove event sent.");
+
         }
     }
 

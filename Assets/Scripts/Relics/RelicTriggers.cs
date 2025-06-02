@@ -106,7 +106,7 @@ public class TakeDamage : RelicTriggers
     public TakeDamage()
     {
         EventBus.Instance.OnTakeDamage += ApplyEffect;
-        EventBus.Instance.OnCastSpell -= RemoveEffect;
+        EventBus.Instance.OnCastSpell += RemoveEffect;
     }
 
     override public void Register(RelicEffects effect)
@@ -116,18 +116,18 @@ public class TakeDamage : RelicTriggers
 
     override public void ApplyEffect()
     {
+        UnityEngine.Debug.Log("TakeDamage event sent.");
         if (!applied)
         {
             effect.apply();
             applied = true;
             UnityEngine.Debug.Log("Effect applied!");
-            UnityEngine.Debug.Log("applied is: " + applied);
         }
     }
 
     override public void RemoveEffect()
     {
-        UnityEngine.Debug.Log("Event heard!");
+        UnityEngine.Debug.Log("Spell cast!");
         if (applied)
         {
             effect.remove();

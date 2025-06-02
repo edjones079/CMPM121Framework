@@ -186,17 +186,13 @@ public class Spell
             if (other.team != team)
             {
                 other.Damage(new Damage(GetDamage(mods), Damage.Type.ARCANE));
+                EventBus.Instance.DoCastSpell();
             }
         }
 
         return OnHit;
     }
 
-}
-
-public class DamageAugmenter : Spell
-{
-    Spell inner;
 }
 
 
