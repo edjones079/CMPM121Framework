@@ -89,11 +89,14 @@ public class IceBolt : Spell
 
     public override Action<Hittable, Vector3> GetOnHit(SpellModifiers mods)
     {
+
+        Damage dmg = new Damage(GetDamage(mods), Damage.Type.ARCANE);
+
         void OnHit(Hittable other, Vector3 impact)
         {
             if (other.team != team)
             {
-                other.Damage(new Damage(GetDamage(mods), Damage.Type.ARCANE));
+                other.Damage(dmg);
                 int stunDuration = rpnEval.Eval(duration, variables);
                 CoroutineManager.Instance.StartCoroutine(Freeze(stunDuration, other));
             }

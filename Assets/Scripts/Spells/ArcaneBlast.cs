@@ -118,6 +118,7 @@ public class ArcaneBlast : Spell
     public override Action<Hittable, Vector3> GetOnHit(SpellModifiers mods)
     {
 
+        Damage dmg = new Damage(GetDamage(mods), damage_type);
 
         void OnHit(Hittable other, Vector3 impact)
         {
@@ -126,9 +127,10 @@ public class ArcaneBlast : Spell
             int speed = rpn.Eval(secondary_projectile["speed"], variables);
             int sprite = int.Parse(secondary_projectile["sprite"]);
             float lifetime = rpn.EvalFloat(secondary_projectile["lifetime"], variables);
+
             if (other.team != team)
             {
-                other.Damage(new Damage(GetDamage(mods), damage_type));
+                other.Damage(dmg);
                 for (int i = 0; i < SecondaryProjectileCount; i++)
                 {
                     float launch_angle = ((Mathf.PI * 2) / SecondaryProjectileCount) * i;
