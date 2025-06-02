@@ -66,6 +66,7 @@ public class SpellCaster
             yield return spell.Cast(where, target, direction, team);
         }
 
+        EventBus.Instance.DoCastSpell();
         yield break;
     }
 
