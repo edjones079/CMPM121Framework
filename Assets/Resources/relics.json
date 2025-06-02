@@ -68,10 +68,10 @@
         }
     },
     {
-        "name": "Cursed Scroll",
+        "name": "Jim",
         "sprite": 3,
         "trigger": {
-            "description": "When you kill an enemy",
+            "description": "When you Jim",
             "type": "on-kill"
         },
         "effect": {
@@ -81,10 +81,10 @@
         }
     },
     {
-        "name": "Cursed Scroll",
+        "name": "Mark",
         "sprite": 3,
         "trigger": {
-            "description": "When you kill an enemy",
+            "description": "When you Mark",
             "type": "on-kill"
         },
         "effect": {

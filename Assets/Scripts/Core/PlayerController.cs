@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
     public Unit unit;
 
     public List<Relic> relics = new List<Relic>();
+    public List<string> relic_names = new List<string>();
 
     Dictionary<string, int> variables = new Dictionary<string, int>();
     RPNEvaluator rpn = new RPNEvaluator();

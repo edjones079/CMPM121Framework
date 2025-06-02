@@ -38,10 +38,11 @@ public class RelicUIManager : MonoBehaviour
 
     public void AddRelic(Relic relic)
     {
-        if (!playerController.relics.Contains(relic))
+        if (!playerController.relic_names.Contains(relic.GetName()))
         {
             relic.SetOwner(playerController);
             playerController.relics.Add(relic);
+            playerController.relic_names.Add(relic.GetName());
 
             rewardRelicContainer.SetActive(false);
             OnRelicPickup(relic);
