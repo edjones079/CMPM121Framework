@@ -58,7 +58,7 @@ public class RelicManager : MonoBehaviour
     public Relic BuildRelic()
     {
         int i = UnityEngine.Random.Range(0, relic_objects.Count);
-        return relic_builder.BuildRelic(relic_objects[4]);
+        return relic_builder.BuildRelic(relic_objects[5]);
     }
 
     public RelicTriggers BuildTrigger(JObject trigger_object)
@@ -112,6 +112,12 @@ public class RelicManager : MonoBehaviour
             amount = effect_object["amount"].ToObject<string>();
             until = effect_object["until"].ToObject<string>();
             return new GainDefense(amount, until, player);
+        }
+        else if (effect_type == "regain-hp")
+        {
+            UnityEngine.Debug.Log("Attempting to build regain-hp effect");
+            amount = effect_object["amount"].ToObject<string>();
+            return new RegainHP(amount, player);
         }
 
         return new RelicEffects();

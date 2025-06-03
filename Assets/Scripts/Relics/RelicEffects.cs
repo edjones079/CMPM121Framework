@@ -4,7 +4,6 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System;
-using System.Diagnostics;
 
 public class RelicEffects
 {
@@ -79,13 +78,33 @@ public class GainDefense : RelicEffects
     public override void apply()
     {
         owner.hp.defense *= defense_multiplier;
-        UnityEngine.Debug.Log("In GainDefense.apply()\nOwner's defense set to: " + owner.hp.defense);
+        Debug.Log("In GainDefense.apply()\nOwner's defense set to: " + owner.hp.defense);
     }
 
     public override void remove()
     {
         owner.hp.defense /= defense_multiplier;
-        UnityEngine.Debug.Log("In GainDefense.remove()\nOwner's defense set to: " + owner.hp.defense);
+        Debug.Log("In GainDefense.remove()\nOwner's defense set to: " + owner.hp.defense);
+    }
+}
+
+public class RegainHP : RelicEffects
+{
+    public RegainHP(string amount, PlayerController owner)
+    {
+        this.amount = rpn.Eval(amount, variables);
+        this.owner = owner;
+    }
+
+    public override void apply()
+    {
+        Debug.Log("PlayerHP is: " + owner.hp.hp);
+        owner.hp.hp += 10;
+        if (owner.hp.hp > owner.hp.max_hp)
+        {
+            owner.hp.hp = owner.hp.max_hp;
+        }
+        Debug.Log("PlayerHP is now: " + owner.hp.hp);
     }
 }
 

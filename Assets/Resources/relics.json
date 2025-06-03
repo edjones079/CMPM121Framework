@@ -55,8 +55,8 @@
         }
     },
     {
-        "name": "Plate of Absorption",
-        "sprite": 3,
+        "name": "Shield of Absorption",
+        "sprite": 5,
         "trigger": {
             "description": "While you have max mana",
             "type": "on-max-mana",
@@ -84,7 +84,7 @@
     },
     {
         "name": "Mark",
-        "sprite": 3,
+        "sprite": 13,
         "trigger": {
             "description": "When you drop a spell",
             "type": "on-spell-drop"
