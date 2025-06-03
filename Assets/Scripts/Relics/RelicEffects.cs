@@ -63,6 +63,29 @@ public class GainSpellPower : RelicEffects
     }
 }
 
+public class GainTempSpellPower : RelicEffects
+{
+    public GainTempSpellPower(string amount, string until, PlayerController owner)
+    {
+        variables["wave"] = GameManager.Instance.GetWave();
+        this.amount = rpn.Eval(amount, variables);
+        this.until = until;
+        this.owner = owner;
+    }
+
+    public override void apply()
+    {
+        owner.spellcaster.spellpower += amount;
+        UnityEngine.Debug.Log("In GainSpellPower.apply()\nOwner's spellpower set to: " + owner.spellcaster.spellpower);
+    }
+
+    public override void remove()
+    {
+        owner.spellcaster.spellpower -= amount;
+        UnityEngine.Debug.Log("In GainSpellPower.remove()\nOwner's spellpower set to: " + owner.spellcaster.spellpower);
+    }
+}
+
 public class GainDefense : RelicEffects
 {
     float defense_multiplier;

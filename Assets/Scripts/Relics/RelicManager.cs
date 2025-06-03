@@ -58,7 +58,7 @@ public class RelicManager : MonoBehaviour
     public Relic BuildRelic()
     {
         int i = UnityEngine.Random.Range(0, relic_objects.Count);
-        return relic_builder.BuildRelic(relic_objects[6]);
+        return relic_builder.BuildRelic(relic_objects[i]);
     }
 
     public RelicTriggers BuildTrigger(JObject trigger_object)
@@ -110,6 +110,13 @@ public class RelicManager : MonoBehaviour
             amount = effect_object["amount"].ToObject<string>();
             until = effect_object["until"].ToObject<string>();
             return new GainSpellPower(amount, until, player);
+        }
+        else if (effect_type == "gain-temp-spellpower")
+        {
+            UnityEngine.Debug.Log("Attempting to build gain-spellpower effect");
+            amount = effect_object["amount"].ToObject<string>();
+            until = effect_object["until"].ToObject<string>();
+            return new GainTempSpellPower(amount, until, player);
         }
         else if (effect_type == "gain-defense")
         {
