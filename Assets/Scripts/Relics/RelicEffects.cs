@@ -52,14 +52,14 @@ public class GainSpellPower : RelicEffects
 
     public override void apply()
     {
-        owner.spellcaster.spellpower += amount;
-        UnityEngine.Debug.Log("In GainSpellPower.apply()\nOwner's spellpower set to: " + owner.spellcaster.spellpower);
+        owner.spellpower += amount;
+        UnityEngine.Debug.Log("In GainSpellPower.apply()\nOwner's spellpower set to: " + owner.spellpower);
     }
 
     public override void remove()
     {
-        owner.spellcaster.spellpower -= amount;
-        UnityEngine.Debug.Log("In GainSpellPower.remove()\nOwner's spellpower set to: " + owner.spellcaster.spellpower);
+        owner.spellpower -= amount;
+        UnityEngine.Debug.Log("In GainSpellPower.remove()\nOwner's spellpower set to: " + owner.spellpower);
     }
 }
 

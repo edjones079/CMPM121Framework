@@ -19,9 +19,9 @@ public class Hittable
 
     public void Damage(Damage damage)
     {
-        UnityEngine.Debug.Log("Damage Before: " + damage.amount);
+        
         damage.amount = (int) (damage.amount * defense);
-        UnityEngine.Debug.Log("Damage After: " + damage.amount);
+
 
         EventBus.Instance.DoDamage(owner.transform.position, damage, this);
 

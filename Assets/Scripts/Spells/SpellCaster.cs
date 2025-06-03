@@ -92,6 +92,8 @@ public class SpellCaster
         Spell spell_temp = spellbook.ElementAt<Spell>(spell_to_drop);
         spellbook.RemoveAt(spell_to_drop);
 
+        EventBus.Instance.DoSpellDrop();
+
         if (spell_temp == spell)
             spell = spellbook.ElementAt<Spell>(0);
     }

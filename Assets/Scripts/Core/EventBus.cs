@@ -37,6 +37,7 @@ public class EventBus
     public event Action OnMaxMana;
     public event Action OnCastSpell;
     public event Action OnMove;
+    public event Action OnSpellDrop;
 
     public void DoDamage(Vector3 where, Damage dmg, Hittable target)
     {
@@ -71,6 +72,11 @@ public class EventBus
     public void DoOnMove()
     {
         OnMove?.Invoke();
+    }
+
+    public void DoSpellDrop()
+    {
+        OnSpellDrop?.Invoke();    
     }
 
 }

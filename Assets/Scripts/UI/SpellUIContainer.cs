@@ -47,8 +47,7 @@ public class SpellUIContainer : MonoBehaviour
 
         for (int j = indice + 1; j < spellcaster.spellbook.Count; ++j) 
         {
-            //spellUIs[indice].GetComponent<SpellUI>().spell = spellUIs[j].GetComponent<SpellUI>().spell;
-            UnityEngine.Debug.Log("Indice: " + indice + ":: j: " + j);
+            //UnityEngine.Debug.Log("Indice: " + indice + ":: j: " + j);
             spellUIs[j - 1].GetComponent<SpellUI>().SetSpell(spellUIs[j].GetComponent<SpellUI>().spell);
         }
 

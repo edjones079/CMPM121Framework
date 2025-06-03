@@ -83,7 +83,7 @@
         }
     },
     {
-        "name": "Mark",
+        "name": "Divine Pearl",
         "sprite": 13,
         "trigger": {
             "description": "When you drop a spell",
@@ -93,7 +93,7 @@
             "description": "you gain a permanent increase to your spellpower.",
             "type": "gain-spellpower",
             "amount": "25",
-            "until": "wave-end"
+            "until": "permanent"
         }
     }
 ]

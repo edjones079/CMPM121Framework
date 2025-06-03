@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour
         hp.SetMaxHP(max_hp);
         spellcaster.mana = rpn.Eval(mana_scalar, variables);
         spellcaster.mana_reg = rpn.Eval(mana_regen_scalar, variables);
-        spellcaster.spellpower = rpn.Eval(spellpower_scalar, variables);
+        spellcaster.spellpower = this.spellpower + rpn.Eval(spellpower_scalar, variables);
         speed = rpn.Eval(speed_scalar, variables);
 
         //Debug.Log("Player Max_HP: " + hp.max_hp);

@@ -248,3 +248,26 @@ public class MaxMana : RelicTriggers
     }
 
 }
+
+public class SpellDrop : RelicTriggers
+{
+    RelicEffects effect = new RelicEffects();
+
+    public SpellDrop()
+    {
+        EventBus.Instance.OnSpellDrop += ApplyEffect;
+        UnityEngine.Debug.Log("SpellDrop event sent.");
+    }
+
+    override public void Register(RelicEffects effect)
+    {
+        this.effect = effect;
+    }
+
+    override public void ApplyEffect()
+    {
+        effect.apply();
+        UnityEngine.Debug.Log("Permanent Spellpower Added!");
+    }
+
+}

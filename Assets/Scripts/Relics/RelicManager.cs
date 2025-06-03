@@ -58,7 +58,7 @@ public class RelicManager : MonoBehaviour
     public Relic BuildRelic()
     {
         int i = UnityEngine.Random.Range(0, relic_objects.Count);
-        return relic_builder.BuildRelic(relic_objects[5]);
+        return relic_builder.BuildRelic(relic_objects[6]);
     }
 
     public RelicTriggers BuildTrigger(JObject trigger_object)
@@ -83,6 +83,11 @@ public class RelicManager : MonoBehaviour
         else if (trigger_type == "on-kill")
         {
             return new EnemyDeath();
+        }
+        else if (trigger_type == "on-spell-drop")
+        {
+            UnityEngine.Debug.Log("Attempting to build spell-drop effect");
+            return new SpellDrop();
         }
 
         return new RelicTriggers();

@@ -98,7 +98,7 @@ public class ArcaneBolt : Spell
         this.team = team;
         //UnityEngine.Debug.Log("Spellpower currently: " + variables["power"]);
         GameManager.Instance.projectileManager.CreateProjectile(sprite, GetProjectileTrajectory(mods), where, direction, GetSpeed(mods), GetOnHit(mods));
-        UnityEngine.Debug.Log("Spell made!");
+        //UnityEngine.Debug.Log("Spell made!");
         yield return new WaitForEndOfFrame();
     }
 }
