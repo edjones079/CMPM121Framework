@@ -86,13 +86,14 @@
         "name": "Mark",
         "sprite": 3,
         "trigger": {
-            "description": "When you Mark",
-            "type": "on-kill"
+            "description": "When you drop a spell",
+            "type": "on-spell-drop"
         },
         "effect": {
             "description": "you gain 10 mana.",
             "type": "gain-mana",
-            "amount": "10"
+            "amount": "10",
+            "until": "wave-end"
         }
     }
 ]
