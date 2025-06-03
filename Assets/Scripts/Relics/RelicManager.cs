@@ -58,7 +58,7 @@ public class RelicManager : MonoBehaviour
     public Relic BuildRelic()
     {
         int i = UnityEngine.Random.Range(0, relic_objects.Count);
-        return relic_builder.BuildRelic(relic_objects[2]);
+        return relic_builder.BuildRelic(relic_objects[4]);
     }
 
     public RelicTriggers BuildTrigger(JObject trigger_object)
@@ -78,8 +78,7 @@ public class RelicManager : MonoBehaviour
         }
         else if (trigger_type == "on-max-mana")
         {
-            amount = trigger_object["amount"].ToObject<string>();
-            return new MaxMana(amount, player);
+            return new MaxMana(player);
         }
         else if (trigger_type == "on-kill")
         {
@@ -111,7 +110,8 @@ public class RelicManager : MonoBehaviour
         {
             UnityEngine.Debug.Log("Attempting to build gain-defense effect");
             amount = effect_object["amount"].ToObject<string>();
-            return new GainDefense(amount, player);
+            until = effect_object["until"].ToObject<string>();
+            return new GainDefense(amount, until, player);
         }
 
         return new RelicEffects();

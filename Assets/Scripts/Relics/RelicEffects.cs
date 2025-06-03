@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System;
+using System.Diagnostics;
 
 public class RelicEffects
 {
@@ -36,7 +37,7 @@ public class GainMana : RelicEffects
     public override void apply()
     {
         owner.spellcaster.mana += amount;
-        Debug.Log("Applied!");
+        UnityEngine.Debug.Log("Applied!");
     }
 }
 
@@ -53,27 +54,37 @@ public class GainSpellPower : RelicEffects
     public override void apply()
     {
         owner.spellcaster.spellpower += amount;
-        Debug.Log("In GainSpellPower.apply()\nOwner's spellpower set to: " + owner.spellcaster.spellpower);
+        UnityEngine.Debug.Log("In GainSpellPower.apply()\nOwner's spellpower set to: " + owner.spellcaster.spellpower);
     }
 
     public override void remove()
     {
         owner.spellcaster.spellpower -= amount;
-        Debug.Log("In GainSpellPower.remove()\nOwner's spellpower set to: " + owner.spellcaster.spellpower);
+        UnityEngine.Debug.Log("In GainSpellPower.remove()\nOwner's spellpower set to: " + owner.spellcaster.spellpower);
     }
 }
 
 public class GainDefense : RelicEffects
 {
-    public GainDefense(string amount, PlayerController owner)
+    float defense_multiplier;
+
+    public GainDefense(string amount, string until, PlayerController owner)
     {
         variables["wave"] = GameManager.Instance.GetWave();
-        this.amount = rpn.Eval(amount, variables);
+        defense_multiplier = rpn.EvalFloat(amount, variables);
         this.owner = owner;
+        this.until = until;
     }
 
     public override void apply()
     {
-        //owner.spellcaster.relic_mods = amount;
+        owner.hp.defense *= defense_multiplier;
+        UnityEngine.Debug.Log("In GainDefense.apply()\nOwner's defense set to: " + owner.hp.defense);
+    }
+
+    public override void remove()
+    {
+        owner.hp.defense /= defense_multiplier;
+        UnityEngine.Debug.Log("In GainDefense.remove()\nOwner's defense set to: " + owner.hp.defense);
     }
 }

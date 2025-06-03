@@ -271,7 +271,7 @@ public class EnemySpawner : MonoBehaviour
         new_enemy.GetComponent<SpriteRenderer>().sprite = GameManager.Instance.enemySpriteManager.Get(enemyObject.sprite);
         EnemyController en = new_enemy.GetComponent<EnemyController>();
 
-        en.hp = new Hittable(rpn.Eval(hp, variables), Hittable.Team.MONSTERS, new_enemy);
+        en.hp = new Hittable(rpn.Eval(hp, variables), en.defense, Hittable.Team.MONSTERS, new_enemy);
 
         variables["base"] = enemyObject.speed;
         en.speed = rpn.Eval(speed, variables);
@@ -296,7 +296,7 @@ public class EnemySpawner : MonoBehaviour
 
         new_enemy.GetComponent<SpriteRenderer>().sprite = GameManager.Instance.enemySpriteManager.Get(0);
         EnemyController en = new_enemy.GetComponent<EnemyController>();
-        en.hp = new Hittable(50, Hittable.Team.MONSTERS, new_enemy);
+        en.hp = new Hittable(50, en.defense, Hittable.Team.MONSTERS, new_enemy);
         en.speed = 10;
 
         GameManager.Instance.AddEnemy(new_enemy);

@@ -59,12 +59,14 @@
         "sprite": 3,
         "trigger": {
             "description": "While you have max mana",
-            "type": "on-max-mana"
+            "type": "on-max-mana",
+            "until": "cast-spell"
         },
         "effect": {
             "description": "the damage you take is reduced by 50%.",
             "type": "gain-defense",
-            "amount": "0.5"
+            "amount": "0.5",
+            "until": "cast-spell"
         }
     },
     {

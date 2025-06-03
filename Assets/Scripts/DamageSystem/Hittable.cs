@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 public class Hittable
 {
@@ -9,11 +10,19 @@ public class Hittable
 
     public int hp;
     public int max_hp;
+    public float defense;
 
     public GameObject owner;
 
+    RPNEvaluator rpnEval = new RPNEvaluator();
+    Dictionary<string, int> variables = new Dictionary<string, int>();
+
     public void Damage(Damage damage)
     {
+        UnityEngine.Debug.Log("Damage Before: " + damage.amount);
+        damage.amount = (int) (damage.amount * defense);
+        UnityEngine.Debug.Log("Damage After: " + damage.amount);
+
         EventBus.Instance.DoDamage(owner.transform.position, damage, this);
 
         if (team == Team.PLAYER)
@@ -31,12 +40,13 @@ public class Hittable
 
     public event Action OnDeath;
 
-    public Hittable(int hp, Team team, GameObject owner)
+    public Hittable(int hp, float defense, Team team, GameObject owner)
     {
         this.hp = hp;
         this.max_hp = hp;
         this.team = team;
         this.owner = owner;
+        this.defense = defense;
     }
 
     public void SetMaxHP(int max_hp)
@@ -45,4 +55,5 @@ public class Hittable
         this.max_hp = max_hp;
         this.hp = Mathf.RoundToInt(perc * max_hp);
     }
+
 }

@@ -49,11 +49,7 @@ public class EnemyDeath : RelicTriggers
     override public void Register(RelicEffects effect)
     {
         this.effect = effect;
-    }
 
-    override public void ApplyEffect()
-    {
-        effect.apply();
         if (effect.until != null)
         {
             if (effect.until == "cast-spell")
@@ -65,6 +61,11 @@ public class EnemyDeath : RelicTriggers
                 EventBus.Instance.OnMove += RemoveEffect;
             }
         }
+    }
+
+    override public void ApplyEffect()
+    {
+        effect.apply();
     }
 
     override public void RemoveEffect()
@@ -95,6 +96,18 @@ public class StandStill : RelicTriggers
     override public void Register(RelicEffects effect)
     {
         this.effect = effect;
+
+        if (effect.until != null)
+        {
+            if (effect.until == "cast-spell")
+            {
+                EventBus.Instance.OnCastSpell += ResetTimer;
+            }
+            else if (effect.until == "move")
+            {
+                owner.unit.OnMove += ResetTimer;
+            }
+        }
     }
 
     IEnumerator Timer()
@@ -120,17 +133,6 @@ public class StandStill : RelicTriggers
     {
         effect.apply();
         applied = true;
-        if (effect.until != null)
-        {
-            if (effect.until == "cast-spell")
-            {
-                EventBus.Instance.OnCastSpell += ResetTimer;
-            }
-            else if (effect.until == "move")
-            {
-                owner.unit.OnMove += ResetTimer;
-            }
-        }
     }
 
     override public void RemoveEffect()
@@ -200,9 +202,8 @@ public class MaxMana : RelicTriggers
 {
     RelicEffects effect = new RelicEffects();
 
-    public MaxMana(string amount, PlayerController owner)
+    public MaxMana(PlayerController owner)
     {
-        this.amount = rpn.Eval(amount, variables);
         this.owner = owner;
         EventBus.Instance.OnMaxMana += ApplyEffect;
     }
@@ -210,21 +211,40 @@ public class MaxMana : RelicTriggers
     override public void Register(RelicEffects effect)
     {
         this.effect = effect;
-    }
 
-    override public void ApplyEffect()
-    {
-        effect.apply();
         if (effect.until != null)
         {
             if (effect.until == "cast-spell")
             {
-                EventBus.Instance.OnCastSpell += effect.remove;
+                EventBus.Instance.OnCastSpell += RemoveEffect;
             }
             else if (effect.until == "move")
             {
-                EventBus.Instance.OnMove += effect.remove;
+                EventBus.Instance.OnMove += RemoveEffect;
             }
         }
     }
+
+    override public void ApplyEffect()
+    {
+        if (!applied)
+        {
+            UnityEngine.Debug.Log("OnMaxMana event sent.");
+            effect.apply();
+            applied = true;
+            UnityEngine.Debug.Log("Effect applied!");
+        }
+    }
+
+    override public void RemoveEffect()
+    {
+        UnityEngine.Debug.Log("Spell cast!");
+        if (applied)
+        {
+            effect.remove();
+            applied = false;
+            UnityEngine.Debug.Log("Effect removed!");
+        }
+    }
+
 }

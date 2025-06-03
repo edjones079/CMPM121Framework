@@ -21,10 +21,12 @@ public class PlayerController : MonoBehaviour
     public SpellCaster spellcaster;
     public SpellUI spellui;
 
+    // Class Stats
+
     public int speed = 5;
     public int spellpower = 0;
+    public float defense;
 
-    // Class Stats
 
     int max_hp;
     int mana;
@@ -51,6 +53,7 @@ public class PlayerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        defense = 1.0f;
         unit = GetComponent<Unit>();
         GameManager.Instance.player = gameObject;
 
@@ -75,8 +78,6 @@ public class PlayerController : MonoBehaviour
     {
         variables["wave"] = 1;
 
-        ui.AddRelic(RelicManager.Instance.BuildRelic());
-
         max_hp = rpn.Eval(hp_scalar, variables);
         mana = rpn.Eval(mana_scalar, variables);
         mana_regen = rpn.Eval(mana_regen_scalar, variables);
@@ -85,10 +86,12 @@ public class PlayerController : MonoBehaviour
 
         spellcaster = new SpellCaster(mana, mana_regen, spellpower, Hittable.Team.PLAYER);
         StartCoroutine(spellcaster.ManaRegeneration());
-        
-        hp = new Hittable(max_hp, Hittable.Team.PLAYER, gameObject);
+
+        hp = new Hittable(max_hp, defense, Hittable.Team.PLAYER, gameObject);
         hp.OnDeath += Die;
         hp.team = Hittable.Team.PLAYER;
+
+        ui.AddRelic(RelicManager.Instance.BuildRelic());
 
         // tell UI elements what to show
         healthui.SetHealth(hp);

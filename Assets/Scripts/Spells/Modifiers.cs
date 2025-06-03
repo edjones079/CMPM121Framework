@@ -3,7 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 
-public class SpellModifiers
+public class Modifiers
+{
+
+}
+
+public class SpellModifiers : Modifiers
 {
 
     public List<ValueModifier<int>> damage = new List<ValueModifier<int>>();
@@ -52,6 +57,16 @@ public class SpellModifiers
     public void AddProjectileTrajectoryMod(ValueModifier<string> mod)
     {
         projectile_trajectory.Add(mod);
+    }
+}
+
+public class PhysicalModifiers : Modifiers
+{
+    public List<ValueModifier<int>> defense = new List<ValueModifier<int>>();
+
+    public void AddDefenseMod(ValueModifier<int> mod)
+    {
+        defense.Add(mod);
     }
 }
 

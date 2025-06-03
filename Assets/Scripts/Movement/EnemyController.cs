@@ -9,6 +9,7 @@ public class EnemyController : MonoBehaviour
     public int damage;
     public HealthBar healthui;
     public bool dead;
+    public float defense = 1;
 
     public float last_attack;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
