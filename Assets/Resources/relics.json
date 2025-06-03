@@ -70,15 +70,15 @@
         }
     },
     {
-        "name": "Jim",
-        "sprite": 3,
+        "name": "Bloodstone",
+        "sprite": 7,
         "trigger": {
-            "description": "When you Jim",
+            "description": "When you kill an enemy",
             "type": "on-kill"
         },
         "effect": {
-            "description": "your next spell gains 100 additional spellpower.",
-            "type": "gain-mana",
+            "description": "you restore 10 HP.",
+            "type": "regain-hp",
             "amount": "10"
         }
     },
