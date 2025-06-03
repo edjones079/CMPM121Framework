@@ -90,9 +90,9 @@
             "type": "on-spell-drop"
         },
         "effect": {
-            "description": "you gain 10 mana.",
-            "type": "gain-mana",
-            "amount": "10",
+            "description": "you gain a permanent increase to your spellpower.",
+            "type": "gain-spellpower",
+            "amount": "25",
             "until": "wave-end"
         }
     }
