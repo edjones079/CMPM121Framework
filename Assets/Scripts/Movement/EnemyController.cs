@@ -10,6 +10,10 @@ public class EnemyController : MonoBehaviour
     public HealthBar healthui;
     public bool dead;
     public float defense = 1;
+    public Damage.Type resistance;
+    public Damage.Type weakness;
+    public AudioClip damageSound;
+    public AudioSource audioSource;
 
     public float last_attack;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -40,6 +44,9 @@ public class EnemyController : MonoBehaviour
         {
             last_attack = Time.time;
             target.gameObject.GetComponent<PlayerController>().hp.Damage(new Damage(damage, Damage.Type.PHYSICAL));
+
+            audioSource.clip = damageSound;
+            audioSource.Play();
         }
     }
 

@@ -4,7 +4,8 @@ using System.Collections.Generic;
 
 public class Hittable
 {
-
+    public AudioClip damageSound = Resources.Load<AudioClip>("Sounds/Hurt");
+    
     public enum Team { PLAYER, MONSTERS }
     public Team team;
 
@@ -19,7 +20,11 @@ public class Hittable
 
     public void Damage(Damage damage)
     {
+
         
+
+        SoundManager.instance.playSound(damageSound, owner.transform, 1f);
+
         damage.amount = (int) (damage.amount * defense);
 
 
@@ -36,6 +41,7 @@ public class Hittable
             hp = 0;
             OnDeath();
         }
+
     }
 
     public event Action OnDeath;
