@@ -6531,6 +6531,51 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -76.2}
   m_SizeDelta: {x: 500, y: 50.5789}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1562545798
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1562545800}
+  - component: {fileID: 1562545799}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1562545799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562545798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 659cc8ed8422a424b8fa440c05621807, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundObject: {fileID: 1949044186262334735, guid: 127533e0574d1734c97144065d6d2510, type: 3}
+--- !u!4 &1562545800
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562545798}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 43.284748, y: 14.7178135, z: -0.45002156}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1570750599
 GameObject:
   m_ObjectHideFlags: 0
@@ -7417,13 +7462,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4ef5265fce1b544c872205988919fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shootSound: {fileID: 8300000, guid: 73d30c669a598784a986b0ed233346ee, type: 3}
   class_selector: {fileID: 0}
   healthui: {fileID: 765025204}
   manaui: {fileID: 71109453}
   spellui: {fileID: 2085212185}
   speed: 5
   spellpower: 0
+  defense: 0
   unit: {fileID: 0}
+  relic_names: []
   gameOverText: {fileID: 1533559640}
   ui: {fileID: 1202924362}
 --- !u!4 &1718273953
@@ -59565,3 +59613,4 @@ SceneRoots:
   - {fileID: 462403411}
   - {fileID: 1928302330}
   - {fileID: 1570750600}
+  - {fileID: 1562545800}
